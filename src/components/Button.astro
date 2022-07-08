@@ -1,0 +1,24 @@
+---
+const {
+  colour,
+  href
+} = Astro.props;
+
+const colourClasses = {
+  dark: 'text-white group',
+  light: 'bg-transparent hover:bg-white text-white hover:text-primary border border-white transition-colors'
+}
+
+const classes = [
+  `inline-flex items-center justify-center py-5 px-8 whitespace-nowrap leading-5 rounded-fullmin-w-button
+  text-body-small overflow-hidden relative transition group-hover:-translate-x-full`,
+  colourClasses[colour] ?? ''
+].join(" ")
+---
+
+<a href={href} class={classes}>
+  {colour === 'dark' ? <div class="w-[200%] absolute left-0 top-0 bottom-0"></div> : 'bg-gradient-to-r from-primary to-primary via secondary'}
+  <span class="relative z-1">
+    <slot/>
+  </span>
+</a>
