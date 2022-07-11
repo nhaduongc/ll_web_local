@@ -10,14 +10,19 @@ const colourClasses = {
 }
 
 const classes = [
-  `inline-flex items-center justify-center py-5 px-8 whitespace-nowrap leading-5 rounded-fullmin-w-button
+  `inline-flex items-center justify-center py-5 px-8 whitespace-nowrap leading-5 rounded-full min-w-button
   text-body-small overflow-hidden relative transition group-hover:-translate-x-full`,
   colourClasses[colour] ?? ''
 ].join(" ")
+
+const gradientClasses = `w-[200%] absolute left-0 top-0 bottom-0 bg-gradient-to-r from-primary to-primary via-secondary 
+translate-x-0 group-hover:-translate-x-1/2 transition-transform ease-in-out`
 ---
 
 <a href={href} class={classes}>
-  {colour === 'dark' ? <div class="w-[200%] absolute left-0 top-0 bottom-0"></div> : 'bg-gradient-to-r from-primary to-primary via secondary'}
+  {colour === 'dark'
+    ? <div class={gradientClasses}></div> 
+    : ''}
   <span class="relative z-1">
     <slot/>
   </span>

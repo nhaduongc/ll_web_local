@@ -1,64 +1,115 @@
 ---
 import Layout from '../layouts/Layout.astro'
-import TextBodySmall from '../Typography/TextBodySmall.astro'
+import {
+  FullWidthText,
+  Hero,
+  Image,
+  PreviousWinners,
+  TwoColumnText,
+} from '../sections'
+
+const query = `
+	query {
+		homepage {
+			page_builder {
+				item {
+					... on hero {
+						__typename
+						title,
+						content,
+						background_image,
+						button_type: button_types,
+						buttons {
+							buttons_id {
+								url,
+								text: Text,
+								colour
+							}
+						}
+					},
+					... on two_column_text {
+						__typename,
+						title,
+						icon,
+						left_column_text,
+						right_column_text,
+						button_type,
+						buttons {
+							buttons_id {
+								url,
+								text: Text,
+								colour
+							}
+						}
+					},
+					... on image {
+						__typename,
+						width,
+						image
+					},
+					... on full_width_text {
+						__typename,
+						title,
+						icon,
+						text,
+						button_type,
+						buttons {
+							buttons_id {
+								url,
+								text: Text,
+								colour
+							}
+						}
+					},
+					... on previous_winners {
+						__typename,
+						title,
+						icon,
+						text,
+					}
+				}
+			}
+		}
+	}
+`
+
+let sections = []
+
+try {
+	const response = await fetch('http://127.0.0.1:8055/graphql', {
+	method:'POST',
+	headers: {
+		'Content-Type': 'application/json',
+		'Accept': 'application/json'
+	},
+	body: JSON.stringify({
+		query: query
+	}),
+})
+
+const json = await response.json()
+
+sections = json?.data?.homepage?.page_builder ?? []
+} catch(e) {
+	console.error(e)
+}
+
 ---
 <Layout title="Welcome to Astro.">
 	<main>
-		<TextBodySmall>Testing</TextBodySmall>	
-		<!-- <h1 class="text-6xl font-black text-white">You've got to bin it to win it.</h1> -->
+		{sections.map(section => {
+			switch(section.item.__typename) {
+				case 'full_width_text':
+					return <FullWidthText />
+				case 'hero':
+					return <Hero />
+				case 'image':
+					return <Image />
+				case 'previous_winners':
+					return <PreviousWinners />
+				case 'two_column_text':
+					return <TwoColumnText />
+			}
+		})}
 	</main>
 </Layout>
-
-<style>
-	:root {
-		--astro-gradient: linear-gradient(0deg,#4F39FA, #DA62C4);
-	}
-
-	h1 {
-		margin: 2rem 0;
-	}
-
-	main {
-		margin: auto;
-    	padding: 1em;
-		max-width: 60ch;
-	}
-
-	.text-gradient {
-		font-weight: 900;
-		background-image: var(--astro-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 100% 200%;
-		background-position-y: 100%;
-		border-radius: 0.4rem;
-		animation: pulse 4s ease-in-out infinite;
-	}
-
-	@keyframes pulse {
-		0%, 100% { background-position-y: 0%; }
-		50% { background-position-y: 80%; }
-	}
-
-	.instructions {
-		line-height: 1.6;
-		margin: 1rem 0;
-		background: #4F39FA;
-		padding: 1.0rem;
-		border-radius: 0.4rem;
-		color: var(--color-bg);
-	}
-
-	.instructions code {
-		font-size: 0.875em;
-		border: 0.1em solid var(--color-border);
-		border-radius: 4px;
-		padding: 0.15em 0.25em;
-	}
-	.link-card-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-		gap: 1rem;
-		padding: 0;
-	}
-</style>
