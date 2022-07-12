@@ -1,4 +1,4 @@
-export const PAGE_BUILDER = `
+export const Homepage = `
   query {
     homepage {
       page_builder {

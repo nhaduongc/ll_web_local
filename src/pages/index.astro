@@ -1,114 +1,36 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import {
-  FullWidthText,
-  Hero,
-  Image,
-  PreviousWinners,
-  TwoColumnText,
+	FullWidthText,
+	Hero,
+	Image,
+	PreviousWinners,
+	TwoColumnText,
 } from '../sections'
+import useApi from '../modules/api';
+import { Homepage } from '../queries';
 
-const query = `
-	query {
-		homepage {
-			page_builder {
-				item {
-					... on hero {
-						__typename
-						title,
-						content,
-						background_image,
-						button_type: button_types,
-						buttons {
-							buttons_id {
-								url,
-								text: Text,
-								colour
-							}
-						}
-					},
-					... on two_column_text {
-						__typename,
-						title,
-						icon,
-						left_column_text,
-						right_column_text,
-						button_type,
-						buttons {
-							buttons_id {
-								url,
-								text: Text,
-								colour
-							}
-						}
-					},
-					... on image {
-						__typename,
-						width,
-						image
-					},
-					... on full_width_text {
-						__typename,
-						title,
-						icon,
-						text,
-						button_type,
-						buttons {
-							buttons_id {
-								url,
-								text: Text,
-								colour
-							}
-						}
-					},
-					... on previous_winners {
-						__typename,
-						title,
-						icon,
-						text,
-					}
-				}
-			}
-		}
-	}
-`
+const { useQuery } = useApi();
 
-let sections = []
+const data = await useQuery(Homepage);
 
-try {
-	const response = await fetch('http://127.0.0.1:8055/graphql', {
-	method:'POST',
-	headers: {
-		'Content-Type': 'application/json',
-		'Accept': 'application/json'
-	},
-	body: JSON.stringify({
-		query: query
-	}),
-})
-
-const json = await response.json()
-
-sections = json?.data?.homepage?.page_builder ?? []
-} catch(e) {
-	console.error(e)
-}
-
+const sections = data?.data?.homepage?.page_builder ?? []
 ---
+
 <Layout title="Welcome to Astro.">
 	<main>
 		{sections.map(section => {
 			switch(section.item.__typename) {
 				case 'full_width_text':
-					return <FullWidthText />
+					return <FullWidthText fields={section.item} />
 				case 'hero':
-					return <Hero />
+					return <Hero fields={section.item} />
 				case 'image':
-					return <Image />
+					return <Image fields={section.item} />
 				case 'previous_winners':
-					return <PreviousWinners />
+					return <PreviousWinners fields={section.item} />
 				case 'two_column_text':
-					return <TwoColumnText />
+					return <TwoColumnText fields={section.item} />
 			}
 		})}
 	</main>
