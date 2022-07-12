@@ -1,5 +1,5 @@
 export const WebsiteSettings = `
-  query WebsiteSettings {
+  query {
     website_settings {
       social_icons {
         social_icons_id {

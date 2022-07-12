@@ -25,8 +25,13 @@ function useApi() {
     }
   }
 
+  const useImage = (name) => {
+    return `${import.meta.env.UPLOAD_PATH}/${name}`
+  }
+
   return {
-    useQuery
+    useQuery,
+    useImage
   }
 }
 

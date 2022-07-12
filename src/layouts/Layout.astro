@@ -1,35 +1,11 @@
 ---
 import Container from '../components/Container.astro'
 import Button from '../components/Button.astro'
+import useApi from '../modules/api'
 
-export interface Props {
-	title: string;
-}
+const { useImage } = useApi()
 
-const { title } = Astro.props as Props;
-
-const icons = [
-  {
-    imgPath: '/icon-facebook.svg',
-    alt: 'Facebook Icon',
-    url: '#',
-  },
-  {
-    imgPath: '/icon-twitter.svg',
-    alt: 'Twitter Icon',
-    url: '#',
-  },
-  {
-    imgPath: '/icon-instagram.svg',
-    alt: 'Instagram Icon',
-    url: '#',
-  },
-  {
-    imgPath: '/icon-tiktok.svg',
-    alt: 'TikTok Icon',
-    url: '#',
-  }
-]
+const { title, icons } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -75,7 +51,7 @@ const icons = [
         <div class="flex items-center justify-center space-x-6">
           {icons.map((icon) => (
             <a href={icon.url}>
-              <img src={icon.imgPath} alt={icon.alt}>  
+              <img src={useImage(icon.icon)} alt={icon.name}>  
             </a>
           ))}
         </div>

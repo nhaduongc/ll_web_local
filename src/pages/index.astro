@@ -7,17 +7,26 @@ import {
 	PreviousWinners,
 	TwoColumnText,
 } from '../sections'
-import useApi from '../modules/api';
-import { Homepage } from '../queries';
+import useApi from '../modules/api'
+import { Homepage, WebsiteSettings } from '../queries'
 
-const { useQuery } = useApi();
+const { useQuery } = useApi()
 
-const data = await useQuery(Homepage);
+const pageData = await useQuery(Homepage)
+const websiteSettings = await useQuery(WebsiteSettings)
 
-const sections = data?.data?.homepage?.page_builder ?? []
+
+const sections = pageData?.data?.homepage?.page_builder ?? []
+const hasIcons = websiteSettings?.data?.website_settings?.social_icons ?? []
+
+const icons = hasIcons.map(icon => {
+	return {
+		...icon.social_icons_id
+	}
+})
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="Welcome to Astro." icons={icons}>
 	<main>
 		{sections.map(section => {
 			switch(section.item.__typename) {
