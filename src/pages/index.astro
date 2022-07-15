@@ -15,7 +15,6 @@ const { useQuery } = useApi()
 const pageData = await useQuery(Homepage)
 const websiteSettings = await useQuery(WebsiteSettings)
 
-
 const sections = pageData?.data?.homepage?.page_builder ?? []
 const hasIcons = websiteSettings?.data?.website_settings?.social_icons ?? []
 

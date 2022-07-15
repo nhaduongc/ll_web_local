@@ -7,12 +7,14 @@ export const Homepage = `
             __typename
             title,
             content,
-            background_image,
-            button_type: button_types,
+            background_image {
+              id
+            },
+            button_type,
             buttons {
               buttons_id {
                 url,
-                text: Text,
+                text,
                 colour
               }
             }
@@ -20,14 +22,16 @@ export const Homepage = `
           ... on two_column_text {
             __typename,
             title,
-            icon,
+            icon {
+              id
+            },
             left_column_text,
             right_column_text,
             button_type,
             buttons {
               buttons_id {
                 url,
-                text: Text,
+                text,
                 colour
               }
             }
@@ -35,18 +39,22 @@ export const Homepage = `
           ... on image {
             __typename,
             width,
-            image
+            image, {
+              id
+            }
           },
           ... on full_width_text {
             __typename,
             title,
-            icon,
+            icon {
+              id
+            },
             text,
             button_type,
             buttons {
               buttons_id {
                 url,
-                text: Text,
+                text,
                 colour
               }
             }
@@ -54,7 +62,9 @@ export const Homepage = `
           ... on previous_winners {
             __typename,
             title,
-            icon,
+            icon {
+              id
+            },
             text,
           }
         }

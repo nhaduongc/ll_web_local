@@ -3,7 +3,9 @@ export const WebsiteSettings = `
     website_settings {
       social_icons {
         social_icons_id {
-          icon,
+          icon {
+            id
+          },
           url,
           name
         }
