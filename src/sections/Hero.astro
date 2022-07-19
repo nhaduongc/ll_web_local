@@ -1,1 +1,33 @@
-<h3 class="text-body-large">Hero</h3>
+---
+import useApi from '../modules/api'
+import Container from '../components/Container.astro'
+import Buttons from '../components/Buttons.astro'
+import {
+  TextHeaderLarge,
+  TextBodyLarge
+} from '../components/Typography'
+
+const { useImage } = useApi()
+
+const {
+  fields
+} = Astro.props
+
+console.log(fields)
+---
+
+<section 
+  class="min-h-screen flex flex-column text-white py-48 bg-gradient-to-b from-[#FF8F50] to-[#D0FFDD]">
+  <Container>
+    <div class="max-w-full w-1/2">
+      <div class="mb-8">
+        <TextHeaderLarge>
+          { fields.title }
+        </TextHeaderLarge>
+      </div>
+      <TextBodyLarge is="div" set:html={fields.content} />
+      { fields.button_type }
+      <Buttons buttonType={fields.button_type} buttons={fields.buttons} />
+    </div>
+  </Container>
+</section>

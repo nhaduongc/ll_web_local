@@ -12,7 +12,7 @@ module.exports = {
 			'body-large': '25px',
 			'header-small': '30px',
 			'header-medium': '50px',
-			'header-large': '70px',
+			'header-large': ['70px', '82px'],
 		},
 		colors: {
 			primary: {
@@ -23,6 +23,9 @@ module.exports = {
 			secondary: {
 				DEFAULT: '#0F7E85'
 			},
+			tertiary: {
+				DEFAULT: '#FF8F50'
+			},
 			white: '#FFFFFF',
 			black: '#00321F'
 		},
@@ -32,6 +35,15 @@ module.exports = {
 			},
 			minWidth: {
 				'button': '146px',
+			},
+			container: {
+				screens: {
+					sm: '640px',
+					md: '768px',
+					lg: '1024px',
+					xl: '1300px',
+					'2xl': '1300px',
+				},
 			}
 		},
 	},

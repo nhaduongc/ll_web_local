@@ -26,6 +26,8 @@ function useApi() {
   }
 
   const useImage = (img) => {
+    if (!img) return "";
+
     return `${import.meta.env.UPLOAD_PATH}/${img.id}`
   }
 

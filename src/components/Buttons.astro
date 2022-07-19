@@ -1,0 +1,20 @@
+---
+import * as Use from './Switch'
+import ButtonGroup from './ButtonGroup.astro'
+import AppStoreButtons from './AppStoreButtons.astro'
+
+const {
+  buttonType,
+  buttons
+} = Astro.props
+---
+
+<Use.Switch {buttonType}>
+	<Use.Case slot={'normal'}>
+    <ButtonGroup buttons={buttons} />
+  </Use.Case>
+	<Use.Case slot={'app_buttons'}>
+    <AppStoreButtons />
+  </Use.Case>
+	<Use.Default>Buttons</Use.Default>
+</Use.Switch>
