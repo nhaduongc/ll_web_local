@@ -1,15 +1,13 @@
 ---
 export interface Props {
-	is?: string;
+  is?: string;
 }
 
-const {
-  is = 'h3'
-} = Astro.props as Props;
+const { is = "h3" } = Astro.props as Props;
 
 const El = is;
 ---
 
-<El class="text-header-medium font-black">
+<El class="text-header-medium font-bold">
   <slot />
 </El>

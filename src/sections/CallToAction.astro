@@ -1,0 +1,56 @@
+---
+import Container from "../components/Container.astro";
+import { TextBody } from "../components/Typography";
+import AppStoreButtons from "../components/AppStoreButtons.astro";
+
+const { bgImage, logo, screens = [] } = Astro.props;
+
+const getTextColour = (index) => {
+  switch (index) {
+    case 0:
+      return "text-blue";
+    case 1:
+      return "text-pink";
+    case 2:
+      return "text-yellow-dark";
+    case 3:
+      return "text-green";
+  }
+};
+---
+
+<section
+  style={`background-image: url('${bgImage}')`}
+  class="pt-14 pb-[194px] bg-cover bg-bottom bg-white"
+>
+  <Container>
+    <div
+      class="w-full max-w-[1050px] mx-auto flex flex-col items-center text-center mb-10"
+    >
+      <img src={logo} class="h-[97px] mb-10" />
+      <slot name="top-content" />
+    </div>
+    <div class="grid grid-cols-4 gap-[74px] mb-16">
+      {
+        screens.map((screen, index) => (
+          <div class={getTextColour(index)}>
+            <div class="font-bold mb-6 text-center">
+              <TextBody>{screen.title}</TextBody>
+            </div>
+            <div class="w-full shadow-lg overflow-hidden rounded-[45px]">
+              <img src={screen.image} alt="App Screen" class="w-full h-auto" />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <div
+      class="w-full max-w-[1050px] mx-auto flex flex-col items-center text-center mb-10"
+    >
+      <div class="mb-10">
+        <slot name="bottom-content" />
+      </div>
+      <AppStoreButtons />
+    </div>
+  </Container>
+</section>

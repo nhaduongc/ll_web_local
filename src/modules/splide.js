@@ -1,17 +1,20 @@
 import Splide from '@splidejs/splide'
 import { AutoScroll } from '@splidejs/splide-extension-auto-scroll'
 
-const splide = new Splide( '.splide', {
-  type   : 'loop',
-  drag   : 'free',
-  focus  : 'center',
-  autoWidth: true,
-  autoScroll: {
-    speed: 0.25
-  },
-  pagination: false,
-  arrows: false,
-  drag: false
-});
+const elements = document.querySelectorAll('.splide')
 
-splide.mount({AutoScroll});
+elements.forEach(el => {
+  new Splide(el, {
+    type   : 'loop',
+    drag   : 'free',
+    focus  : 'center',
+    autoWidth: true,
+    autoScroll: {
+      speed: 0.5
+    },
+    pagination: false,
+    arrows: false,
+    // drag: false
+  }).mount({AutoScroll})
+})
+

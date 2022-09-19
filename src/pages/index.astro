@@ -1,31 +1,75 @@
 ---
-import '../styles/styles.css'
-import Layout from '../layouts/Layout.astro'
+import "../styles/styles.css";
+import Layout from "../layouts/Layout.astro";
 import {
+	CallToAction,
 	FullWidthText,
 	Hero,
 	PreviousWinners,
-} from '../sections'
+	SpotWinners,
+} from "../sections";
 import {
 	TextHeaderXLarge,
 	TextHeaderLarge,
-} from '../components/Typography'
-import AppStoreButtons from '../components/AppStoreButtons.astro'
+	TextHeaderMedium,
+} from "../components/Typography";
+import AppStoreButtons from "../components/AppStoreButtons.astro";
 
 const footerLinks = [
 	{
-		url: 'https://litterlotto.help/en/articles/5447243-official-rules',
-		text: 'Official Rules'
+		url: "https://litterlotto.help/en/articles/5447243-official-rules",
+		text: "Official Rules",
 	},
 	{
-		url: 'https://litterlotto.help/en/articles/5437261-privacy-policy',
-		text: 'Privacy & Legal'
+		url: "https://litterlotto.help/en/articles/5437261-privacy-policy",
+		text: "Privacy & Legal",
 	},
 	{
-		url: 'https://intercom.help/litterlotto',
-		text: 'FAQs'
+		url: "https://intercom.help/litterlotto",
+		text: "FAQs",
 	},
-]
+];
+
+const winner = {
+	image: "/winner-placeholder.png",
+	title: `Read Sophie's Story`,
+};
+
+const winners = [];
+
+for (let i = 0; i < 15; i++) {
+	winners.push(winner);
+}
+
+const spotWinner = {
+	image: "/spot-winner-placeholder.png",
+	title: "M Guy",
+};
+
+const spotWinners = [];
+
+for (let i = 0; i < 15; i++) {
+	spotWinners.push(spotWinner);
+}
+
+const screens = [
+	{
+		title: "Bin litter",
+		image: "/app-screen-1.png",
+	},
+	{
+		title: "Make an impact",
+		image: "/app-screen-2.png",
+	},
+	{
+		title: "Spread the word",
+		image: "/app-screen-3.png",
+	},
+	{
+		title: "Win prizes",
+		image: "/app-screen-4.png",
+	},
+];
 ---
 
 <Layout title="LitterLotto" icons={[]} footerLinks={footerLinks}>
@@ -33,11 +77,13 @@ const footerLinks = [
 		<header class="uppercase" slot="header">
 			<TextHeaderXLarge>Bin It To Win It!</TextHeaderXLarge>
 		</header>
-		<div class="prose-white prose-lg w-full max-w-[520px] mx-auto font-semibold" slot="content">
-			<p>Win Spot Prizes & huge Jackpots, 
-				just for binning litter!</p>
-				
-				<p>Download LitterLotto now!</p>
+		<div
+			class="prose-white prose-lg w-full max-w-[520px] mx-auto font-semibold"
+			slot="content"
+		>
+			<p>Win Spot Prizes & huge Jackpots, just for binning litter!</p>
+
+			<p>Download LitterLotto now!</p>
 		</div>
 		<div class="flex justify-center" slot="buttons">
 			<AppStoreButtons />
@@ -49,17 +95,97 @@ const footerLinks = [
 			<TextHeaderLarge>What is LitterLotto?</TextHeaderLarge>
 		</header>
 		<div class="prose-white prose-xl" slot="lead">
-			<p>LitterLotto® is a free to enter Prize Draw, with regular spot prizes and huge jackpots, supported by brands 
-				who want a cleaner environment.</p>
+			<p>
+				LitterLotto® is a free to enter Prize Draw, with regular spot prizes and
+				huge jackpots, supported by brands who want a cleaner environment.
+			</p>
 		</div>
 		<div class="prose-white prose-base" slot="content">
-			<p>To enter, simply use the app to take a picture of litter as you place it in a bin.
-				Each time you submit a new piece of litter it's another chance to win!</p>
+			<p>
+				To enter, simply use the app to take a picture of litter as you place it
+				in a bin. Each time you submit a new piece of litter it's another chance
+				to win!
+			</p>
 
-			<p>LitterLotto is available globally, with different Jackpot levels wherever you are!</p>
+			<p>
+				LitterLotto is available globally, with different Jackpot levels
+				wherever you are!
+			</p>
 		</div>
 	</FullWidthText>
-		<!-- {sections.map(section => {
+
+	<PreviousWinners winners={winners}>
+		<div class="prose-base" slot="content">
+			<p>Here are some of our amazing winners!</p>
+			<p>
+				You can be one too, all you have to do is <strong>#BinItToWinIt</strong>
+			</p>
+		</div>
+	</PreviousWinners>
+
+	<SpotWinners winners={spotWinners} />
+
+	<FullWidthText>
+		<header slot="header" class="text-green">
+			<TextHeaderLarge>The LitterLotto Legend</TextHeaderLarge>
+		</header>
+		<div class="prose-white prose-xl" slot="lead">
+			<p>
+				LitterLotto was inspired by the desire to find a solution to the growing
+				issue of litter.
+			</p>
+		</div>
+		<div class="prose-white prose-base" slot="content">
+			<p>
+				Created and passionately developed by a dedicated team who believe in
+				the power of positive action and in technology's ability to facilitate
+				world changing solutions.
+			</p>
+
+			<p>
+				LitterLotto brand aims to reduce and ultimately put an end to the damage
+				caused by the rising levels of litter in today's world.
+			</p>
+		</div>
+	</FullWidthText>
+
+	<CallToAction
+		bgImage="/cta-background.png"
+		logo="/logo-dark.svg"
+		screens={screens}
+	>
+		<TextHeaderMedium slot="top-content" is="h3">#BinItToWinIt</TextHeaderMedium
+		>
+		<TextHeaderMedium slot="bottom-content" is="p"
+			>So, what are you waiting for?</TextHeaderMedium
+		>
+	</CallToAction>
+
+	<FullWidthText>
+		<header slot="header" class="text-green">
+			<TextHeaderLarge>Our Mission & Vision</TextHeaderLarge>
+		</header>
+		<div class="prose-white prose-xl" slot="lead">
+			<p>
+				LitterLotto's long-term vision is a world free of litter, waste and
+				pollution.
+			</p>
+		</div>
+		<div class="prose-white prose-base" slot="content">
+			<p>
+				Our mission is to play an influencial role in achieving this reality by
+				incentivising and rewarding positive action towards litter and the
+				environment.
+			</p>
+
+			<p>
+				LitterLotto is designed to provide a light nudge and remind people about
+				the litter issue around them and achieve a positive behavioural change!
+			</p>
+		</div>
+	</FullWidthText>
+
+	<!-- {sections.map(section => {
 			switch(section.item.__typename) {
 				case 'full_width_text':
 					return <FullWidthText fields={section.item} />
@@ -76,6 +202,5 @@ const footerLinks = [
 </Layout>
 
 <script>
-	import '../modules/splide.js'
+	import "../modules/splide.js";
 </script>
-	

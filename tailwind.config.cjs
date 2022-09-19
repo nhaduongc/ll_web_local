@@ -9,13 +9,13 @@ module.exports = {
 		fontSize: {
 			'body-small': '16px',
 			"body": ["25px", {
-					lineHeight: '30px',
+				lineHeight: '30px',
 			}],
 			"body-large": ["30px", {
-					lineHeight: '35px',
+				lineHeight: '35px',
 			}],
 			"body-lead": ["38px", {
-					lineHeight: '55px',
+				lineHeight: '55px',
 			}],
 			'header-small': '50px',
 			'header-medium': '56px',
@@ -40,7 +40,11 @@ module.exports = {
 			},
 			red: '#DB162F',
 			blue: '#3A86FF',
-			yellow: '#FFD300',
+			yellow: {
+				light: lighten(0.1, '#FFD300'),
+				DEFAULT: '#FFD300',
+				dark: '#DDBB11',
+			},
 			pink: '#FF006E',
 			purple: '#5E239D',
 			white: '#FFFFFF',
@@ -82,19 +86,19 @@ module.exports = {
 				},
 				white: {
 					css: {
-							'--tw-prose-body': 'colors.white',
-							'--tw-prose-headings': '#ffffff',
-							'--tw-prose-lead': '#ffffff',
-							'--tw-prose-links': '#ffffff',
-							'--tw-prose-bold': '#ffffff',
-							'--tw-prose-counters': '#ffffff',
-							'--tw-prose-bullets': '#ffffff',
-							'--tw-prose-hr': '#ffffff',
-							'--tw-prose-quotes': '#ffffff',
-							'--tw-prose-quote-borders': '#ffffff',
-							'--tw-prose-captions': '#ffffff',
-							'--tw-prose-code': '#ffffff',
-							'--tw-prose-pre-code': '#ffffff',
+						'--tw-prose-body': 'colors.white',
+						'--tw-prose-headings': '#ffffff',
+						'--tw-prose-lead': '#ffffff',
+						'--tw-prose-links': '#ffffff',
+						'--tw-prose-bold': '#ffffff',
+						'--tw-prose-counters': '#ffffff',
+						'--tw-prose-bullets': '#ffffff',
+						'--tw-prose-hr': '#ffffff',
+						'--tw-prose-quotes': '#ffffff',
+						'--tw-prose-quote-borders': '#ffffff',
+						'--tw-prose-captions': '#ffffff',
+						'--tw-prose-code': '#ffffff',
+						'--tw-prose-pre-code': '#ffffff',
 					}
 				}
 			}),

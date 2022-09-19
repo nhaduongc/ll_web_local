@@ -11,23 +11,17 @@ const { winners } = Astro.props
 ---
 
 <section class="py-14 bg-white text-section relative">
-  <Container>
-    <div class="w-full max-w-[1050px] mx-auto text-center mb-10">
-      <slot name="content" />
-    </div>
-  </Container>
-
   <div class="splide">
     <div class="splide__track">
       <ul class="splide__list">
         {winners.map((winner, index) => (
           <li class="splide__slide px-7">
-            <article>
-              <div class="rounded-lg overflow-hidden relative bg-grey shadow-md mb-6 w-[255px] h-[310px]">
+            <article class="text-center">
+              <div class="rounded-full overflow-hidden relative bg-grey mb-10 w-[167px] h-[167px]">
                 <img
                   src={winner.image}
                   alt={winner.title}
-                  class="w-full h-full object-cover object-center rounded-md">
+                  class="w-full h-full object-cover object-center flex items-center justify-center">
               </div>
 
               <TextBody is="h3">
