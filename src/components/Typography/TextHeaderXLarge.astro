@@ -4,12 +4,12 @@ export interface Props {
 }
 
 const {
-  is = 'p'
+  is = 'h1'
 } = Astro.props as Props;
 
 const El = is;
 ---
 
-<El class="text-body-large">
+<El class="text-header-xlarge font-black">
   <slot />
 </El>

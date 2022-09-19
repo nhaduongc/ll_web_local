@@ -8,7 +8,8 @@ export const Homepage = `
             title,
             content,
             background_image {
-              id
+              id,
+              title
             },
             button_type,
             buttons {
@@ -23,7 +24,8 @@ export const Homepage = `
             __typename,
             title,
             icon {
-              id
+              id,
+              title
             },
             left_column_text,
             right_column_text,
@@ -39,16 +41,20 @@ export const Homepage = `
           ... on image {
             __typename,
             width,
+            leaves_border,
             image, {
-              id
+              id,
+              title
             }
           },
           ... on full_width_text {
             __typename,
             title,
             icon {
-              id
+              id,
+              title
             },
+            intro_text,
             text,
             button_type,
             buttons {
@@ -63,12 +69,24 @@ export const Homepage = `
             __typename,
             title,
             icon {
-              id
+              id,
+              title
             },
-            text,
+            intro_text,
           }
         }
       }
+    },
+    winners {
+      id,
+      name,
+      quote,
+      image {
+        id,
+        title
+      },
+      has_button,
+      button_url
     }
   }
 `

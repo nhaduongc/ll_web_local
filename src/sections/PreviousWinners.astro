@@ -1,1 +1,63 @@
-<h3 class="text-body-large">Previous Winners</h3>
+---
+import '@splidejs/splide/dist/css/splide-core.min.css'
+import Container from '../components/Container.astro'
+import {
+  TextBody,
+  TextBodyLarge
+} from '../components/Typography'
+import * as If from '../components/If'
+
+const { winners } = Astro.props
+---
+
+<section class="py-14 bg-white text-section relative" aria-labelledby={`winners-header-${fields.id}`}>
+  <div class="absolute bg-primary-light w-full top-0 h-4/6"></div>
+  <Container>
+    <div class="w-full max-w-[1050px] mx-auto">
+      <slot name="content" />
+    </div>
+  </Container>
+
+  <div class="splide">
+    <div class="splide__track">
+      <ul class="splide__list">
+        {winners.map((winner, index) => (
+          <li class="splide__slide px-4">
+            <article
+              class="w-[335px]">
+              <div class="rounded-lg overflow-hidden relative bg-primary-light mb-6 w-[255px] h-[310px]">
+                <img
+                  src={useImage(winner.image)}
+                  alt={winner?.image?.title}
+                  class="w-full h-full object-cover object-center rounded-md">
+              </div>
+
+              <header class="mb-2 font-bold">
+                <TextBodyLarge is="h3">
+                  { winner.name }
+                </TextBodyLarge>
+              </header>
+
+              <div class="opacity-50">
+                <TextBody>
+                  "{ winner.quote }"
+                </TextBody>
+              </div>
+
+              <If.Exists value={winner.has_button}>
+                <div class="pt-6">
+                  <Button colour="dark" href={winner.button_url}>
+                    <img 
+                      src={useImage(logo)} 
+                      alt="LitterLotto Logo" 
+                      class="block h-7 w-auto relative -mb-1"> 
+                  </Button>
+                </div>
+              </If.Exists>
+            </article>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

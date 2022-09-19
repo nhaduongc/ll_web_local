@@ -9,7 +9,19 @@ export const WebsiteSettings = `
           url,
           name
         }
-      }
+      },
+      logo {
+        id,
+        title
+      },
+      header_buttons {
+        buttons_id {
+          url,
+          text,
+          colour
+        }
+      },
+      footer_links
     }
   }
 `

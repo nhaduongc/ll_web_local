@@ -9,7 +9,7 @@ const {
 } = Astro.props
 ---
 
-<Use.Switch {buttonType}>
+<Use.Switch value={buttonType}>
 	<Use.Case slot={'normal'}>
     <ButtonGroup buttons={buttons} />
   </Use.Case>

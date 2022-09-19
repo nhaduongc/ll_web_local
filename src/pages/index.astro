@@ -1,33 +1,65 @@
 ---
+import '../styles/styles.css'
 import Layout from '../layouts/Layout.astro'
 import {
 	FullWidthText,
 	Hero,
-	Image,
 	PreviousWinners,
-	TwoColumnText,
 } from '../sections'
-import useApi from '../modules/api'
-import { Homepage, WebsiteSettings } from '../queries'
+import {
+	TextHeaderXLarge,
+	TextHeaderLarge,
+} from '../components/Typography'
+import AppStoreButtons from '../components/AppStoreButtons.astro'
 
-const { useQuery } = useApi()
-
-const pageData = await useQuery(Homepage)
-const websiteSettings = await useQuery(WebsiteSettings)
-
-const sections = pageData?.data?.homepage?.page_builder ?? []
-const hasIcons = websiteSettings?.data?.website_settings?.social_icons ?? []
-
-const icons = hasIcons.map(icon => {
-	return {
-		...icon.social_icons_id
-	}
-})
+const footerLinks = [
+	{
+		url: 'https://litterlotto.help/en/articles/5447243-official-rules',
+		text: 'Official Rules'
+	},
+	{
+		url: 'https://litterlotto.help/en/articles/5437261-privacy-policy',
+		text: 'Privacy & Legal'
+	},
+	{
+		url: 'https://intercom.help/litterlotto',
+		text: 'FAQs'
+	},
+]
 ---
 
-<Layout title="Welcome to Astro." icons={icons}>
-	<main>
-		{sections.map(section => {
+<Layout title="LitterLotto" icons={[]} footerLinks={footerLinks}>
+	<Hero bgImage="/hero-background.png">
+		<header class="uppercase" slot="header">
+			<TextHeaderXLarge>Bin It To Win It!</TextHeaderXLarge>
+		</header>
+		<div class="prose-white prose-lg w-full max-w-[520px] mx-auto font-semibold" slot="content">
+			<p>Win Spot Prizes & huge Jackpots, 
+				just for binning litter!</p>
+				
+				<p>Download LitterLotto now!</p>
+		</div>
+		<div class="flex justify-center" slot="buttons">
+			<AppStoreButtons />
+		</div>
+	</Hero>
+
+	<FullWidthText>
+		<header slot="header" class="text-green">
+			<TextHeaderLarge>What is LitterLotto?</TextHeaderLarge>
+		</header>
+		<div class="prose-white prose-xl" slot="lead">
+			<p>LitterLotto® is a free to enter Prize Draw, with regular spot prizes and huge jackpots, supported by brands 
+				who want a cleaner environment.</p>
+		</div>
+		<div class="prose-white prose-base" slot="content">
+			<p>To enter, simply use the app to take a picture of litter as you place it in a bin.
+				Each time you submit a new piece of litter it's another chance to win!</p>
+
+			<p>LitterLotto is available globally, with different Jackpot levels wherever you are!</p>
+		</div>
+	</FullWidthText>
+		<!-- {sections.map(section => {
 			switch(section.item.__typename) {
 				case 'full_width_text':
 					return <FullWidthText fields={section.item} />
@@ -36,10 +68,14 @@ const icons = hasIcons.map(icon => {
 				case 'image':
 					return <Image fields={section.item} />
 				case 'previous_winners':
-					return <PreviousWinners fields={section.item} />
+					return <PreviousWinners fields={section.item} winners={winners} logo={logo} client:load />
 				case 'two_column_text':
 					return <TwoColumnText fields={section.item} />
 			}
-		})}
-	</main>
+		})} -->
 </Layout>
+
+<script>
+	import '../modules/splide.js'
+</script>
+	

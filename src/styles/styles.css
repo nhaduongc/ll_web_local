@@ -1,0 +1,21 @@
+.text-section + .text-section {
+  padding-top: 0;
+}
+
+.animate-float:hover {
+  animation-play-state: paused
+}
+
+.prose *:first-child,
+.prose-base *:first-child,
+.prose-lg *:first-child,
+.prose-xl *:first-child {
+  margin-top: 0 !important;
+}
+
+.prose *:last-child,
+.prose-base *:last-child,
+.prose-lg *:last-child,
+.prose-xl *:last-child {
+  margin-bottom: 0 !important;
+}

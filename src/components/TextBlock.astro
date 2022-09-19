@@ -1,0 +1,12 @@
+---
+const {
+  html,
+  large = false
+} = Astro.props
+
+const sectionClass = large ? "prose prose-lg font-medium" : "prose"
+---
+
+<div class={sectionClass}>
+  <Fragment set:html={html} />
+</div>

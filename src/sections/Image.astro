@@ -1,1 +1,35 @@
-<h3 class="text-body-large">Image</h3>
+---
+import * as Use from '../components/Switch'
+import * as If from '../components/If'
+import Container from '../components/Container.astro'
+import useApi from '../modules/api'
+
+const { fields } = Astro.props;
+
+const { useImage } = useApi()
+
+const sectionClasses = fields.leaves_border ?
+  "bg-white relative min-h-[270px]" :
+  "bg-white"
+---
+
+<section class={sectionClasses}>
+  <If.Exists value={fields.leaves_border}>
+    <div class="absolute bottom-0 left-0">
+      <img src="leaves-left-2.png" class="pointer-events-none" alt="Leaf Graphic">
+    </div>
+    <div class="absolute bottom-0 right-0">
+      <img src="leaves-right-2.png" class="pointer-events-none" alt="Leaf Graphic">
+    </div>
+  </If.Exists>
+  <Use.Switch value={fields.width}>
+    <Use.Case slot="full_page_width">
+      <img src={useImage(fields.image)} class="block w-full max-w-full mx-auto" alt={fields?.image?.title}>
+    </Use.Case>
+    <Use.Default>
+      <Container>
+        <img src={useImage(fields.image)} class="block max-w-full mx-auto" alt={fields?.image?.title}>
+      </Container>
+    </Use.Default>
+  </Use.Switch>
+</section>

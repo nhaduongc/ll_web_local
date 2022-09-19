@@ -31,9 +31,15 @@ function useApi() {
     return `${import.meta.env.UPLOAD_PATH}/${img.id}`
   }
 
+  // Set string value to "exists" if a property is set
+  const exists = (property) => {
+    return property ? "exists" : null;
+  }
+
   return {
     useQuery,
-    useImage
+    useImage,
+    exists
   }
 }
 

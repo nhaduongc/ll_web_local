@@ -1,33 +1,28 @@
 ---
-import useApi from '../modules/api'
 import Container from '../components/Container.astro'
 import Buttons from '../components/Buttons.astro'
 import {
   TextHeaderLarge,
   TextBodyLarge
 } from '../components/Typography'
-
-const { useImage } = useApi()
+import { prependOnceListener } from 'process';
 
 const {
-  fields
+  bgImage,
 } = Astro.props
-
-console.log(fields)
 ---
 
 <section 
-  class="min-h-screen flex flex-column text-white py-48 bg-gradient-to-b from-[#FF8F50] to-[#D0FFDD]">
+  class="relative min-h-[789px] flex items-center bg-navy text-white text-center pb-48 bg-cover bg-center bg-no-repeat"
+  style={`background-image: url('${bgImage ?? ''}')`}>
+  <!-- <div class="hidden lg:block absolute bottom-0 right-0">
+    <img src="phone-border.png" class="pointer-events-none" alt="">
+  </div> -->
   <Container>
-    <div class="max-w-full w-1/2">
-      <div class="mb-8">
-        <TextHeaderLarge>
-          { fields.title }
-        </TextHeaderLarge>
-      </div>
-      <TextBodyLarge is="div" set:html={fields.content} />
-      { fields.button_type }
-      <Buttons buttonType={fields.button_type} buttons={fields.buttons} />
+    <div class="relative z-20 max-w-full lg:w-4/6 space-y-[30px] mx-auto">
+      <slot name="header" />
+      <slot name="content" />
+      <slot name="buttons" />
     </div>
   </Container>
 </section>

@@ -1,1 +1,36 @@
-<h3 class="text-body-large">Two Column Text</h3>
+---
+import Container from '../components/Container.astro'
+import Icon from '../components/Icon.astro'
+import TextBlock from '../components/TextBlock.astro'
+import Buttons from '../components/Buttons.astro'
+import { TextHeaderMedium, TextHeaderLarge } from '../components/Typography'
+import * as If from '../components/If'
+
+const { fields } = Astro.props
+---
+
+<section class="py-24 bg-white text-section">
+  <Container>
+    <div class="grid grid-cols-12 gap-10">
+      <div class="col-span-12 lg:col-span-6 lg:col-start-7 flex items-center justify-start">
+        <If.Exists value={fields.icon}>
+          <Icon image={fields.icon} />
+        </If.Exists>
+      </div>
+      <header class="col-span-12 lg:col-span-5 lg:-order-1 text-black">
+        <TextHeaderLarge>
+          { fields.title }
+        </TextHeaderLarge>
+      </header>
+      <div class="col-span-12 lg:col-span-6">
+        <TextBlock html={fields.left_column_text} />
+      </div>
+      <div class="col-span-12 lg:col-span-6">
+        <TextBlock html={fields.right_column_text} />
+      </div>
+      <div class="col-span-12">
+        <Buttons buttonType={fields.button_type} buttons={fields.buttons} />
+      </div>
+    </div>
+  </Container>
+</section>

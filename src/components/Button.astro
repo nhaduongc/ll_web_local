@@ -5,25 +5,17 @@ const {
 } = Astro.props;
 
 const colourClasses = {
-  dark: 'text-white group',
-  light: 'bg-transparent hover:bg-white text-white hover:text-primary border border-white transition-colors'
+  dark: 'text-green',
+  light: 'bg-transparent hover:bg-white active:bg-grey active:border-grey active:text-green text-white hover:text-green border-white'
 }
 
 const classes = [
-  `inline-flex items-center justify-center py-5 px-8 whitespace-nowrap leading-5 rounded-full min-w-button
-  text-body-small overflow-hidden relative transition group-hover:-translate-x-full`,
+  `inline-flex items-center justify-center h-[49px] px-[27px] border-[3px] whitespace-nowrap leading-5 rounded-full min-w-button
+  text-body-small font-semibold overflow-hidden transition-colors`,
   colourClasses[colour] ?? ''
 ].join(" ")
-
-const gradientClasses = `w-[200%] absolute left-0 top-0 bottom-0 bg-gradient-to-r from-primary to-primary via-secondary 
-translate-x-0 group-hover:-translate-x-1/2 transition-transform ease-in-out`
 ---
 
 <a href={href} class={classes}>
-  {colour === 'dark'
-    ? <div class={gradientClasses}></div> 
-    : ''}
-  <span class="relative z-1">
-    <slot/>
-  </span>
+  <slot/>
 </a>
