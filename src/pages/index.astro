@@ -7,6 +7,7 @@ import {
 	Hero,
 	PreviousWinners,
 	SpotWinners,
+	Marquee,
 } from "../sections";
 import {
 	TextHeaderXLarge,
@@ -17,40 +18,199 @@ import AppStoreButtons from "../components/AppStoreButtons.astro";
 
 const footerLinks = [
 	{
-		url: "https://litterlotto.help/en/articles/5447243-official-rules",
+		url: "https://intercom.help/litterlotto/en/articles/5447243-official-rules",
 		text: "Official Rules",
 	},
 	{
-		url: "https://litterlotto.help/en/articles/5437261-privacy-policy",
+		url: "https://intercom.help/litterlotto/en/collections/3057825-privacy-legal",
 		text: "Privacy & Legal",
 	},
 	{
-		url: "https://intercom.help/litterlotto",
+		url: "https://intercom.help/litterlotto/en/collections/3057665-faq-s",
 		text: "FAQs",
 	},
 ];
 
-const winner = {
-	image: "/winner-placeholder.png",
-	title: `Read Sophie's Story`,
-};
+const winners = [
+	{
+		image: "/jackpot-winners/Sophie.jpg",
+		title: "Read Sophie's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6525200-sophie-our-latest-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Janice.jpg",
+		title: "Read Janice's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6461988-janice-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Deb.jpg",
+		title: "Read Deb's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6560570-deb-our-latest-uk-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Ben K.jpg",
+		title: "Read Ben K's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6475842-ben-our-latest-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Oli.jpg",
+		title: "Read Oli's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6540385-oli-our-latest-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Valerie.jpg",
+		title: "Read Valerie's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6504559-valerie-latest-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Neil.jpg",
+		title: "Read Neil's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447310-neil-our-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Mariola.jpg",
+		title: "Read Mariola's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447336-mariola-our-uk-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Fiona.jpg",
+		title: "Read Fi's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447780-fi-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Andrew.jpg",
+		title: "Read Andy's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447333-andy-our-mega-uk-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Kazzy.jpg",
+		title: "Read Kazzy's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447330-kazzy-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Naomi.jpg",
+		title: "Read Naomi's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447328-naomi-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/David.jpg",
+		title: "Read David's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447325-david-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Nicola.jpg",
+		title: "Read Nicola's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447324-nicola-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Charles.jpg",
+		title: "Read Charles' Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447323-charles-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Roy.jpg",
+		title: "Read Roy's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447321-roy-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Luke.jpg",
+		title: "Read Luke's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447319-luke-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Ben.jpg",
+		title: "Read Ben's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447317-ben-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Tracey.jpg",
+		title: "Read Tracey's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447316-tracey-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Phoebe.jpg",
+		title: "Read Phoebe's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447315-phoebe-our-weekly-jackpot-winner",
+	},
+];
 
-const winners = [];
-
-for (let i = 0; i < 15; i++) {
-	winners.push(winner);
-}
-
-const spotWinner = {
-	image: "/spot-winner-placeholder.png",
-	title: "M Guy",
-};
-
-const spotWinners = [];
-
-for (let i = 0; i < 15; i++) {
-	spotWinners.push(spotWinner);
-}
+const spotWinners = [
+	{
+		image: "/spot-prize-winners/Andreas Holzer.jpg",
+		title: "Andreas Holzer",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Andrew Bale.jpg",
+		title: "Andrew Bale",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Carys R.jpg",
+		title: "Carys R",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Catherine Baker.jpg",
+		title: "Catherine Baker",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Debz.jpg",
+		title: "Debz",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Emma Burton.jpg",
+		title: "Emma Burton",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Fiona Smart.jpg",
+		title: "Fiona Smart",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Gordon Brown.jpg",
+		title: "Gordon Brown",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Johanna Collins.jpg",
+		title: "Johanna Collins",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/K Hipkin.jpg",
+		title: "K Hipkin",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Karen Russo.jpg",
+		title: "Karen Russo",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Karsten.jpg",
+		title: "Karsten",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Kate Green.jpg",
+		title: "Kate Green",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Lindsay Robson.jpg",
+		title: "Lindsay Robson",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Lynn Simpson.jpg",
+		title: "Lynn Simpson",
+		link: "#",
+	},
+];
 
 const screens = [
 	{
@@ -114,6 +274,8 @@ const screens = [
 		</div>
 	</FullWidthText>
 
+	<Marquee items={["Binner Winners"]} topColour="bg-navy" />
+
 	<PreviousWinners winners={winners}>
 		<div class="prose-base" slot="content">
 			<p>Here are some of our amazing winners!</p>
@@ -123,7 +285,11 @@ const screens = [
 		</div>
 	</PreviousWinners>
 
+	<Marquee items={["Spot Prize Winners", "Jackpot Winners"]} reverse={true} />
+
 	<SpotWinners winners={spotWinners} />
+
+	<Marquee items={["Binner Winners"]} bottomColour="bg-navy" />
 
 	<FullWidthText>
 		<header slot="header" class="text-green">
@@ -161,7 +327,7 @@ const screens = [
 		>
 	</CallToAction>
 
-	<FullWidthText>
+	<FullWidthText id="our-mission">
 		<header slot="header" class="text-green">
 			<TextHeaderLarge>Our Mission & Vision</TextHeaderLarge>
 		</header>

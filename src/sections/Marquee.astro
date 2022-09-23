@@ -1,0 +1,60 @@
+---
+import { TextBodyLead } from "../components/Typography";
+
+Number.prototype[Symbol.iterator] = function* (i = 1) {
+  while (i < this) {
+    yield i++;
+  }
+};
+
+const {
+  items,
+  reverse = false,
+  topColour = "bg-white",
+  bottomColour = "bg-white",
+} = Astro.props;
+
+const transform = reverse ? "rotate-[-2deg]" : "rotate-[2deg]";
+
+const width = "w-[calc(100%_+_40px)] max-w-[calc(100%_+_40px) -ml-4";
+---
+
+<div
+  class:list={[
+    topColour,
+    bottomColour,
+    "relative z-10 h-[140px] flex flex-col overflow-hidden",
+  ]}
+>
+  <div class:list={[topColour, "flex-1"]}></div>
+  <div class:list={[bottomColour, "flex-1"]}></div>
+  <div
+    class:list={[
+      width,
+      "absolute top-1/2 -translateY-[1/2] -left-[20px] h-0 flex items-center",
+    ]}
+  >
+    <div
+      class:list={[
+        transform,
+        "bg-white shadow-[0_0_8px_0_rgba(0,0,0,0.15)] py-[7px] overflow-x-hidden",
+        "flex justify-start",
+      ]}
+    >
+      <ul class="flex justify-start">
+        {
+          [...30].map((_, index) =>
+            items.map((item) => (
+              <li
+                aria-hidden={index !== 0}
+                class="text-green uppercase font-bold whitespace-nowrap px-6"
+              >
+                <TextBodyLead is="span">{item}</TextBodyLead>
+              </li>
+            ))
+          )
+        }
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,102 +1,127 @@
 ---
-import Container from '../components/Container.astro'
-import ButtonGroup from '../components/ButtonGroup.astro'
-import Button from '../components/Button.astro'
-import { TextHeaderMedium, TextBodySmall } from '../components/Typography'
-import useApi from '../modules/api'
+import Container from "../components/Container.astro";
+import ButtonGroup from "../components/ButtonGroup.astro";
+import Button from "../components/Button.astro";
+import { TextHeaderMedium, TextBodySmall } from "../components/Typography";
+import useApi from "../modules/api";
 
-const { useImage } = useApi()
+const { useImage } = useApi();
 
 const { title, icons, headerButtons, footerLinks } = Astro.props;
 ---
 
 <!DOCTYPE html>
 <html lang="en" class="h-full text-base font-sans">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-	<title>{title}</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
-</head>
-<body class="min-h-full bg-grey relative flex flex-col">
-  <div class="w-full flex-1 flex flex-col mx-auto max-w-[1920px] shadow-lg bg-white">
-    <header class="sticky z-50 w-100 H-[82px] top-0 right-0 left-0 py-6 bg-green text-white">
-      <Container>
-        <div class="flex items-center justify-start gap-8">
-          <div class="mr-auto">
-            <img src="/logo-white.svg" alt="LitterLotto Logo" class="h-11 w-auto">
-          </div>
-          <div class="flex space-x-9">
-            <Button colour="light" href="#our-mission">Our Mission</Button>
-            <Button colour="light" href="#">FAQs</Button>
-          </div>
-        </div>
-      </Container>
-    </header>
-    <main class="flex-1">
-      <slot />
-    </main>
-    <footer class="flex-shrink-1 flex-grow-0 text-center text-white">
-      <div class="bg-navy py-16">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>{title}</title>
+    <link rel="stylesheet" href="https://use.typekit.net/hyi3ttn.css" />
+  </head>
+  <body class="min-h-full bg-grey relative flex flex-col">
+    <div
+      class="w-full flex-1 flex flex-col mx-auto max-w-[1920px] shadow-lg bg-white"
+    >
+      <header
+        class="sticky z-50 w-100 H-[82px] top-0 right-0 left-0 py-6 bg-green text-white"
+      >
         <Container>
-          <div class="space-y-4">
-            <div class="text-green">
-              <TextHeaderMedium>
-                Get social with us!
-              </TextHeaderMedium>
+          <div class="flex items-center justify-start gap-8">
+            <div class="mr-auto">
+              <img
+                src="/logo-white.svg"
+                alt="LitterLotto Logo"
+                class="h-11 w-auto"
+              />
             </div>
-            <div class="flex items-center justify-center space-x-6">
-              {icons.map((icon) => (
-                <a href={icon.url} target="_blank">
-                  <img src={useImage(icon.icon)} alt={icon.name}>  
+            <div class="flex space-x-9">
+              <Button colour="light" href="#our-mission">Our Mission</Button>
+              <Button
+                colour="light"
+                href="https://intercom.help/litterlotto/en/collections/3057665-faq-s"
+                >FAQs</Button
+              >
+            </div>
+          </div>
+        </Container>
+      </header>
+      <main class="flex-1">
+        <slot />
+      </main>
+      <footer class="flex-shrink-1 flex-grow-0 text-center text-white">
+        <div class="bg-navy py-16">
+          <Container>
+            <div class="space-y-4">
+              <div class="text-green">
+                <TextHeaderMedium>Get social with us!</TextHeaderMedium>
+              </div>
+              <div class="flex items-center justify-center space-x-6">
+                {
+                  icons.map((icon) => (
+                    <a href={icon.url} target="_blank">
+                      <img src={useImage(icon.icon)} alt={icon.name} />
+                    </a>
+                  ))
+                }
+                <a
+                  href="https://facebook.com/litterlotto"
+                  target="_blank"
+                  class="text-white"
+                >
+                  <img src="/icon-facebook.svg" />
                 </a>
-              ))}
-              <a href="#" target="_blank" class="text-white">
-                <img src="/icon-facebook.svg">  
-              </a>
-              <a href="#" target="_blank">
-                <img src="/icon-twitter.svg">  
-              </a>
-              <a href="#" target="_blank">
-                <img src="/icon-instagram.svg">  
-              </a>
-              <a href="#" target="_blank">
-                <img src="/icon-tiktok.svg">  
-              </a>
+                <a href="https://twitter.com/litterlotto" target="_blank">
+                  <img src="/icon-twitter.svg" />
+                </a>
+                <a href="https://instagram.com/litterlotto" target="_blank">
+                  <img src="/icon-instagram.svg" />
+                </a>
+                <a href="https://www.tiktok.com/@litterlotto" target="_blank">
+                  <img src="/icon-tiktok.svg" />
+                </a>
+              </div>
             </div>
-          </div>
-        </Container>
-      </div>
-      <div class="bg-green py-10">
-        <Container>
-          <div class="flex flex-col space-y-8 items-center font-semibold">
-            <img src="/logo-white.svg" alt="LitterLotto Logo" class="h-8 mb-2">
-            <ul class="flex space-x-8 justify-center">
-              {footerLinks.map(link => (
-                <li>
-                  <a 
-                    href={link.url} target="_blank" 
-                    class="transition-opacity text-white hover:opacity-75">
-                    <TextBodySmall>
-                      { link.text }
-                    </TextBodySmall>
-                  </a>  
-                </li>
-              ))}
-            </ul>
-            <TextBodySmall>&copy; LitterLotto {new Date().getFullYear()}</TextBodySmall>
-          </div>
-          <div class="flex flex-col md:flex-row items-center justify-center md:justify-between space-y-8 md:space-y-0 md:space-x-8 text-center md:text-left">
-            <div class="flex flex-col text-center md:text-left items-center md:items-start">
+          </Container>
+        </div>
+        <div class="bg-green py-10">
+          <Container>
+            <div class="flex flex-col space-y-8 items-center font-semibold">
+              <img
+                src="/logo-white.svg"
+                alt="LitterLotto Logo"
+                class="h-8 mb-2"
+              />
+              <ul class="flex space-x-8 justify-center">
+                {
+                  footerLinks.map((link) => (
+                    <li>
+                      <a
+                        href={link.url}
+                        target="_blank"
+                        class="transition-opacity text-white hover:opacity-75"
+                      >
+                        <TextBodySmall>{link.text}</TextBodySmall>
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+              <TextBodySmall
+                >&copy; LitterLotto {new Date().getFullYear()}
+              </TextBodySmall>
             </div>
-          </div>
-        </Container>
-      </div>
-    </footer>
-  </div>
-</body>
+            <div
+              class="flex flex-col md:flex-row items-center justify-center md:justify-between space-y-8 md:space-y-0 md:space-x-8 text-center md:text-left"
+            >
+              <div
+                class="flex flex-col text-center md:text-left items-center md:items-start"
+              >
+              </div>
+            </div>
+          </Container>
+        </div>
+      </footer>
+    </div>
+  </body>
 </html>
-

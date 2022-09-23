@@ -3,7 +3,7 @@ import Container from "../components/Container.astro";
 import { TextBody } from "../components/Typography";
 import AppStoreButtons from "../components/AppStoreButtons.astro";
 
-const { bgImage, logo, screens = [] } = Astro.props;
+const { bgImage, logo, screens = [], id = "" } = Astro.props;
 
 const getTextColour = (index) => {
   switch (index) {
@@ -22,6 +22,7 @@ const getTextColour = (index) => {
 <section
   style={`background-image: url('${bgImage}')`}
   class="pt-14 pb-[194px] bg-cover bg-bottom bg-white"
+  id={id}
 >
   <Container>
     <div

@@ -1,20 +1,16 @@
 ---
-import Container from '../components/Container.astro'
-import Buttons from '../components/Buttons.astro'
-import {
-  TextHeaderLarge,
-  TextBodyLarge
-} from '../components/Typography'
-import { prependOnceListener } from 'process';
+import Container from "../components/Container.astro";
+import Buttons from "../components/Buttons.astro";
+import { TextHeaderLarge, TextBodyLarge } from "../components/Typography";
 
-const {
-  bgImage,
-} = Astro.props
+const { bgImage, id = "" } = Astro.props;
 ---
 
-<section 
+<section
   class="relative min-h-[789px] flex items-center bg-navy text-white text-center pb-48 bg-cover bg-center bg-no-repeat"
-  style={`background-image: url('${bgImage ?? ''}')`}>
+  style={`background-image: url('${bgImage ?? ""}')`}
+  id={id}
+>
   <!-- <div class="hidden lg:block absolute bottom-0 right-0">
     <img src="phone-border.png" class="pointer-events-none" alt="">
   </div> -->

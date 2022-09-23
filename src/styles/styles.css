@@ -1,9 +1,12 @@
-.text-section + .text-section {
-  padding-top: 0;
+:root {
+  --content-width: 100vw;
+  --content-width--: calc(var(--content-width) * -1);
 }
 
-.animate-float:hover {
-  animation-play-state: paused
+@media (min-width: 1920px) {
+  :root {
+    --content-width: 1920px;
+  }
 }
 
 .prose *:first-child,
@@ -19,3 +22,4 @@
 .prose-xl *:last-child {
   margin-bottom: 0 !important;
 }
+

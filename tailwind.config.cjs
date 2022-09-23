@@ -19,7 +19,7 @@ module.exports = {
 			}],
 			'header-small': '50px',
 			'header-medium': '56px',
-			'header-large': '72px',
+			'header-large': ['72px', '70px'],
 			'header-xlarge': ['92px', '81px'],
 		},
 		colors: {
@@ -52,7 +52,7 @@ module.exports = {
 		},
 		extend: {
 			fontFamily: {
-				sans: ['Inter', ...defaultTheme.fontFamily.sans],
+				sans: ['azo-sans-web', ...defaultTheme.fontFamily.sans],
 			},
 			minWidth: {
 				'button': '140px',
@@ -103,14 +103,13 @@ module.exports = {
 				}
 			}),
 			keyframes: {
-				float: {
-					'0%': { transform: 'translate(0,  0px)' },
-					'50%': { transform: 'translate(0, 30px)' },
-					'100%': { transform: 'translate(0, 0px)' },
+				marquee: {
+					'0%': { transform: 'translateX(0)' },
+					'100%': { transform: 'translateX(var(--content-width--))' },
 				}
 			},
 			animation: {
-				float: 'float 10s ease-in-out infinite'
+				marquee: 'marquee 10s linear infinite',
 			}
 		},
 	},
