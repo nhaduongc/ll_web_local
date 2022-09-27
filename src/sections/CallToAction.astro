@@ -21,29 +21,38 @@ const getTextColour = (index) => {
 
 <section
   style={`background-image: url('${bgImage}')`}
-  class="pt-14 pb-[194px] bg-cover bg-bottom bg-white"
+  class="pt-14 pb-[194px] bg-cover bg-bottom bg-white max-w-full overflow-hidden"
   id={id}
 >
   <Container>
     <div
-      class="w-full max-w-[1050px] mx-auto flex flex-col items-center text-center mb-10"
+      class="w-full max-w-[1050px] mx-auto flex flex-col items-center text-center mb-14"
     >
-      <img src={logo} class="h-[97px] mb-10" />
+      <img src={logo} class="h-[97px] mb-14" />
       <slot name="top-content" />
     </div>
-    <div class="grid grid-cols-4 gap-[74px] mb-16">
-      {
-        screens.map((screen, index) => (
-          <div class={getTextColour(index)}>
-            <div class="font-bold mb-6 text-center">
-              <TextBody>{screen.title}</TextBody>
-            </div>
-            <div class="w-full shadow-lg overflow-hidden rounded-[45px]">
-              <img src={screen.image} alt="App Screen" class="w-full h-auto" />
-            </div>
-          </div>
-        ))
-      }
+    <div class="mb-16 splide app-slider xl:px-9">
+      <div class="splide__track">
+        <ul class="splide__list">
+          {
+            screens.map((screen, index) => (
+              <li class:list={[getTextColour(index), "splide__slide"]}>
+                <div class="font-bold mb-6 text-center">
+                  <TextBody>{screen.title}</TextBody>
+                </div>
+                <div class="w-full relative">
+                  <div class="absolute inset-0 rounded-[15%] shadow-lg" />
+                  <img
+                    src={screen.image}
+                    alt="App Screen"
+                    class="w-full h-auto relative z-10"
+                  />
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
     </div>
     <div
       class="w-full max-w-[1050px] mx-auto flex flex-col items-center text-center mb-10"

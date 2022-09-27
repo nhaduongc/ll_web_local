@@ -7,7 +7,10 @@ import * as If from "../components/If";
 const { winners, id = "" } = Astro.props;
 ---
 
-<section class="py-14 bg-white text-section relative" id={id}>
+<section
+  class="py-14 bg-white text-section relative overflow-hidden max-w-full"
+  id={id}
+>
   <Container>
     <div class="w-full max-w-[1050px] mx-auto text-center mb-10">
       <slot name="content" />

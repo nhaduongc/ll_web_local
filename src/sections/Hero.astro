@@ -15,7 +15,9 @@ const { bgImage, id = "" } = Astro.props;
     <img src="phone-border.png" class="pointer-events-none" alt="">
   </div> -->
   <Container>
-    <div class="relative z-20 max-w-full lg:w-4/6 space-y-[30px] mx-auto">
+    <div
+      class="relative z-20 w-[520px] lg:w-full max-w-full space-y-[30px] mx-auto py-14"
+    >
       <slot name="header" />
       <slot name="content" />
       <slot name="buttons" />

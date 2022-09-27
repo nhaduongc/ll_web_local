@@ -23,3 +23,10 @@
   margin-bottom: 0 !important;
 }
 
+.prose-xl {
+  letter-spacing: -0.03em !important; 
+}
+
+.app-slider .splide__track {
+  overflow: visible;
+}

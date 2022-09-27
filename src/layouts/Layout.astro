@@ -3,6 +3,7 @@ import Container from "../components/Container.astro";
 import ButtonGroup from "../components/ButtonGroup.astro";
 import Button from "../components/Button.astro";
 import { TextHeaderMedium, TextBodySmall } from "../components/Typography";
+import Menu from "../components/Menu.svelte";
 import useApi from "../modules/api";
 
 const { useImage } = useApi();
@@ -24,25 +25,32 @@ const { title, icons, headerButtons, footerLinks } = Astro.props;
       class="w-full flex-1 flex flex-col mx-auto max-w-[1920px] shadow-lg bg-white"
     >
       <header
-        class="sticky z-50 w-100 H-[82px] top-0 right-0 left-0 py-6 bg-green text-white"
+        class="sticky z-50 w-100 h-16 md:h-[82px] top-0 right-0 left-0 bg-green text-white flex items-center"
       >
         <Container>
           <div class="flex items-center justify-start gap-8">
-            <div class="mr-auto">
-              <img
-                src="/logo-white.svg"
-                alt="LitterLotto Logo"
-                class="h-11 w-auto"
-              />
+            <div class="mr-auto pb-1">
+              <a href="/">
+                <img
+                  src="/logo-white.svg"
+                  alt="LitterLotto Logo"
+                  class="h-8 md:h-11 w-auto"
+                />
+              </a>
             </div>
-            <div class="flex space-x-9">
-              <Button colour="light" href="#our-mission">Our Mission</Button>
-              <Button
-                colour="light"
-                href="https://intercom.help/litterlotto/en/collections/3057665-faq-s"
-                >FAQs</Button
+
+            <Menu client:load>
+              <div
+                class="flex flex-col lg:flex-row space-y-9 lg:space-y-0 lg:space-x-9"
               >
-            </div>
+                <Button colour="light" href="#our-mission">Our Mission</Button>
+                <Button
+                  colour="light"
+                  href="https://intercom.help/litterlotto/en/collections/3057665-faq-s"
+                  >FAQs</Button
+                >
+              </div>
+            </Menu>
           </div>
         </Container>
       </header>
@@ -50,13 +58,15 @@ const { title, icons, headerButtons, footerLinks } = Astro.props;
         <slot />
       </main>
       <footer class="flex-shrink-1 flex-grow-0 text-center text-white">
-        <div class="bg-navy py-16">
+        <div class="bg-navy pb-16">
           <Container>
             <div class="space-y-4">
-              <div class="text-green">
-                <TextHeaderMedium>Get social with us!</TextHeaderMedium>
+              <div class="text-green mb-12">
+                <TextHeaderMedium>
+                  <span class="font-black">Get social with us!</span>
+                </TextHeaderMedium>
               </div>
-              <div class="flex items-center justify-center space-x-6">
+              <div class="flex items-center justify-center space-x-9">
                 {
                   icons.map((icon) => (
                     <a href={icon.url} target="_blank">
@@ -90,9 +100,11 @@ const { title, icons, headerButtons, footerLinks } = Astro.props;
               <img
                 src="/logo-white.svg"
                 alt="LitterLotto Logo"
-                class="h-8 mb-2"
+                class="h-[53px] mb-2"
               />
-              <ul class="flex space-x-8 justify-center">
+              <ul
+                class="flex flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-8 justify-center"
+              >
                 {
                   footerLinks.map((link) => (
                     <li>

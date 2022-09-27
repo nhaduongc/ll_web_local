@@ -3,7 +3,7 @@ import FullWidthText from "./FullWidthText.astro"
 import Hero from "./Hero.astro"
 import PreviousWinners from "./PreviousWinners.astro"
 import SpotWinners from "./SpotWinners.astro"
-import Marquee from "./Marquee.astro"
+import Marquee from "./Marquee.svelte"
 
 export {
   CallToAction,

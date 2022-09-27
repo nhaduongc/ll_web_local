@@ -48,7 +48,8 @@ module.exports = {
 			pink: '#FF006E',
 			purple: '#5E239D',
 			white: '#FFFFFF',
-			black: '#00321F'
+			black: '#00321F',
+			transparent: 'transparent'
 		},
 		extend: {
 			fontFamily: {
@@ -62,14 +63,17 @@ module.exports = {
 					sm: '640px',
 					md: '768px',
 					lg: '1024px',
-					xl: '1300px',
-					'2xl': '1300px',
+					xl: '1240px',
+					'2xl': '1240px',
 				},
 			},
 			typography: (theme) => ({
 				base: {
 					css: {
-						fontSize: theme('fontSize.body')
+						fontSize: theme('fontSize.body'),
+						lineHeight: '30px',
+						fontWeight: '500',
+
 					},
 				},
 				lg: {
@@ -81,7 +85,8 @@ module.exports = {
 				xl: {
 					css: {
 						fontSize: theme('fontSize.body-lead'),
-						lineHeight: '55px',
+						lineHeight: '47px',
+						letterSpacing: '-0.03em',
 					}
 				},
 				white: {
@@ -105,15 +110,30 @@ module.exports = {
 			keyframes: {
 				marquee: {
 					'0%': { transform: 'translateX(0)' },
-					'100%': { transform: 'translateX(var(--content-width--))' },
+					'100%': { transform: 'translateX(-50%)' },
+				},
+				'marquee-reverse': {
+					'0%': { transform: 'translateX(0)' },
+					'100%': { transform: 'translateX(50%)' },
 				}
 			},
 			animation: {
-				marquee: 'marquee 10s linear infinite',
+				marquee: 'marquee linear infinite',
+				'marquee-reverse': 'marquee-reverse linear infinite',
 			}
 		},
 	},
 	plugins: [
 		require('@tailwindcss/typography')
 	],
+	safelist: [
+		'h-10',
+		'w-8',
+		'w-10',
+		'transition-all',
+		'my-0.5',
+		'my-[3px]',
+		'scale-75',
+		'md:scale-100',
+	]
 }

@@ -254,7 +254,7 @@ const screens = [
 		<header slot="header" class="text-green">
 			<TextHeaderLarge>What is LitterLotto?</TextHeaderLarge>
 		</header>
-		<div class="prose-white prose-xl" slot="lead">
+		<div class="prose-white prose-lg md:prose-xl" slot="lead">
 			<p>
 				LitterLotto® is a free to enter Prize Draw, with regular spot prizes and
 				huge jackpots, supported by brands who want a cleaner environment.
@@ -274,7 +274,7 @@ const screens = [
 		</div>
 	</FullWidthText>
 
-	<Marquee items={["Binner Winners"]} topColour="bg-navy" />
+	<Marquee items={["Binner Winners"]} topColour="bg-navy" client:load />
 
 	<PreviousWinners winners={winners}>
 		<div class="prose-base" slot="content">
@@ -285,17 +285,21 @@ const screens = [
 		</div>
 	</PreviousWinners>
 
-	<Marquee items={["Spot Prize Winners", "Jackpot Winners"]} reverse={true} />
+	<Marquee
+		items={["Spot Prize Winners", "Jackpot Winners"]}
+		reverse={true}
+		client:load
+	/>
 
 	<SpotWinners winners={spotWinners} />
 
-	<Marquee items={["Binner Winners"]} bottomColour="bg-navy" />
+	<Marquee items={["Binner Winners"]} bottomColour="bg-navy" client:load />
 
 	<FullWidthText>
 		<header slot="header" class="text-green">
 			<TextHeaderLarge>The LitterLotto Legend</TextHeaderLarge>
 		</header>
-		<div class="prose-white prose-xl" slot="lead">
+		<div class="prose-white prose-lg md:prose-xl" slot="lead">
 			<p>
 				LitterLotto was inspired by the desire to find a solution to the growing
 				issue of litter.
@@ -331,7 +335,7 @@ const screens = [
 		<header slot="header" class="text-green">
 			<TextHeaderLarge>Our Mission & Vision</TextHeaderLarge>
 		</header>
-		<div class="prose-white prose-xl" slot="lead">
+		<div class="prose-white prose-lg md:prose-xl" slot="lead">
 			<p>
 				LitterLotto's long-term vision is a world free of litter, waste and
 				pollution.

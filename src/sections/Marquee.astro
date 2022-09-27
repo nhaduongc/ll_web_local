@@ -12,11 +12,12 @@ const {
   reverse = false,
   topColour = "bg-white",
   bottomColour = "bg-white",
+  speed = 90,
 } = Astro.props;
 
 const transform = reverse ? "rotate-[-2deg]" : "rotate-[2deg]";
 
-const width = "w-[calc(100%_+_40px)] max-w-[calc(100%_+_40px) -ml-4";
+const trackWidth = "w-[calc(100%_+_40px)] max-w-[calc(100%_+_40px) -ml-4";
 ---
 
 <div
@@ -30,18 +31,18 @@ const width = "w-[calc(100%_+_40px)] max-w-[calc(100%_+_40px) -ml-4";
   <div class:list={[bottomColour, "flex-1"]}></div>
   <div
     class:list={[
-      width,
+      trackWidth,
       "absolute top-1/2 -translateY-[1/2] -left-[20px] h-0 flex items-center",
     ]}
   >
     <div
       class:list={[
-        transform,
+        // transform,
         "bg-white shadow-[0_0_8px_0_rgba(0,0,0,0.15)] py-[7px] overflow-x-hidden",
         "flex justify-start",
       ]}
     >
-      <ul class="flex justify-start">
+      <ul class="flex justify-start animate-marquee">
         {
           [...30].map((_, index) =>
             items.map((item) => (
