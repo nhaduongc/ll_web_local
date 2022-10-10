@@ -6,12 +6,12 @@ const appSliders = document.querySelectorAll('.app-slider')
 
 sliders.forEach(el => {
   new Splide(el, {
-    type   : 'loop',
-    drag   : 'free',
-    focus  : 'center',
+    type: 'loop',
+    drag: 'free',
+    focus: 'center',
     autoWidth: true,
     pagination: false,
-    arrows: false,
+    // arrows: false,
     autoplay: true,
     interval: 4000,
     direction: el.getAttribute('data-reverse') ? 'rtl' : 'ltr'
@@ -40,7 +40,6 @@ appSliders.forEach(el => {
         width: '100%',
         gap: '40px',
         focus: 'center',
-        start: 1,
       },
     }
   }).mount()

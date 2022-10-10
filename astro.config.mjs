@@ -19,14 +19,14 @@ const stagingConfig = {
 
 const productionConfig = {}
 
-const isProd = !!import.meta.env.MODE === 'production'
+// const isProd = !!import.meta.env.MODE === 'production'
 
-const siteConfig = isProd ? productionConfig : stagingConfig
+// const siteConfig = isProd ? productionConfig : stagingConfig
 
 // https://astro.build/config
 export default defineConfig({
   experimental: {
     integrations: true,
   },
-  integrations: [tailwind(), svelte(), sitemap(), robotsTxt(siteConfig)]
+  integrations: [tailwind(), svelte(), sitemap(), robotsTxt()]
 });
