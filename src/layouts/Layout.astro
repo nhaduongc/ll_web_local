@@ -8,7 +8,16 @@ import useApi from "../modules/api";
 
 const { useImage } = useApi();
 
-const { title, icons, headerButtons, footerLinks } = Astro.props;
+const defaultDescription =
+  "LitterLotto® is a free to enter Prize Draw, with regular spot prizes and huge jackpots, supported by the brands that want a cleaner environment. To enter, simply use the app to take a picture of litter as you place it in the bin. Each time you submit a new piece of litter it's another chance to win!";
+
+const {
+  title,
+  icons,
+  headerButtons,
+  footerLinks,
+  description = defaultDescription,
+} = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -16,10 +25,36 @@ const { title, icons, headerButtons, footerLinks } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="/favicon/safari-pinned-tab.svg"
+      color="#a2d929"
+    />
+    <meta name="msapplication-TileColor" content="#08122c" />
+    <meta name="theme-color" content="#08122c" />
+
     <title>{title}</title>
     <link rel="stylesheet" href="https://use.typekit.net/hyi3ttn.css" />
-    <meta name="description" content="" />
+    <meta name="description" content={description} />
 
     <!-- OG tags -->
     <meta property="og:url" content="https://litterlotto.com" />
