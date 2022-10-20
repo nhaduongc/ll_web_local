@@ -1,0 +1,21 @@
+---
+const {
+  colour,
+  href
+} = Astro.props;
+
+const colourClasses = {
+  dark: 'text-green',
+  light: 'bg-transparent hover:bg-white active:bg-grey active:border-grey active:text-green text-white hover:text-green border-white'
+}
+
+const classes = [
+  `inline-flex items-center justify-center h-[49px] px-[27px] border-[3px] whitespace-nowrap leading-5 rounded-full min-w-button
+  text-body-small font-semibold overflow-hidden transition-colors`,
+  colourClasses[colour] ?? ''
+].join(" ")
+---
+
+<a href={href} class={classes}>
+  <slot/>
+</a>

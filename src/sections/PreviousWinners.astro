@@ -1,0 +1,46 @@
+---
+import Container from "../components/Container.astro";
+import { TextBody, TextBodyLarge } from "../components/Typography";
+import * as If from "../components/If";
+
+const { winners, id = "" } = Astro.props;
+---
+
+<section
+  class="py-14 bg-white text-section relative overflow-hidden max-w-full"
+  id={id}
+>
+  <Container>
+    <div class="w-full max-w-[1050px] mx-auto text-center mb-10">
+      <slot name="content" />
+    </div>
+  </Container>
+
+  <div class="splide slider">
+    <div class="splide__track cursor-grab hover:active:cursor-grabbing">
+      <ul class="splide__list">
+        {
+          winners.map((winner, index) => (
+            <li class="splide__slide px-7 pt-1">
+              <article class="text-center group transition-transform hover:-translate-y-1">
+                <a href={winner.link} target="_blank">
+                  <div class="rounded-lg overflow-hidden relative bg-grey transition shadow-md group-hover:shadow-xl mb-6 w-[255px] h-[310px]">
+                    <img
+                      src={winner.image}
+                      alt={winner.title}
+                      class="w-full h-full object-cover object-center rounded-md"
+                    />
+                  </div>
+
+                  <div class="transition-colors group-hover:text-green">
+                    <TextBody is="h3">{winner.title}</TextBody>
+                  </div>
+                </a>
+              </article>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

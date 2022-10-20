@@ -1,0 +1,32 @@
+---
+import Container from "../components/Container.astro";
+import Buttons from "../components/Buttons.astro";
+import { TextHeaderLarge, TextBodyLarge } from "../components/Typography";
+
+const { bgImage, id = "" } = Astro.props;
+---
+
+<section
+  class="relative min-h-[789px] flex items-center bg-navy text-white text-center pb-48 bg-cover bg-center bg-no-repeat"
+  style={`background-image: url('${bgImage ?? ""}')`}
+  id={id}
+>
+  <!-- <div class="hidden lg:block absolute bottom-0 right-0">
+    <img src="phone-border.png" class="pointer-events-none" alt="">
+  </div> -->
+  <Container>
+    <div
+      class="relative z-20 w-[520px] lg:w-full max-w-full space-y-[30px] mx-auto py-14"
+    >
+      <slot name="header" />
+      <slot name="content" />
+      <slot name="buttons" />
+    </div>
+  </Container>
+
+  <img
+    src="/hand.png"
+    alt="Phone screen displaying the LitterLotto app"
+    class="absolute right-0 bottom-0 w-auto h-[500px] 2xl:h-auto hidden lg:block"
+  />
+</section>

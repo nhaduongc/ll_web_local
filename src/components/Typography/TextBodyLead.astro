@@ -1,0 +1,13 @@
+---
+export interface Props {
+  is?: string;
+}
+
+const { is = "p" } = Astro.props as Props;
+
+const El = is;
+---
+
+<El class="text-body-lead">
+  <slot />
+</El>

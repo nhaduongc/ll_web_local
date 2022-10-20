@@ -1,0 +1,33 @@
+---
+import Container from "../components/Container.astro";
+import { TextBody, TextBodyLarge } from "../components/Typography";
+import * as If from "../components/If";
+
+const { winners, id = "" } = Astro.props;
+---
+
+<section class="py-14 bg-white text-section relative" id={id}>
+  <div class="splide slider" data-reverse="true">
+    <div class="splide__track">
+      <ul class="splide__list">
+        {
+          winners.map((winner, index) => (
+            <li class="splide__slide px-7">
+              <article class="text-center">
+                <div class="rounded-full overflow-hidden relative bg-grey mb-10 w-[167px] h-[167px]">
+                  <img
+                    src={winner.image}
+                    alt={winner.title}
+                    class="w-full h-full object-cover object-center flex items-center justify-center"
+                  />
+                </div>
+
+                <TextBody is="h3">{winner.title}</TextBody>
+              </article>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

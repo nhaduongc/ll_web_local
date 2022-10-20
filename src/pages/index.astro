@@ -1,0 +1,381 @@
+---
+import "../styles/styles.css";
+import "@splidejs/splide/dist/css/splide.min.css";
+import Layout from "../layouts/Layout.astro";
+import {
+	CallToAction,
+	FullWidthText,
+	Hero,
+	PreviousWinners,
+	SpotWinners,
+	Marquee,
+} from "../sections";
+import {
+	TextHeaderXLarge,
+	TextHeaderLarge,
+	TextHeaderMedium,
+} from "../components/Typography";
+import AppStoreButtons from "../components/AppStoreButtons.astro";
+
+const footerLinks = [
+	{
+		url: "https://intercom.help/litterlotto/en/articles/5447243-official-rules",
+		text: "Official Rules",
+	},
+	{
+		url: "https://intercom.help/litterlotto/en/collections/3057825-privacy-legal",
+		text: "Privacy & Legal",
+	},
+	{
+		url: "https://intercom.help/litterlotto/en/collections/3057665-faq-s",
+		text: "FAQs",
+	},
+	{
+		url: "mailto:partnerships@litterlotto.com",
+		text: "Work With Us!",
+	},
+];
+
+const winners = [
+	{
+		image: "/jackpot-winners/Sophie.jpg",
+		title: "Read Sophie's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6525200-sophie-our-latest-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Janice.jpg",
+		title: "Read Janice's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6461988-janice-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Deb.jpg",
+		title: "Read Deb's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6560570-deb-our-latest-uk-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Ben K.jpg",
+		title: "Read Ben K's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6475842-ben-our-latest-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Oli.jpg",
+		title: "Read Oli's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6540385-oli-our-latest-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Valerie.jpg",
+		title: "Read Valerie's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6504559-valerie-latest-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Neil.jpg",
+		title: "Read Neil's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447310-neil-our-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Mariola.jpg",
+		title: "Read Mariola's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447336-mariola-our-uk-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Fiona.jpg",
+		title: "Read Fi's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447780-fi-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Andrew.jpg",
+		title: "Read Andy's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447333-andy-our-mega-uk-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Kazzy.jpg",
+		title: "Read Kazzy's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447330-kazzy-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Naomi.jpg",
+		title: "Read Naomi's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447328-naomi-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/David.jpg",
+		title: "Read David's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447325-david-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Nicola.jpg",
+		title: "Read Nicola's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447324-nicola-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Charles.jpg",
+		title: "Read Charles' Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447323-charles-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Roy.jpg",
+		title: "Read Roy's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447321-roy-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Luke.jpg",
+		title: "Read Luke's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447319-luke-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Ben.jpg",
+		title: "Read Ben's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447317-ben-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Tracey.jpg",
+		title: "Read Tracey's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447316-tracey-our-uk-weekly-jackpot-winner",
+	},
+	{
+		image: "/jackpot-winners/Phoebe.jpg",
+		title: "Read Phoebe's Story",
+		link: "https://intercom.help/litterlotto/en/articles/6447315-phoebe-our-weekly-jackpot-winner",
+	},
+];
+
+const spotWinners = [
+	{
+		image: "/spot-prize-winners/Andreas Holzer.jpg",
+		title: "Andreas Holzer",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Andrew Bale.jpg",
+		title: "Andrew Bale",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Carys R.jpg",
+		title: "Carys R",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Catherine Baker.jpg",
+		title: "Catherine Baker",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Debz.jpg",
+		title: "Debz",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Emma Burton.jpg",
+		title: "Emma Burton",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Fiona Smart.jpg",
+		title: "Fiona Smart",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Gordon Brown.jpg",
+		title: "Gordon Brown",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Johanna Collins.jpg",
+		title: "Johanna Collins",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/K Hipkin.jpg",
+		title: "K Hipkin",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Karen Russo.jpg",
+		title: "Karen Russo",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Karsten.jpg",
+		title: "Karsten",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Kate Green.jpg",
+		title: "Kate Green",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Lindsay Robson.jpg",
+		title: "Lindsay Robson",
+		link: "#",
+	},
+	{
+		image: "/spot-prize-winners/Lynn Simpson.jpg",
+		title: "Lynn Simpson",
+		link: "#",
+	},
+];
+
+const screens = [
+	{
+		title: "Bin litter",
+		image: "/app-screen-1.png",
+	},
+	{
+		title: "Make an impact",
+		image: "/app-screen-2.png",
+	},
+	{
+		title: "Spread the word",
+		image: "/app-screen-3.png",
+	},
+	{
+		title: "Win prizes",
+		image: "/app-screen-4.png",
+	},
+];
+---
+
+<Layout title="LitterLotto" icons={[]} footerLinks={footerLinks}>
+	<Hero bgImage="/hero-background.png">
+		<header class="uppercase" slot="header">
+			<TextHeaderXLarge>Bin It To Win It!</TextHeaderXLarge>
+		</header>
+		<div
+			class="prose-white prose-lg w-full max-w-[520px] mx-auto font-semibold"
+			slot="content"
+		>
+			<p>Win Spot Prizes & huge Jackpots, just for binning litter!</p>
+
+			<p>Download LitterLotto now!</p>
+		</div>
+		<div class="flex justify-center" slot="buttons">
+			<AppStoreButtons />
+		</div>
+	</Hero>
+
+	<FullWidthText>
+		<header slot="header" class="text-green">
+			<TextHeaderLarge>What is LitterLotto?</TextHeaderLarge>
+		</header>
+		<div class="prose-white prose-lg md:prose-xl" slot="lead">
+			<p>
+				LitterLotto® is a free to enter Prize Draw, with regular spot prizes and
+				huge jackpots, supported by brands who want a cleaner environment.
+			</p>
+		</div>
+		<div class="prose-white prose-base" slot="content">
+			<p>
+				To enter, simply use the app to take a picture of litter as you place it
+				in a bin. Each time you submit a new piece of litter it's another chance
+				to win!
+			</p>
+
+			<p>
+				LitterLotto is available globally, with different Jackpot levels
+				wherever you are!
+			</p>
+		</div>
+	</FullWidthText>
+
+	<Marquee items={["Binner Winners"]} topColour="bg-navy" client:load />
+
+	<PreviousWinners winners={winners}>
+		<div class="prose-base" slot="content">
+			<p>Here are some of our amazing winners!</p>
+			<p>
+				You can be one too, all you have to do is <strong>#BinItToWinIt</strong>
+			</p>
+		</div>
+	</PreviousWinners>
+
+	<Marquee
+		items={["Spot Prize Winners", "Jackpot Winners"]}
+		reverse={true}
+		client:load
+	/>
+
+	<SpotWinners winners={spotWinners} />
+
+	<Marquee items={["Binner Winners"]} bottomColour="bg-navy" client:load />
+
+	<FullWidthText>
+		<header slot="header" class="text-green">
+			<TextHeaderLarge>The LitterLotto Legend</TextHeaderLarge>
+		</header>
+		<div class="prose-white prose-lg md:prose-xl" slot="lead">
+			<p>
+				LitterLotto was inspired by the desire to find a solution to the growing
+				issue of litter.
+			</p>
+		</div>
+		<div class="prose-white prose-base" slot="content">
+			<p>
+				Created and passionately developed by a dedicated team who believe in
+				the power of positive action and in technology's ability to facilitate
+				world changing solutions.
+			</p>
+
+			<p>
+				LitterLotto brand aims to reduce and ultimately put an end to the damage
+				caused by the rising levels of litter in today's world.
+			</p>
+		</div>
+	</FullWidthText>
+
+	<CallToAction
+		bgImage="/cta-background.png"
+		logo="/logo-dark.svg"
+		screens={screens}
+	>
+		<TextHeaderMedium slot="top-content" is="h3">#BinItToWinIt</TextHeaderMedium
+		>
+		<TextHeaderMedium slot="bottom-content" is="p"
+			>So, what are you waiting for?</TextHeaderMedium
+		>
+	</CallToAction>
+
+	<FullWidthText id="our-mission">
+		<header slot="header" class="text-green">
+			<TextHeaderLarge>Our Mission & Vision</TextHeaderLarge>
+		</header>
+		<div class="prose-white prose-lg md:prose-xl" slot="lead">
+			<p>
+				LitterLotto's long-term vision is a world free of litter, waste and
+				pollution.
+			</p>
+		</div>
+		<div class="prose-white prose-base" slot="content">
+			<p>
+				Our mission is to play an influencial role in achieving this reality by
+				incentivising and rewarding positive action towards litter and the
+				environment.
+			</p>
+
+			<p>
+				LitterLotto is designed to provide a light nudge and remind people about
+				the litter issue around them and achieve a positive behavioural change!
+			</p>
+		</div>
+	</FullWidthText>
+
+	<!-- {sections.map(section => {
+			switch(section.item.__typename) {
+				case 'full_width_text':
+					return <FullWidthText fields={section.item} />
+				case 'hero':
+					return <Hero fields={section.item} />
+				case 'image':
+					return <Image fields={section.item} />
+				case 'previous_winners':
+					return <PreviousWinners fields={section.item} winners={winners} logo={logo} client:load />
+				case 'two_column_text':
+					return <TwoColumnText fields={section.item} />
+			}
+		})} -->
+</Layout>
+
+<script>
+	import "../modules/splide.js";
+</script>
