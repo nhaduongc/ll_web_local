@@ -1,6 +1,7 @@
 ---
 import Container from "../components/Container.astro";
 import Buttons from "../components/Buttons.astro";
+import Counter from "../components/Counter.astro";
 import { TextHeaderLarge, TextBodyLarge } from "../components/Typography";
 
 const { bgImage, id = "" } = Astro.props;
@@ -20,6 +21,7 @@ const { bgImage, id = "" } = Astro.props;
     >
       <slot name="header" />
       <slot name="content" />
+      <Counter/>
       <slot name="buttons" />
     </div>
   </Container>

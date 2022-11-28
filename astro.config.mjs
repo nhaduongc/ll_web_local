@@ -25,6 +25,7 @@ const productionConfig = {}
 
 // https://astro.build/config
 export default defineConfig({
+  output: 'server',
   experimental: {
     integrations: true,
   },

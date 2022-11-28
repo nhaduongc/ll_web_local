@@ -53,7 +53,8 @@ module.exports = {
 		},
 		extend: {
 			fontFamily: {
-				sans: ['azo-sans-web', ...defaultTheme.fontFamily.sans],
+				inconsolata: ['Inconsolata', 'sans-serif'],
+				sans: ['azo-sans-web', ...defaultTheme.fontFamily.sans]
 			},
 			minWidth: {
 				'button': '140px',

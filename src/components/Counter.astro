@@ -1,0 +1,113 @@
+---
+const response = await fetch('https://europe-west2-litterlotto.cloudfunctions.net/public/entries/entries', {
+    method: "POST",
+    headers: {
+        api_key: "ayGNUTj4rFOKVhCuCxLJ"
+    }
+});
+
+const data = await response.json();
+
+const initialTotal = data.totalEntries;
+
+---
+
+<div class="justify-center items-center flex py-8 -mx-4 w-[calc(100%+32px)]">
+
+    <div class="border-white/[.5] border rounded-lg bg-white/[.07] w-[600px] max-w-full">
+        <p id="counter" class="text-header-medium xs:text-header-large md:text-header-xlarge font-inconsolata tracking-tighter px-8 md:px-16 py-4 md:py-8"></p>
+        <p class="text-body-small font-semibold border-t border-white/[.3] bg-white/[.08] p-3">pieces of litter binned, and counting!</p>
+    </div>
+
+</div>
+
+<script define:vars={{ initialTotal }}>
+
+    const numberWithCommas = (x) => {
+        return parseInt(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    const easeOutQuart = (x) => {
+        return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+    }
+
+    const countUp = (el, start, target, duration) => {
+
+        const startTimestamp = new Date().getTime();
+
+        let currentValue = 0;
+
+        const requestNextCount = () => {
+
+            el.innerHTML = numberWithCommas(easeOutQuart(currentValue) * (target - start) + start);
+
+            if(currentValue === 1) return;
+
+            window.requestAnimationFrame(() => {
+
+                const currentTimestamp = new Date().getTime();
+
+                currentValue = Math.min((parseInt(currentTimestamp) - parseInt(startTimestamp)) / duration, 1);
+
+                requestNextCount();
+
+            });
+        }
+
+        requestNextCount();
+
+    }
+
+    const el = document.querySelector( '#counter' );
+
+    let interval = null;
+
+    let total = initialTotal;
+
+    let lastTotal = total;
+
+    const getNewTotal = async () => {
+
+        const response = await fetch('/total-entries', {
+            method: "POST"
+        });
+
+        if(response.ok){
+
+            const data = await response.json();
+
+            return data;
+
+        }
+
+    }
+
+    // Start counting, do this on DOM ready or with Waypoints.
+    window.addEventListener('load', () => {
+
+        countUp( el, Math.max(initialTotal - 2000000,0), initialTotal, 6000 );
+
+        interval = window.setInterval(async () => {
+
+            const res = await getNewTotal();
+
+            console.log(res);
+
+            total = res.totalEntries ?? total;
+
+            countUp( el, lastTotal, total, 6000 );
+
+        }, 10000);
+    });
+
+    window.addEventListener('beforeunload', (e) => {
+
+        if(interval){
+            window.clearInterval(interval);
+
+            alert(interval);
+        }
+
+    });
+
+</script>
