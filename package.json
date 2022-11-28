@@ -19,6 +19,7 @@
     "svelte": "^3.50.1"
   },
   "dependencies": {
+    "@astrojs/netlify": "^1.2.1",
     "@splidejs/splide": "^4.0.7",
     "@splidejs/splide-extension-auto-scroll": "^0.4.2",
     "counterup2": "^2.0.2"
