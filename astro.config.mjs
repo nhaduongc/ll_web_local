@@ -4,6 +4,7 @@ import svelte from "@astrojs/svelte";
 import sitemap from '@astrojs/sitemap';
 import robotsTxt from 'astro-robots-txt';
 import netlify from "@astrojs/netlify/functions";
+import node from "@astrojs/node";
 const stagingConfig = {
   policy: [{
     userAgent: 'Twitterbot',
@@ -13,13 +14,11 @@ const stagingConfig = {
     disallow: '/'
   }]
 };
-const productionConfig = {};
-
-// const isProd = !!import.meta.env.MODE === 'production'
-
+const productionConfig = {}; // const isProd = !!import.meta.env.MODE === 'production'
 // const siteConfig = isProd ? productionConfig : stagingConfig
-
 // https://astro.build/config
+// https://astro.build/config
+
 
 // https://astro.build/config
 export default defineConfig({
@@ -27,6 +26,7 @@ export default defineConfig({
   experimental: {
     integrations: true
   },
-  integrations: [tailwind(), svelte(), sitemap(), robotsTxt()],
+  integrations: [tailwind(), svelte(), sitemap(), robotsTxt()] //adapter: netlify()
+  ,
   adapter: netlify()
 });

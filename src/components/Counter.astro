@@ -6,9 +6,17 @@ const response = await fetch('https://europe-west2-litterlotto.cloudfunctions.ne
     }
 });
 
-const data = await response.json();
+let initialTotal = 4000000;
 
-const initialTotal = data.totalEntries;
+console.log(response);
+
+if(response.ok){
+
+    const data = await response.json();
+
+    initialTotal = data.totalEntries;
+
+}
 
 ---
 
@@ -68,9 +76,7 @@ const initialTotal = data.totalEntries;
 
     const getNewTotal = async () => {
 
-        const response = await fetch('/total-entries', {
-            method: "POST"
-        });
+        const response = await fetch('/total-entries');
 
         if(response.ok){
 
@@ -90,8 +96,6 @@ const initialTotal = data.totalEntries;
         interval = window.setInterval(async () => {
 
             const res = await getNewTotal();
-
-            console.log(res);
 
             total = res.totalEntries ?? total;
 

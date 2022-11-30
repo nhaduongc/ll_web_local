@@ -1,4 +1,4 @@
-export async function post ({ request }) {
+export async function get({ request }) {
 
     const requestUrl = 'https://europe-west2-litterlotto.cloudfunctions.net/public/entries/entries';
     const requestHeaders = {
@@ -14,8 +14,19 @@ export async function post ({ request }) {
 
         const responseData = await response.json();
 
-        return {body:JSON.stringify(responseData)};
+        return new Response(JSON.stringify(responseData), {
+            status: 200,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
     }
 
-    return  {status: response.status};
+    return new Response('', {
+        status: response.status,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
 }
