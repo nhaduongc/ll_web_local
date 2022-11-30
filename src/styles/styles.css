@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --content-width: 100vw;
   --content-width--: calc(var(--content-width) * -1);
