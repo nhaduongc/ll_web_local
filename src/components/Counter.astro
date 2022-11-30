@@ -8,8 +8,6 @@ const response = await fetch('https://europe-west2-litterlotto.cloudfunctions.ne
 
 let initialTotal = 4000000;
 
-console.log(response);
-
 if(response.ok){
 
     const data = await response.json();
@@ -96,6 +94,8 @@ if(response.ok){
         interval = window.setInterval(async () => {
 
             const res = await getNewTotal();
+
+            lastTotal = total;
 
             total = res.totalEntries ?? total;
 
