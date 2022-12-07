@@ -5,6 +5,7 @@ import * as path from "path";
 import * as ejs from "ejs";
 import * as nodemailer from "nodemailer";
 import * as htmlToText from "html-to-text";
+import * as http from "http";
 
 export const post: APIRoute = async ({ request }) => {
 
@@ -41,27 +42,27 @@ export const post: APIRoute = async ({ request }) => {
         },
       });
 
-      const templatePath = path.resolve(path.dirname(''), './src/email/work-with-us-request.html');
+      const templatePath = 'https://litter-lotto.s3.eu-west-2.amazonaws.com/work-with-us-request.html';
 
       let compiledHtml = '';
       let compiledText = '';
 
-      if (fs.existsSync(templatePath)) {
-        const template = fs.readFileSync(templatePath, "utf-8");
-        const html = ejs.render(template, {
-          name,
-          email,
-          organisation,
-          message
-        });
+      const response = await fetch(templatePath);
+      const template = await response.text();
 
-        const text = htmlToText.htmlToText(html);
+      const html = ejs.render(template, {
+        name,
+        email,
+        organisation,
+        message
+      });
 
-        compiledHtml = html;
-        compiledText = text;
-      }
+      const text = htmlToText.htmlToText(html);
 
-      // send mail with defined transport object
+      compiledHtml = html;
+      compiledText = text;
+
+      //send mail with defined transport object
       let info = transporter.sendMail({
         from: 'noreply@litterlotto.com', // sender address
         to: 'joshualyness@outlook.com, simon.jacobs@litterlotto.com, peter@litterlotto.com', // list of receivers

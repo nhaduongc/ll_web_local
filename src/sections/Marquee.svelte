@@ -24,8 +24,6 @@
     distance = list.offsetWidth; // Width of list
 
     time = distance / speed;
-
-    console.log(distance, speed, time);
   });
 </script>
 
