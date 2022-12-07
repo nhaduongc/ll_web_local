@@ -6,7 +6,16 @@ const { lighten, darken } = require('polished')
 module.exports = {
 	content: ['./src/**/*.{astro,html,js,jsx,md,svelte,ts,tsx,vue}'],
 	theme: {
+		screens: {
+			xs: '420px',
+			sm: '640px',
+			md: '768px',
+			lg: '1024px',
+			xl: '1240px',
+			'2xl': '1240px',
+		},
 		fontSize: {
+			'label': '10px',
 			'body-small': '16px',
 			"body": ["25px", {
 				lineHeight: '30px',

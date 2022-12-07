@@ -1,6 +1,13 @@
 import * as adapter from '@astrojs/netlify/netlify-functions.js';
 import { escape as escape$1 } from 'html-escaper';
-/* empty css                                 */import 'mime';
+/* empty css                                 */import * as fs from 'fs';
+import * as juice from 'juice';
+import * as Joi from 'joi';
+import * as path from 'path';
+import * as ejs from 'ejs';
+import * as nodemailer from 'nodemailer';
+import * as htmlToText from 'html-to-text';
+import 'mime';
 import 'cookie';
 import 'kleur/colors';
 import 'string-width';
@@ -1957,6 +1964,11 @@ const $$Layout = createComponent(async ($$result, $$props, $$slots) => {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@600&display=swap" rel="stylesheet">
+    <!-- Meta Pixel Code -->
+    
+    ${maybeRenderHead($$result)}<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=649238053366616&ev=PageView&noscript=1">
+    </noscript>
+    <!-- End Meta Pixel Code -->
   ${renderHead($$result)}</head>
   <body class="min-h-full bg-grey relative flex flex-col">
     <div class="w-full flex-1 flex flex-col mx-auto max-w-[1920px] shadow-lg bg-white">
@@ -1977,54 +1989,106 @@ const $$Layout = createComponent(async ($$result, $$props, $$slots) => {
       <main class="flex-1">
         ${renderSlot($$result, $$slots["default"])}
       </main>
-      <footer class="flex-shrink-1 flex-grow-0 text-center text-white">
-        <div class="bg-navy pb-16">
-          ${renderComponent($$result, "Container", $$Container, {}, { "default": () => renderTemplate`<div class="space-y-4">
-              <div class="text-green mb-12">
-                ${renderComponent($$result, "TextHeaderMedium", $$TextHeaderMedium, {}, { "default": () => renderTemplate`<span class="font-black">Get social with us!</span>` })}
-              </div>
-              <div class="flex items-center justify-center space-x-9">
-                ${icons.map((icon) => renderTemplate`<a${addAttribute(icon.url, "href")} target="_blank">
-                      <img${addAttribute(useImage(icon.icon), "src")}${addAttribute(icon.name, "alt")}>
-                    </a>`)}
-                <a href="https://facebook.com/litterlotto" target="_blank" class="text-white">
-                  <img src="/icon-facebook.svg">
-                </a>
-                <a href="https://twitter.com/litterlotto" target="_blank">
-                  <img src="/icon-twitter.svg">
-                </a>
-                <a href="https://instagram.com/litterlotto" target="_blank">
-                  <img src="/icon-instagram.svg">
-                </a>
-                <a href="https://www.tiktok.com/@litterlotto" target="_blank">
-                  <img src="/icon-tiktok.svg">
-                </a>
-              </div>
-            </div>` })}
-        </div>
-        <div class="bg-green py-10">
-          ${renderComponent($$result, "Container", $$Container, {}, { "default": () => renderTemplate`<div class="flex flex-col space-y-8 items-center font-semibold">
-              <img src="/logo-white.svg" alt="LitterLotto Logo" class="h-[53px] mb-2">
-              <ul class="flex flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-8 justify-center">
-                ${footerLinks.map((link) => renderTemplate`<li>
-                      <a${addAttribute(link.url, "href")} target="_blank" class="transition-opacity text-white hover:opacity-75">
-                        ${renderComponent($$result, "TextBodySmall", $$TextBodySmall, {}, { "default": () => renderTemplate`${link.text}` })}
-                      </a>
-                    </li>`)}
-              </ul>
-              ${renderComponent($$result, "TextBodySmall", $$TextBodySmall, {}, { "default": () => renderTemplate`&copy; LitterLotto ${new Date().getFullYear()}` })}
-            </div><div class="flex flex-col md:flex-row items-center justify-center md:justify-between space-y-8 md:space-y-0 md:space-x-8 text-center md:text-left">
-              <div class="flex flex-col text-center md:text-left items-center md:items-start">
-              </div>
-            </div>` })}
-        </div>
-      </footer>
-    </div>
-    
+      <div>
+        <div id="work-with-us-modal"${addAttribute(`w-screen h-screen top-0 left-0 fixed z-[1000] overflow-y-scroll transition-opacity duration-300 opacity-0 pointer-events-none`, "class")}>
+          <div class="w-full flex flex-col justify-center items-center relative">
+            <span id="background" class="w-full min-h-full bg-black/[.4] absolute top-0 left-0"></span>
 
-    ${maybeRenderHead($$result)}
+            <div id="work-with-us-error" class="top-4 transform fixed left-1/2 -translate-x-1/2 transition-[opacity,transform] duration-500 opacity-0 pointer-events-none -translate-y-5 bg-[#fca5a5] text-[#991b1b] px-3 py-2 rounded-lg text-sm text-center z-[1000]">
+              There was an error submitting the form. <br> Please try again.
+            </div>
+
+            <div class="h-40 flex-shrink-0 w-full"></div>
+            <div class="bg-navy rounded-md shadow-xl px-4 py-16 xs:px-12 sm:px-16 md:p-20 max-w-[calc(100%-30px)] sm:max-w-[calc(100%-60px)] w-[600px] relative z-50 flex-shrink-0">
+              <button id="close" class="w-6 h-6 absolute top-6 right-6 before:w-7 before:h-[2px] before:absolute before:left-[-2px] before:rotate-45 before:top-1/2 before:transform before:-translate-y-1/2 before:bg-white after:w-[28px] after:h-[2px] after:absolute after:left-[-2px] after:-rotate-45 after:top-1/2 after:transform after:-translate-y-1/2 after:bg-white"></button>
+              <h3 class="text-white text-body sm:text-body-lead font-black uppercase">
+                Work with us
+              </h3>
+              <p class="text-white text-body-small mt-3">
+                Want to work with us? Fill out the form below and we'll be in
+                touch.
+              </p>
+              <div class="flex flex-col w-full mt-6">
+                <label class="text-white text-[12px]">Name</label>
+                <input name="name" class="w-full py-3 border-b-2 border-b-white bg-transparent text-white" placeholder="Name">
+              </div>
+              <div class="flex flex-col w-full mt-6">
+                <label class="text-white text-[12px]">Email</label>
+                <input name="email" class="w-full py-3 border-b-2 border-b-white bg-transparent text-white" placeholder="Email">
+              </div>
+              <div class="flex flex-col w-full mt-6">
+                <label class="text-white text-[12px]">Organisation</label>
+                <input name="organisation" class="w-full py-3 border-b-2 border-b-white bg-transparent text-white" placeholder="Organisation">
+              </div>
+              <div class="flex flex-col w-full mt-6">
+                <label class="text-white text-[12px]">Message / Enquiry</label>
+                <textarea name="message" class="w-full py-3 border-b-2 border-b-white bg-transparent h-40 resize-none text-white" placeholder="Message"></textarea>
+              </div>
+              <div class="flex flex-col w-full mt-12">
+                <button id="work-with-us-submit" class="w-full py-3 bg-green-light text-navy">
+                  Submit
+                </button>
+              </div>
+            </div>
+            <div class="h-40 flex-shrink-0 w-full"></div>
+          </div>
+        </div>
+        <footer class="flex-shrink-1 flex-grow-0 text-center text-white">
+          <div class="bg-navy pb-16">
+            ${renderComponent($$result, "Container", $$Container, {}, { "default": () => renderTemplate`<div class="space-y-4">
+                <div class="text-green mb-12">
+                  ${renderComponent($$result, "TextHeaderMedium", $$TextHeaderMedium, {}, { "default": () => renderTemplate`<span class="font-black">Get social with us!</span>` })}
+                </div>
+                <div class="flex items-center justify-center space-x-9">
+                  ${icons.map((icon) => renderTemplate`<a${addAttribute(icon.url, "href")} target="_blank">
+                        <img${addAttribute(useImage(icon.icon), "src")}${addAttribute(icon.name, "alt")}>
+                      </a>`)}
+                  <a href="https://facebook.com/litterlotto" target="_blank" class="text-white">
+                    <img src="/icon-facebook.svg">
+                  </a>
+                  <a href="https://twitter.com/litterlotto" target="_blank">
+                    <img src="/icon-twitter.svg">
+                  </a>
+                  <a href="https://instagram.com/litterlotto" target="_blank">
+                    <img src="/icon-instagram.svg">
+                  </a>
+                  <a href="https://www.tiktok.com/@litterlotto" target="_blank">
+                    <img src="/icon-tiktok.svg">
+                  </a>
+                </div>
+              </div>` })}
+          </div>
+          <div class="bg-green py-10">
+            ${renderComponent($$result, "Container", $$Container, {}, { "default": () => renderTemplate`<div class="flex flex-col space-y-8 items-center font-semibold">
+                <img src="/logo-white.svg" alt="LitterLotto Logo" class="h-[53px] mb-2">
+                <ul class="flex flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-8 justify-center">
+                  ${footerLinks.map((link) => renderTemplate`<li>
+                        <a${addAttribute(link.url, "href")} target="_blank" class="transition-opacity text-white hover:opacity-75">
+                          ${renderComponent($$result, "TextBodySmall", $$TextBodySmall, {}, { "default": () => renderTemplate`${link.text}` })}
+                        </a>
+                      </li>`)}
+                  <li>
+                    <button id="work-with-us" class="transition-opacity text-white hover:opacity-75">
+                      ${renderComponent($$result, "TextBodySmall", $$TextBodySmall, {}, { "default": () => renderTemplate`With with us` })}
+                    </button>
+                  </li>
+                </ul>
+                ${renderComponent($$result, "TextBodySmall", $$TextBodySmall, {}, { "default": () => renderTemplate`&copy; LitterLotto ${new Date().getFullYear()}` })}
+              </div><div class="flex flex-col md:flex-row items-center justify-center md:justify-between space-y-8 md:space-y-0 md:space-x-8 text-center md:text-left">
+                <div class="flex flex-col text-center md:text-left items-center md:items-start">
+                </div>
+              </div>` })}
+          </div>
+        </footer>
+      </div>
+      
+
+      
+    </div>
   </body>
-</html>`;
+</html>
+
+${maybeRenderHead($$result)}`;
 });
 
 const $$Astro$7 = createAstro("/Users/joshualyness/Sites/litterlotto-front-end/src/components/AppStoreButtons.astro", "", "file:///Users/joshualyness/Sites/litterlotto-front-end/");
@@ -2113,9 +2177,12 @@ const $$Counter = createComponent(async ($$result, $$props, $$slots) => {
       api_key: "ayGNUTj4rFOKVhCuCxLJ"
     }
   });
-  const data = await response.json();
-  const initialTotal = data.totalEntries;
-  return renderTemplate(_a || (_a = __template(["", '<div class="justify-center items-center flex py-8 -mx-4 w-[calc(100%+32px)]">\n\n    <div class="border-white/[.5] border rounded-lg bg-white/[.07] w-[600px] max-w-full">\n        <p id="counter" class="text-header-medium xs:text-header-large md:text-header-xlarge font-inconsolata tracking-tighter px-8 md:px-16 py-4 md:py-8"></p>\n        <p class="text-body-small font-semibold border-t border-white/[.3] bg-white/[.08] p-3">pieces of litter binned, and counting!</p>\n    </div>\n\n</div>\n\n<script>(function(){', `
+  let initialTotal = 4e6;
+  if (response.ok) {
+    const data = await response.json();
+    initialTotal = data.totalEntries;
+  }
+  return renderTemplate(_a || (_a = __template(["", '<div class="justify-center items-center flex py-8 -mx-4 w-[calc(100%+32px)]">\n\n    <div class="rounded-lg bg-black/[.1] w-[600px] max-w-full">\n        <p id="counter" class="text-header-medium xs:text-header-large md:text-header-xlarge font-inconsolata tracking-tighter px-8 md:px-16 py-4 md:py-8"></p>\n        <p class="text-body-small font-semibold bg-black/[.125] p-3">pieces of litter binned, and counting!</p>\n    </div>\n\n</div>\n\n<script>(function(){', `
 
     const numberWithCommas = (x) => {
         return parseInt(x).toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, ",");
@@ -2162,9 +2229,7 @@ const $$Counter = createComponent(async ($$result, $$props, $$slots) => {
 
     const getNewTotal = async () => {
 
-        const response = await fetch('/total-entries', {
-            method: "POST"
-        });
+        const response = await fetch('/total-entries');
 
         if(response.ok){
 
@@ -2185,7 +2250,7 @@ const $$Counter = createComponent(async ($$result, $$props, $$slots) => {
 
             const res = await getNewTotal();
 
-            console.log(res);
+            lastTotal = total;
 
             total = res.totalEntries ?? total;
 
@@ -2204,7 +2269,7 @@ const $$Counter = createComponent(async ($$result, $$props, $$slots) => {
 
     });
 
-})();<\/script>`], ["", '<div class="justify-center items-center flex py-8 -mx-4 w-[calc(100%+32px)]">\n\n    <div class="border-white/[.5] border rounded-lg bg-white/[.07] w-[600px] max-w-full">\n        <p id="counter" class="text-header-medium xs:text-header-large md:text-header-xlarge font-inconsolata tracking-tighter px-8 md:px-16 py-4 md:py-8"></p>\n        <p class="text-body-small font-semibold border-t border-white/[.3] bg-white/[.08] p-3">pieces of litter binned, and counting!</p>\n    </div>\n\n</div>\n\n<script>(function(){', `
+})();<\/script>`], ["", '<div class="justify-center items-center flex py-8 -mx-4 w-[calc(100%+32px)]">\n\n    <div class="rounded-lg bg-black/[.1] w-[600px] max-w-full">\n        <p id="counter" class="text-header-medium xs:text-header-large md:text-header-xlarge font-inconsolata tracking-tighter px-8 md:px-16 py-4 md:py-8"></p>\n        <p class="text-body-small font-semibold bg-black/[.125] p-3">pieces of litter binned, and counting!</p>\n    </div>\n\n</div>\n\n<script>(function(){', `
 
     const numberWithCommas = (x) => {
         return parseInt(x).toString().replace(/\\\\B(?=(\\\\d{3})+(?!\\\\d))/g, ",");
@@ -2251,9 +2316,7 @@ const $$Counter = createComponent(async ($$result, $$props, $$slots) => {
 
     const getNewTotal = async () => {
 
-        const response = await fetch('/total-entries', {
-            method: "POST"
-        });
+        const response = await fetch('/total-entries');
 
         if(response.ok){
 
@@ -2274,7 +2337,7 @@ const $$Counter = createComponent(async ($$result, $$props, $$slots) => {
 
             const res = await getNewTotal();
 
-            console.log(res);
+            lastTotal = total;
 
             total = res.totalEntries ?? total;
 
@@ -2308,8 +2371,8 @@ const $$Hero = createComponent(async ($$result, $$props, $$slots) => {
   ${renderComponent($$result, "Container", $$Container, {}, { "default": () => renderTemplate`<div class="relative z-20 w-[520px] lg:w-full max-w-full space-y-[30px] mx-auto py-14">
       ${renderSlot($$result, $$slots["header"])}
       ${renderSlot($$result, $$slots["content"])}
-      ${renderComponent($$result, "Counter", $$Counter, {})}
       ${renderSlot($$result, $$slots["buttons"])}
+      ${renderComponent($$result, "Counter", $$Counter, {})}
     </div>` })}
 
   <img src="/hand.png" alt="Phone screen displaying the LitterLotto app" class="absolute right-0 bottom-0 w-auto h-[500px] 2xl:h-auto hidden lg:block">
@@ -2439,10 +2502,6 @@ const $$Index = createComponent(async ($$result, $$props, $$slots) => {
     {
       url: "https://intercom.help/litterlotto/en/collections/3057665-faq-s",
       text: "FAQs"
-    },
-    {
-      url: "mailto:partnerships@litterlotto.com",
-      text: "Work With Us!"
     }
   ];
   const winners = [
@@ -2762,7 +2821,73 @@ const _page1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
 	get
 }, Symbol.toStringTag, { value: 'Module' }));
 
-const pageMap = new Map([['src/pages/index.astro', _page0],['src/pages/total-entries.js', _page1],]);
+const post = async ({ request }) => {
+  if (request.headers.get("Content-Type") === "application/json") {
+    try {
+      const body = await request.json();
+      const name = body.name;
+      const email = body.email;
+      const organisation = body.organisation;
+      const message = body.message;
+      const bodySchemaVerify = Joi.object({
+        name: Joi.string().required(),
+        email: Joi.string().required(),
+        organisation: Joi.string().required(),
+        message: Joi.string().required()
+      });
+      const { error } = bodySchemaVerify.validate(body);
+      if (error)
+        throw new Error("invalidPayload");
+      let transporter = nodemailer.createTransport({
+        host: "email-smtp.eu-west-2.amazonaws.com",
+        port: 465,
+        secure: true,
+        auth: {
+          user: "AKIA2F3J3LKWCOT5L25I",
+          pass: "BOdrNab1qYYZLz740fOuE423LFnkvcmjDEsHmrLFKHVW"
+        }
+      });
+      console.log(path.resolve(path.dirname(""), "./src/email/NewWorkWithUsRequest.html"));
+      const templatePath = path.resolve(path.dirname(""), "./src/email/NewWorkWithUsRequest.html");
+      let compiledHtml = "";
+      let compiledText = "";
+      if (fs.existsSync(templatePath)) {
+        const template = fs.readFileSync(templatePath, "utf-8");
+        const html = ejs.render(template, {
+          name,
+          email,
+          organisation,
+          message
+        });
+        const text = htmlToText.convert(html);
+        const htmlWithStylesInlined = juice(html);
+        compiledHtml = htmlWithStylesInlined;
+        compiledText = text;
+      }
+      let info = await transporter.sendMail({
+        from: "noreply@litterlotto.com",
+        to: "joshualyness@outlook.com",
+        subject: `${name} \u2014 New Work With Us Request | Litter Lotto`,
+        html: compiledHtml,
+        text: compiledText
+      });
+      return new Response(JSON.stringify({}), {
+        status: 200
+      });
+    } catch (e) {
+      console.log(e);
+      return new Response(e, { status: 400 });
+    }
+  }
+  return new Response(null, { status: 400 });
+};
+
+const _page2 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+	__proto__: null,
+	post
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const pageMap = new Map([['src/pages/index.astro', _page0],['src/pages/total-entries.js', _page1],['src/pages/submit-form.ts', _page2],]);
 const renderers = [Object.assign({"name":"astro:jsx","serverEntrypoint":"astro/jsx/server.js","jsxImportSource":"astro"}, { ssr: server_default }),Object.assign({"name":"@astrojs/svelte","clientEntrypoint":"@astrojs/svelte/client.js","serverEntrypoint":"@astrojs/svelte/server.js"}, { ssr: _renderer1 }),];
 
 if (typeof process !== "undefined") {
@@ -2839,7 +2964,7 @@ function deserializeManifest(serializedManifest) {
   };
 }
 
-const _manifest = Object.assign(deserializeManifest({"adapterName":"@astrojs/netlify/functions","routes":[{"file":"","links":["assets/index.61188c55.css"],"scripts":[{"type":"external","value":"hoisted.07427adc.js"}],"routeData":{"route":"/","type":"page","pattern":"^\\/$","segments":[],"params":[],"component":"src/pages/index.astro","pathname":"/","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"routeData":{"route":"/total-entries","type":"endpoint","pattern":"^\\/total-entries$","segments":[[{"content":"total-entries","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/total-entries.js","pathname":"/total-entries","_meta":{"trailingSlash":"ignore"}}}],"base":"/","markdown":{"drafts":false,"syntaxHighlight":"shiki","shikiConfig":{"langs":[],"theme":"github-dark","wrap":false},"remarkPlugins":[],"rehypePlugins":[],"remarkRehype":{},"extendDefaultPlugins":false,"isAstroFlavoredMd":false},"pageMap":null,"renderers":[],"entryModules":{"\u0000@astrojs-ssr-virtual-entry":"entry.mjs","/Users/joshualyness/Sites/litterlotto-front-end/src/sections":"index.d92f8155.js","/Users/joshualyness/Sites/litterlotto-front-end/src/components/Menu.svelte":"Menu.5338f9c0.js","@astrojs/svelte/client.js":"client.b27523fa.js","/astro/hoisted.js?q=0":"hoisted.07427adc.js","astro:scripts/before-hydration.js":""},"assets":["/assets/index.61188c55.css","/Menu.5338f9c0.js","/app-screen-1.png","/app-screen-2.png","/app-screen-3.png","/app-screen-4.png","/client.b27523fa.js","/cta-background.png","/download-app-store.svg","/download-play-store.svg","/favicon.ico","/hand.png","/hero-background.png","/hoisted.07427adc.js","/icon-facebook.svg","/icon-instagram.svg","/icon-tiktok.svg","/icon-twitter.svg","/index.d92f8155.js","/logo-dark.svg","/logo-white.svg","/spot-winner-placeholder.png","/winner-placeholder.png","/chunks/index.a63b516c.js","/favicon/android-chrome-192x192.png","/favicon/android-chrome-512x512.png","/favicon/apple-touch-icon.png","/favicon/browserconfig.xml","/favicon/favicon-16x16.png","/favicon/favicon-32x32.png","/favicon/favicon.ico","/favicon/mstile-150x150.png","/favicon/safari-pinned-tab.svg","/favicon/site.webmanifest","/jackpot-winners/Allan.jpg","/jackpot-winners/Andrew.jpg","/jackpot-winners/Ben K.jpg","/jackpot-winners/Ben.jpg","/jackpot-winners/Callum.jpg","/jackpot-winners/Caroline.jpg","/jackpot-winners/Charles.jpg","/jackpot-winners/Christian Peterson.jpg","/jackpot-winners/David.jpg","/jackpot-winners/Deb.jpg","/jackpot-winners/Fiona.jpg","/jackpot-winners/Helen Millar.jpg","/jackpot-winners/Henry Moller.jpg","/jackpot-winners/Janice.jpg","/jackpot-winners/Kazzy.jpg","/jackpot-winners/Louise Sunderland.jpg","/jackpot-winners/Luke.jpg","/jackpot-winners/Marianne Lund.jpg","/jackpot-winners/Mariola.jpg","/jackpot-winners/Naomi.jpg","/jackpot-winners/Neil.jpg","/jackpot-winners/Nicola.jpg","/jackpot-winners/Oli.jpg","/jackpot-winners/Phoebe.jpg","/jackpot-winners/Roy.jpg","/jackpot-winners/Selina Fernandez.jpg","/jackpot-winners/Sophie.jpg","/jackpot-winners/Tracey.jpg","/jackpot-winners/Valerie.jpg","/jackpot-winners/Viviane.jpg","/jackpot-winners/Zoeb.jpg","/spot-prize-winners/Andreas Holzer.jpg","/spot-prize-winners/Andrew Bale.jpg","/spot-prize-winners/Carys R.jpg","/spot-prize-winners/Catherine Baker.jpg","/spot-prize-winners/Debz.jpg","/spot-prize-winners/Emma Burton.jpg","/spot-prize-winners/Fiona Smart.jpg","/spot-prize-winners/Gordon Brown.jpg","/spot-prize-winners/Johanna Collins.jpg","/spot-prize-winners/K Hipkin.jpg","/spot-prize-winners/Karen Russo.jpg","/spot-prize-winners/Karsten.jpg","/spot-prize-winners/Kate Green.jpg","/spot-prize-winners/Lindsay Robson.jpg","/spot-prize-winners/Lynn Simpson.jpg","/spot-prize-winners/Megan G.jpg","/spot-prize-winners/Mette Busk.jpg","/spot-prize-winners/Morgan A.jpg","/spot-prize-winners/Nelson B.jpg","/spot-prize-winners/Penny D.jpg","/spot-prize-winners/Raymond Stritch.jpg","/spot-prize-winners/Sandra Brown.jpg","/spot-prize-winners/Sarah Murphy.jpg","/spot-prize-winners/Sean Smith.jpg","/spot-prize-winners/Valerie McMullan.jpg","/spot-prize-winners/Wilhelm A.jpg","/fonts/jetbrains-mono/jetbrains-mono.ttf"]}), {
+const _manifest = Object.assign(deserializeManifest({"adapterName":"@astrojs/netlify/functions","routes":[{"file":"","links":["assets/index.fd52c208.css"],"scripts":[{"type":"external","value":"hoisted.309864a8.js"}],"routeData":{"route":"/","type":"page","pattern":"^\\/$","segments":[],"params":[],"component":"src/pages/index.astro","pathname":"/","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"routeData":{"route":"/total-entries","type":"endpoint","pattern":"^\\/total-entries$","segments":[[{"content":"total-entries","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/total-entries.js","pathname":"/total-entries","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"routeData":{"route":"/submit-form","type":"endpoint","pattern":"^\\/submit-form$","segments":[[{"content":"submit-form","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/submit-form.ts","pathname":"/submit-form","_meta":{"trailingSlash":"ignore"}}}],"base":"/","markdown":{"drafts":false,"syntaxHighlight":"shiki","shikiConfig":{"langs":[],"theme":"github-dark","wrap":false},"remarkPlugins":[],"rehypePlugins":[],"remarkRehype":{},"extendDefaultPlugins":false,"isAstroFlavoredMd":false},"pageMap":null,"renderers":[],"entryModules":{"\u0000@astrojs-ssr-virtual-entry":"entry.mjs","/Users/joshualyness/Sites/litterlotto-front-end/src/sections":"index.6a5007f9.js","/Users/joshualyness/Sites/litterlotto-front-end/src/components/Menu.svelte":"Menu.5338f9c0.js","@astrojs/svelte/client.js":"client.b27523fa.js","/astro/hoisted.js?q=0":"hoisted.309864a8.js","astro:scripts/before-hydration.js":""},"assets":["/assets/index.fd52c208.css","/Menu.5338f9c0.js","/app-screen-1.png","/app-screen-2.png","/app-screen-3.png","/app-screen-4.png","/client.b27523fa.js","/cta-background.png","/download-app-store.svg","/download-play-store.svg","/favicon.ico","/hand.png","/hero-background.png","/hoisted.309864a8.js","/icon-facebook.svg","/icon-instagram.svg","/icon-tiktok.svg","/icon-twitter.svg","/index.6a5007f9.js","/logo-dark.svg","/logo-white.svg","/spot-winner-placeholder.png","/winner-placeholder.png","/chunks/index.a63b516c.js","/favicon/android-chrome-192x192.png","/favicon/android-chrome-512x512.png","/favicon/apple-touch-icon.png","/favicon/browserconfig.xml","/favicon/favicon-16x16.png","/favicon/favicon-32x32.png","/favicon/favicon.ico","/favicon/mstile-150x150.png","/favicon/safari-pinned-tab.svg","/favicon/site.webmanifest","/jackpot-winners/Allan.jpg","/jackpot-winners/Andrew.jpg","/jackpot-winners/Ben K.jpg","/jackpot-winners/Ben.jpg","/jackpot-winners/Callum.jpg","/jackpot-winners/Caroline.jpg","/jackpot-winners/Charles.jpg","/jackpot-winners/Christian Peterson.jpg","/jackpot-winners/David.jpg","/jackpot-winners/Deb.jpg","/jackpot-winners/Fiona.jpg","/jackpot-winners/Helen Millar.jpg","/jackpot-winners/Henry Moller.jpg","/jackpot-winners/Janice.jpg","/jackpot-winners/Kazzy.jpg","/jackpot-winners/Louise Sunderland.jpg","/jackpot-winners/Luke.jpg","/jackpot-winners/Marianne Lund.jpg","/jackpot-winners/Mariola.jpg","/jackpot-winners/Naomi.jpg","/jackpot-winners/Neil.jpg","/jackpot-winners/Nicola.jpg","/jackpot-winners/Oli.jpg","/jackpot-winners/Phoebe.jpg","/jackpot-winners/Roy.jpg","/jackpot-winners/Selina Fernandez.jpg","/jackpot-winners/Sophie.jpg","/jackpot-winners/Tracey.jpg","/jackpot-winners/Valerie.jpg","/jackpot-winners/Viviane.jpg","/jackpot-winners/Zoeb.jpg","/spot-prize-winners/Andreas Holzer.jpg","/spot-prize-winners/Andrew Bale.jpg","/spot-prize-winners/Carys R.jpg","/spot-prize-winners/Catherine Baker.jpg","/spot-prize-winners/Debz.jpg","/spot-prize-winners/Emma Burton.jpg","/spot-prize-winners/Fiona Smart.jpg","/spot-prize-winners/Gordon Brown.jpg","/spot-prize-winners/Johanna Collins.jpg","/spot-prize-winners/K Hipkin.jpg","/spot-prize-winners/Karen Russo.jpg","/spot-prize-winners/Karsten.jpg","/spot-prize-winners/Kate Green.jpg","/spot-prize-winners/Lindsay Robson.jpg","/spot-prize-winners/Lynn Simpson.jpg","/spot-prize-winners/Megan G.jpg","/spot-prize-winners/Mette Busk.jpg","/spot-prize-winners/Morgan A.jpg","/spot-prize-winners/Nelson B.jpg","/spot-prize-winners/Penny D.jpg","/spot-prize-winners/Raymond Stritch.jpg","/spot-prize-winners/Sandra Brown.jpg","/spot-prize-winners/Sarah Murphy.jpg","/spot-prize-winners/Sean Smith.jpg","/spot-prize-winners/Valerie McMullan.jpg","/spot-prize-winners/Wilhelm A.jpg","/fonts/jetbrains-mono/jetbrains-mono.ttf"]}), {
 	pageMap: pageMap,
 	renderers: renderers
 });
