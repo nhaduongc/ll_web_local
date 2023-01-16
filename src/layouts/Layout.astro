@@ -229,7 +229,7 @@ let isWorkWithUsModalOpen = false;
                   </div>
                   <div class="flex flex-col w-full mt-12">
                     <button
-                    type="button"
+                    type="submit"
                       id="work-with-us-submit"
                       class="w-full py-3 bg-green-light text-navy"
                     >
@@ -477,8 +477,9 @@ let isWorkWithUsModalOpen = false;
   };
 
   document
-    .querySelector("#work-with-us-submit")
-    .addEventListener("click", () => {
+    .querySelector("#work-with-us")
+    .addEventListener("submit", (e) => {
+        e.preventDefault();
       const name = document.querySelector(
         "#work-with-us-modal input[name=name]"
       );
