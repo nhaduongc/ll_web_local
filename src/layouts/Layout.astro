@@ -195,7 +195,7 @@ let isWorkWithUsModalOpen = false;
                 Want to partner with us? Fill out the form below and we'll be in
                 touch.
               </p>
-              <form data-netlify="true">
+              <form data-netlify="true" id="work-with-us-form">
                   <div class="flex flex-col w-full mt-6">
                     <label class="text-white text-[12px]">Name</label>
                     <input
@@ -477,7 +477,7 @@ let isWorkWithUsModalOpen = false;
   };
 
   document
-    .querySelector("#work-with-us")
+    .querySelector("#work-with-us-form")
     .addEventListener("submit", (e) => {
         e.preventDefault();
       const name = document.querySelector(
