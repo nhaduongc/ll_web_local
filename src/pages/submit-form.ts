@@ -63,7 +63,7 @@ export const post: APIRoute = async ({ request }) => {
       compiledText = text;
 
       //send mail with defined transport object
-      let info = transporter.sendMail({
+      let info = await transporter.sendMail({
         from: 'noreply@litterlotto.com', // sender address
         to: 'joshualyness@outlook.com, simon.jacobs@litterlotto.com, peter@litterlotto.com', // list of receivers
         subject: `${name} — New Work With Us Request | Litter Lotto`, // Subject line
