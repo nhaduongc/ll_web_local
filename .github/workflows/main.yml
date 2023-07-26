@@ -12,7 +12,7 @@ jobs:
     env:
       IP: 146.190.178.128
       REGISTRY_CONTAINER: registry.digitalocean.com/litter-lotto/litter-lotto_web_frontend:latest
-      IMAGE_NAME: litterlotto_web_frontend
+      IMAGE_NAME: litter-lotto_web_frontend
 
     steps:
       - name: Checkout code

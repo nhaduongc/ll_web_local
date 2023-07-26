@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  litterlotto:
-    container_name: 'litterlotto_web_frontend'
+  litter-lotto_web_frontend:
+    container_name: 'litter-lotto_web_frontend'
     build:
       context: .
       dockerfile: Dockerfile

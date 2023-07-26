@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  litterlotto_web_frontend:
+  litter-lotto_web_frontend:
     image: 'registry.digitalocean.com/litter-lotto/litter-lotto_web_frontend:latest'
     tty: true
     ports:
