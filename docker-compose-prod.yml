@@ -12,9 +12,14 @@ services:
       - "traefik.http.services.litterlotto_web_frontend.loadbalancer.sticky=true"
 
       - "traefik.http.routers.litterlotto-secure.entrypoints=web-secure"
-      - "traefik.http.routers.litterlotto-secure.rule=Host(`litterlotto.com`) || Host(`www.litterlotto.com`)"
+      - "traefik.http.routers.litterlotto-secure.rule=Host(`litterlotto.com`)"
       - "traefik.http.routers.litterlotto-secure.tls.certresolver=le"
       - "traefik.http.routers.litterlotto-secure.tls=true"
+
+      - "traefik.http.routers.litterlotto-secure-www.entrypoints=web-secure"
+      - "traefik.http.routers.litterlotto-secure-www.rule=Host(`www.litterlotto.com`)"
+      - "traefik.http.routers.litterlotto-secure-www.tls.certresolver=le"
+      - "traefik.http.routers.litterlotto-secure-www.tls=true"
 
       - "traefik.http.middlewares.redirect-to-www.redirectscheme.scheme=http"
       - "traefik.http.routers.litterlotto-secure.middlewares=redirect-to-www@docker"
