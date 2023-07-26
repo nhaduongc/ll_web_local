@@ -1,0 +1,66 @@
+@media (min-width: 768px) {
+  .splide:not(.article-splide) .splide__arrow {
+    height: 100%;
+    width: 80px;
+    border-radius: 0;
+    background-color: transparent;
+    opacity: 1 !important;
+    @apply from-white to-transparent;
+  }
+
+  .splide:not(.article-splide) .splide__arrow svg {
+    @apply transition-all fill-navy w-7 h-7;
+  }
+
+  .splide:not(.article-splide) .splide__arrow:hover svg {
+    @apply fill-green;
+  }
+
+  .splide:not(.article-splide) .splide__arrow.splide__arrow--prev {
+    left: 0;
+    @apply bg-gradient-to-r;
+  }
+
+  .splide:not(.article-splide) .splide__arrows--rtl .splide__arrow.splide__arrow--prev {
+    right: 0;
+    left: auto;
+    @apply bg-gradient-to-l;
+  }
+
+  .splide:not(.article-splide) .splide__arrow.splide__arrow--next {
+    right: 0;
+    @apply bg-gradient-to-l;
+  }
+
+  .splide:not(.article-splide) .splide__arrows--rtl .splide__arrow.splide__arrow--next {
+    left: 0;
+    right: auto;
+    @apply bg-gradient-to-r;
+  }
+}
+
+
+
+
+@media (min-width: 768px) {
+  .splide.article-splide .splide__arrow {
+    @apply bg-green h-[60px] w-[60px] opacity-100 rounded-[40px] border-2 border-solid border-white transition-colors duration-300;
+  }
+
+  .splide.article-splide .splide__arrow svg {
+    @apply transition-all fill-white w-7 h-7;
+  }
+
+  .splide.article-splide .splide__arrow:hover {
+    @apply bg-green-dark;
+  }
+}
+
+
+.app-slider .splide__track {
+  overflow: visible;
+}
+
+.article-splide .splide__track {
+  @apply overflow-visible;
+}

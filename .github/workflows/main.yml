@@ -1,0 +1,64 @@
+name: Main Branch Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      IP: 157.245.24.97
+      REGISTRY_CONTAINER: registry.digitalocean.com/litter-lotto/litter-lotto_web_frontend:latest
+      IMAGE_NAME: litter-lotto_web_frontend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Copy .env.prod
+        run: cp .env.prod .env
+
+      - name: Copy docker-compose-prod.yml to the server
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DIGITAL_OCEAN_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa docker-compose-prod.yml root@${{ env.IP }}:~/docker-compose.yml
+
+
+      - name: Build Docker image
+        run: docker build -f Dockerfile-build -t ${{ env.REGISTRY_CONTAINER }} .
+
+      - name: Log in to digital ocean container registry
+        uses: docker/login-action@v1
+        with:
+          registry: registry.digitalocean.com
+          username: ${{ secrets.DIGITAL_OCEAN_CONTAINER_REGISTRY_TOKEN }}
+          password: ${{ secrets.DIGITAL_OCEAN_CONTAINER_REGISTRY_TOKEN }}
+
+      - name: Push image to digital ocean container registry
+        run: docker push ${{ env.REGISTRY_CONTAINER }}
+
+      - name: Pull container and run in droplet
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ env.IP }}
+          username: root
+          key: ${{ secrets.DIGITAL_OCEAN_SSH_KEY }}
+          script: |
+            # Stop and remove the current container on the droplet
+            docker stop ${{ env.IMAGE_NAME }} || true
+            docker rm ${{ env.IMAGE_NAME }} || true
+            
+            # Pull docker image fron digital ocean container registry
+            echo ${{ secrets.DIGITAL_OCEAN_CONTAINER_REGISTRY_TOKEN }} | docker login registry.digitalocean.com -u ${{ secrets.DIGITAL_OCEAN_CONTAINER_REGISTRY_TOKEN }} --password-stdin
+
+            # Run the updated container
+            docker pull ${{ env.REGISTRY_CONTAINER}}
+            docker compose up -d
+            
+            # Prune all containers, networks, and danging images
+            docker system prune -a --volumes -f

@@ -1,0 +1,3 @@
+export const PER_PAGE = 24;
+export const ARTICLE_TITLE_LENGTH = 80;
+export const ARTICLE_SHORT_DESCRIPTION_LENGTH = 160;

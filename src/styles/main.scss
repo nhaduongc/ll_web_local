@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '@splidejs/splide/dist/css/splide.min.css';
+@import 'src/styles/splide.scss';
+@import 'src/styles/content.scss';
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+
+

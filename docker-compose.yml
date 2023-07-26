@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  litterlotto:
+    container_name: 'litterlotto_web_frontend'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    volumes:
+      - ./:/app
+    ports:
+      - "3000:3000"
