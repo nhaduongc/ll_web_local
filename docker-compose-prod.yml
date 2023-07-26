@@ -17,6 +17,10 @@ services:
       - "traefik.http.routers.litterlotto-secure-www.tls.certresolver=le"
       - "traefik.http.routers.litterlotto-secure-www.tls=true"
 
+      - "traefik.http.routers.litterlotto-secure-non-www.entrypoints=web"
+      - "traefik.http.routers.litterlotto-secure-non-www.rule=Host(`litterlotto.com`)"
+      - "traefik.http.routers.litterlotto-secure-non-www.middlewares=redirect-to-www@docker"
+
   reverse-proxy:
     image: traefik:v2.10
     command:
