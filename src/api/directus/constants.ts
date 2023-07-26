@@ -1,1 +1,1 @@
-export const directusBaseUrl = process.env.SSR_DIRECTUS_BASE_URL;
+export const directusBaseUrl = process.env.DIRECTUS_BASE_URL;
