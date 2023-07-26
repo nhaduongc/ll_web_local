@@ -12,7 +12,7 @@ services:
       - "traefik.http.services.litterlotto.loadbalancer.sticky=true"
 
       - "traefik.http.routers.litterlotto-secure.entrypoints=web-secure"
-      - "traefik.http.routers.litterlotto-secure.rule=Host(`litterlotto.com`)"
+      - "traefik.http.routers.litterlotto-secure.rule=Host(`www.litterlotto.com`)"
       - "traefik.http.routers.litterlotto-secure.tls.certresolver=le"
       - "traefik.http.routers.litterlotto-secure.tls=true"
 
