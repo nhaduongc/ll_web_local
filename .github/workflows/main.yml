@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IP: 157.245.24.97
+      IP: 146.190.178.128
       REGISTRY_CONTAINER: registry.digitalocean.com/litter-lotto/litter-lotto_web_frontend:latest
       IMAGE_NAME: litter-lotto_web_frontend
 
