@@ -13,16 +13,16 @@ services:
       - "traefik.http.services.litterlotto_web_frontend.loadbalancer.sticky=true"
 
       - "traefik.http.routers.litterlotto-secure.entrypoints=web-secure"
-      - "traefik.http.routers.litterlotto-secure.rule=Host(`litterlotto.com`, `www.litterlotto.com`)"
-      - "traefik.http.routers.litterlotto-secure.tls.domains[0].main=www.litterlotto.com"
-      - "traefik.http.routers.litterlotto-secure.tls.domains[0].sans=litterlotto.com, www.litterlotto.com"
+      - "traefik.http.routers.litterlotto-secure.rule=Host(`litterlotto.com`, `test.litterlotto.com`)"
+      - "traefik.http.routers.litterlotto-secure.tls.domains[0].main=test.litterlotto.com"
+      - "traefik.http.routers.litterlotto-secure.tls.domains[0].sans=litterlotto.com, test.litterlotto.com"
       - "traefik.http.routers.litterlotto-secure.tls.certresolver=le"
       - "traefik.http.routers.litterlotto-secure.tls=true"
 
       - "traefik.http.routers.litterlotto-secure.middlewares=nonwww-to-www"
 
       - 'traefik.http.middlewares.nonwww-to-www.redirectregex.regex=^https://litterlotto.com/(.*)'
-      - 'traefik.http.middlewares.nonwww-to-www.redirectregex.replacement=https://www.litterlotto.com/$${1}'
+      - 'traefik.http.middlewares.nonwww-to-www.redirectregex.replacement=https://test.litterlotto.com/$${1}'
       - "traefik.http.middlewares.nonwww-to-www.redirectregex.permanent=true"
 
 
