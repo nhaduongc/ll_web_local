@@ -14,7 +14,7 @@ services:
 
       - "traefik.http.routers.litterlotto-secure.entrypoints=web-secure"
       - "traefik.http.routers.litterlotto-secure.rule=Host(`litterlotto.com`, `www.litterlotto.com`)"
-      - "traefik.http.routers.litterlotto-secure.tls.domains[0].main=litterlotto.com"
+      - "traefik.http.routers.litterlotto-secure.tls.domains[0].main=www.litterlotto.com"
       - "traefik.http.routers.litterlotto-secure.tls.domains[0].sans=litterlotto.com, www.litterlotto.com"
       - "traefik.http.routers.litterlotto-secure.tls.certresolver=le"
       - "traefik.http.routers.litterlotto-secure.tls=true"
