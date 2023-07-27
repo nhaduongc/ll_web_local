@@ -49,9 +49,11 @@ jobs:
           username: root
           key: ${{ secrets.DIGITAL_OCEAN_SSH_KEY }}
           script: |
-            # Stop and remove the current container on the droplet
+            # Stop and remove the current containers on the droplet
             docker stop ${{ env.IMAGE_NAME }} || true
             docker rm ${{ env.IMAGE_NAME }} || true
+            docker stop traefik || true
+            docker rm traefik || true
             
             # Pull docker image fron digital ocean container registry
             echo ${{ secrets.DIGITAL_OCEAN_CONTAINER_REGISTRY_TOKEN }} | docker login registry.digitalocean.com -u ${{ secrets.DIGITAL_OCEAN_CONTAINER_REGISTRY_TOKEN }} --password-stdin
