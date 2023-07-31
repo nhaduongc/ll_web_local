@@ -26,7 +26,7 @@ export const HomeHero = ({ data }: InternalProps) => (
                     className="text-white w-full max-w-[520px] mx-auto feature-content"
                 />
                 <AppStoreButtons buttons={data.appStoreButtons} />
-                <Counter />
+                <Counter counterDigits={data.counterDigits} />
             </div>
         </Container>
 

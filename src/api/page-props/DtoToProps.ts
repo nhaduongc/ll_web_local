@@ -17,6 +17,7 @@ export const PageDtoToBlocksProps = ({ Blocks: blocks }: any): Block[] =>
                         type: 'home-hero',
                         heading: block.item.Title,
                         text: block.item.Text,
+                        counterDigits: block.item.Counter_Digits,
                         appStoreButtons: block.item.App_Links.map((appLink: any) => ({
                             id: appLink.id,
                             url: appLink.Image_Link_id.URL,

@@ -40,7 +40,7 @@ services:
       - "--providers.docker.watch=true"
       - "--providers.docker.exposedbydefault=false"
       - "--certificatesresolvers.le.acme.email=joshualyness@outlook.com"
-      - "--certificatesresolvers.le.acme.storage=/acme.json"
+      - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
       - "--certificatesresolvers.le.acme.tlschallenge=true"
       - "--log=true"
       - "--log.filepath=/var/log/traefik.log"
@@ -49,4 +49,5 @@ services:
       - "80:80"
       - "443:443"
     volumes:
+      - ./letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock

@@ -7,6 +7,7 @@ export interface HomeHeroBlock {
     type: 'home-hero';
     heading: string;
     text: string;
+    counterDigits: number;
     appStoreButtons: ImageLink[];
     background: Image;
     hand: Image;
