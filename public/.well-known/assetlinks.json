@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.litterlotto.app",
+      "sha256_cert_fingerprints": [
+        "83:F0:6B:B3:F2:EF:71:9A:55:DF:8B:D0:DE:AA:07:F2:90:3E:4E:E7:15:54:79:E8:25:F7:99:F0:7F:FA:79:5F"
+      ]
+    }
+  }
+]

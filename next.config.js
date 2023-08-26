@@ -30,7 +30,7 @@ const nextConfig = {
     headers: async () => {
         return [
             {
-                source: '/.well-known/apple-app-site-association',
+                source: '/.well-known/:path*',
                 headers: [
                     {
                         key: 'Content-Type',
