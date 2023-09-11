@@ -77,6 +77,20 @@ const nextConfig = {
                 destination: 'https://litterlotto.com/:path*',
                 permanent: true,
             },
+            {
+                source: '/:path*',
+                has: [
+                    {
+                        type: 'header',
+                        key: 'User-Agent',
+                        value: '(.*Android.*)',
+                    },
+                    { type: 'query', key: 'binId', value: '(?<paramBinId>.*)' },
+                ],
+                destination:
+                    'https://play.google.com/store/apps/details?id=com.litterlotto.app&launch=true&binId=paramBinId',
+                permanent: true,
+            },
         ];
     },
 };

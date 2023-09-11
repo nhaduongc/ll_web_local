@@ -17,17 +17,7 @@ export const MainLayout: FC<{
     };
 }> = ({ children, props }) => {
     const [menuOpen, setMenuOpen] = useState(false);
-
     useEffect(() => {
-        if (/Android/i.test(navigator.userAgent)) {
-            // Use a timeout to handle the 'Navigation is cancelled' error on Android
-            setTimeout(() => {
-                window.location.href = 'intent://#Intent;package=com.litterlotto.app;end;'; // Replace with your Play Store link
-            }, 250);
-            // https://litterlotto.com?binId=123
-            const params = window.location.href.split('?')[1];
-            window.location.href = `litterlotto://${params || ''}`; // Replace with your URI
-        }
         if (menuOpen) {
             document.body.classList.add('overflow-hidden');
             return;
