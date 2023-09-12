@@ -89,7 +89,7 @@ const nextConfig = {
                 ],
                 destination:
                     'https://play.google.com/store/apps/details?id=com.litterlotto.app&launch=true&binId=:binId',
-                permanent: true,
+                permanent: false,
             },
         ];
     },
