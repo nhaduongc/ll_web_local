@@ -1,1 +1,0 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[80],{6137:function(n,t,u){(window.__NEXT_P=window.__NEXT_P||[]).push(["/robots.txt",function(){return u(2263)}])},2263:function(n,t,u){"use strict";u.r(t),u.d(t,{__N_SSP:function(){return r}});var c=function(){},r=!0;t.default=c}},function(n){n.O(0,[774,888,179],function(){return n(n.s=6137)}),_N_E=n.O()}]);
