@@ -85,10 +85,10 @@ const nextConfig = {
                         key: 'User-Agent',
                         value: '(.*Android.*)',
                     },
-                    { type: 'query', key: 'binId', value: '(?<paramBinId>.*)' },
+                    { type: 'query', key: 'binId', value: '(?<binId>.*)' },
                 ],
                 destination:
-                    'https://play.google.com/store/apps/details?id=com.litterlotto.app&launch=true&binId=paramBinId',
+                    'https://play.google.com/store/apps/details?id=com.litterlotto.app&launch=true&binId=:binId',
                 permanent: true,
             },
         ];
