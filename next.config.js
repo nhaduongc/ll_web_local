@@ -89,6 +89,7 @@ const nextConfig = {
                 ],
                 destination:
                     'https://play.google.com/store/apps/details?id=com.litterlotto.app&launch=true&binId=:binId',
+                statusCode: 301, // https://www.seocomponent.com/blog/nextjs-redirect-permanent-cache/
                 permanent: false,
             },
         ];
