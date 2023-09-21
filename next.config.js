@@ -88,9 +88,9 @@ const nextConfig = {
                     { type: 'query', key: 'binId', value: '(?<binId>.*)' },
                     { type: 'query', key: 'instant', value: 'true' },
                 ],
-                destination:
-                    'https://play.google.com/store/apps/details?id=com.litterlotto.app&launch=true&binId=:binId',
-                statusCode: 301, // https://www.seocomponent.com/blog/nextjs-redirect-permanent-cache/
+                destination: '/bin/:binId?instant=redirected',
+                // 'https://play.google.com/store/apps/details?id=com.litterlotto.app&launch=true&binId=:binId',
+                // statusCode: 301, // https://www.seocomponent.com/blog/nextjs-redirect-permanent-cache/
                 permanent: false,
             },
         ];

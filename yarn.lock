@@ -1072,6 +1072,13 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@legendapp/state@^1.11.1":
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/@legendapp/state/-/state-1.11.1.tgz#fe8d1f2b73dbdfb1b123f352d0c3134175b426a3"
+  integrity sha512-9bso1xOwgkHEgZo4IfzJ1FkGoHuyhOZoe2EATJabzSiYxZYOzKuZbbUSfwl6E22JDKMTbbCoqp9YQWgXQO5n9g==
+  dependencies:
+    use-sync-external-store "^1.2.0"
+
 "@next/env@12.3.0":
   version "12.3.0"
   resolved "https://registry.npmjs.org/@next/env/-/env-12.3.0.tgz"
@@ -3749,6 +3756,11 @@ react-use-intercom@^5.0.0:
   version "5.0.0"
   resolved "https://registry.npmjs.org/react-use-intercom/-/react-use-intercom-5.0.0.tgz"
   integrity sha512-qTPW3FbvzGwZUy6jmMPttK0T7Iy4cK93wDrWfOL36Cd4qPkozPVkXLcGNKYUfMsgaclyF+EXrbFQ135Wg5m0Zw==
+
+react-webcam@^7.1.1:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/react-webcam/-/react-webcam-7.1.1.tgz#e6290b192cde0d2a1039051a019a18e998d7fb39"
+  integrity sha512-2W5WN8wmEv8ZlxvyAlOxVuw6new8Bi7+KSPqoq5oa7z1KSKZ72ucaKqCFRtHSuFjZ5sh5ioS9lp4BGwnaZ6lDg==
 
 react@^18.2.0:
   version "18.2.0"
