@@ -92,6 +92,8 @@ function WelcomeScreen() {
 }
 
 function CameraScreen() {
+    // const width = typeof window !== 'undefined' ? window.innerWidth : 1400;
+    // const height = typeof window !== 'undefined' ? window.innerHeight : 1400;
     const webcamRef = useRef<Webcam>(null);
     const capture = useCallback(() => {
         const imgBase64 = webcamRef.current?.getScreenshot();
@@ -105,18 +107,17 @@ function CameraScreen() {
                 ref={webcamRef}
                 audio={false}
                 screenshotFormat="image/jpeg"
-                videoConstraints={{ facingMode: 'environment', width: 640, height: 1400 }}
-                // width={2000}
-                // height={2000}
+                forceScreenshotSourceSize
+                videoConstraints={{ facingMode: 'environment' }}
                 style={{
-                    height: '100vh',
+                    height: '100%',
                     width: '100%',
                     objectFit: 'fill',
                     position: 'absolute',
                 }}
             />
-            <button type="button" onClick={capture} className="absolute bottom-11">
-                <img src="/cameraButton.png" alt="Play Button" width={65} height={65} />
+            <button type="button" onClick={capture} className="absolute bottom-11 z-10">
+                <img src="/cameraButton.png" alt="Play Button" className="w-16 h-16 z-10" />
             </button>
         </section>
     );
