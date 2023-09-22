@@ -104,13 +104,15 @@ function CameraScreen() {
             <Webcam
                 ref={webcamRef}
                 audio={false}
-                height="100%"
                 screenshotFormat="image/jpeg"
-                width="100%"
-                videoConstraints={{
-                    width: 640,
-                    height: 1400,
-                    facingMode: 'environment',
+                videoConstraints={{ facingMode: 'environment', width: 640, height: 1400 }}
+                // width={2000}
+                // height={2000}
+                style={{
+                    height: '100vh',
+                    width: '100%',
+                    objectFit: 'fill',
+                    position: 'absolute',
                 }}
             />
             <button type="button" onClick={capture} className="absolute bottom-11">
@@ -290,8 +292,12 @@ export default function Bin(props: BinProps) {
         InstantState.binData.set(binData);
     }, [binData]);
 
-    if (page === 'welcome') return <WelcomeScreen />;
-    if (page === 'camera') return <CameraScreen />;
-    if (page === 'submit') return <SubmitScreen />;
-    if (page === 'result') return <ResultScreen />;
+    return (
+        <div id="instant-container" className="absolute w-full h-full">
+            {page === 'welcome' && <WelcomeScreen />}
+            {page === 'camera' && <CameraScreen />}
+            {page === 'submit' && <SubmitScreen />}
+            {page === 'result' && <ResultScreen />}
+        </div>
+    );
 }
