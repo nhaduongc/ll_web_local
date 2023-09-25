@@ -1,5 +1,6 @@
 import { observable } from '@legendapp/state';
 import { enableReactUse } from '@legendapp/state/config/enableReactUse';
+import Head from 'next/head';
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
@@ -82,7 +83,11 @@ function WelcomeScreen() {
             </div>
             <button
                 type="button"
-                onClick={() => InstantState.page.set('camera')}
+                onClick={() => {
+                    InstantState.page.set('camera');
+                    document.documentElement?.requestFullscreen?.();
+                    window.screen.orientation?.lock('portrait');
+                }}
                 className="mt-6 mb-6"
             >
                 <img src="/play-button.png" alt="Play Button" width={65} height={65} />
@@ -92,8 +97,6 @@ function WelcomeScreen() {
 }
 
 function CameraScreen() {
-    // const width = typeof window !== 'undefined' ? window.innerWidth : 1400;
-    // const height = typeof window !== 'undefined' ? window.innerHeight : 1400;
     const webcamRef = useRef<Webcam>(null);
     const capture = useCallback(() => {
         const imgBase64 = webcamRef.current?.getScreenshot();
@@ -101,6 +104,7 @@ function CameraScreen() {
         InstantState.imageBase64.set(imgBase64);
         InstantState.page.set('submit');
     }, [webcamRef]);
+
     return (
         <section className="absolute w-full h-full flex justify-center bg-green">
             <Webcam
@@ -109,13 +113,9 @@ function CameraScreen() {
                 screenshotFormat="image/jpeg"
                 forceScreenshotSourceSize
                 videoConstraints={{ facingMode: 'environment' }}
-                style={{
-                    height: '100%',
-                    width: '100%',
-                    objectFit: 'fill',
-                    position: 'absolute',
-                }}
+                className="w-full h-full absolute object-cover"
             />
+
             <button type="button" onClick={capture} className="absolute bottom-11 z-10">
                 <img src="/cameraButton.png" alt="Play Button" className="w-16 h-16 z-10" />
             </button>
@@ -210,7 +210,9 @@ function SubmitScreen() {
     };
     return (
         <section className="bg-green flex justify-center">
-            {!!imgBase64 && <img src={imgBase64} alt="submit" className="absolute w-full h-full" />}
+            {!!imgBase64 && (
+                <img src={imgBase64} alt="submit" className="w-full h-full absolute object-cover" />
+            )}
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="44"
@@ -249,7 +251,9 @@ function ResultScreen() {
     const imgBase64 = InstantState.imageBase64.use();
     return (
         <section className="bg-black flex absolute w-full h-full">
-            {!!imgBase64 && <img src={imgBase64} alt="submit" className="absolute w-full h-full" />}
+            {!!imgBase64 && (
+                <img src={imgBase64} alt="submit" className="w-full h-full absolute object-cover" />
+            )}
             <div className="absolute w-full h-full bg-black bg-opacity-80" />
             <div className="w-full px-6 pt-10 z-10">
                 {completionTitle ? (
@@ -295,6 +299,12 @@ export default function Bin(props: BinProps) {
 
     return (
         <div id="instant-container" className="absolute w-full h-full">
+            <Head>
+                <title>LitterLotto Chip & Bin</title>
+                <link rel="manifest" href="/manifest.json" />
+                <meta name="theme-color" content="#A2D929" />
+                <meta name="mobile-web-app-capable" content="yes" />
+            </Head>
             {page === 'welcome' && <WelcomeScreen />}
             {page === 'camera' && <CameraScreen />}
             {page === 'submit' && <SubmitScreen />}
