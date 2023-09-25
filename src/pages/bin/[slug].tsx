@@ -22,6 +22,99 @@ const InstantState = observable<{
     reward?: any;
 }>({ page: 'welcome' });
 
+function AppClipCard({ onContinue }: { onContinue(): void }) {
+    const [buttonClicked, setButtonClicked] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
+    const handleTransitionEnd = () => buttonClicked &&  onContinue();
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+    return (
+        <div
+            className="m-2 overflow-hidden flex flex-col self-end rounded-3xl flex flex-1"
+            style={{
+                background: 'rgba(255, 255, 255, 0.80)',
+                backdropFilter: 'blur(5px)',
+                // eslint-disable-next-line no-nested-ternary
+                transform: isMounted
+                    ? buttonClicked
+                        ? 'translateY(100%)'
+                        : 'translateY(0)'
+                    : 'translateY(100%)',
+                transition: 'transform 0.2s ease-in-out',
+            }}
+            onTransitionEnd={handleTransitionEnd}
+        >
+            <img
+                alt="thumbnail"
+                className="flex-1 bg-gray-200 object-cover"
+                src="https://is2-ssl.mzstatic.com/image/thumb/Purple116/v4/0b/d6/85/0bd68545-ab3b-08e3-e307-035760ddf9ae/3200061a-c5df-4c00-b8c7-dc0d2bc8a101_WhatsApp_Image_2023-09-04_at_15.09.24.png/1800x1200bb.png"
+            />
+            <div className="p-5 flex self-stretch flex-row items-center justify-between self-start">
+                <div>
+                    <p className="text-xl font-bold w-3/4">Win 1,000 in the prize draw</p>
+                    <p className="text-sm">Bin the right waste here</p>
+                </div>
+                <button
+                    type="button"
+                    className="px-4 py-2 bg-green rounded-full"
+                    onClick={() => {
+                        document.documentElement?.requestFullscreen?.();
+                        // @ts-ignore
+                        window.screen.orientation?.lock('portrait');
+                        setButtonClicked(true);
+                    }}
+                >
+                    <p className="text- text-white">Play</p>
+                </button>
+            </div>
+            <div className="mx-5 h-px bg-gray-500 bg-opacity-10" />
+            <div className="px-5 py-4 flex self-stretch flex-row items-center self-start">
+                <img
+                    alt="smal-logo"
+                    src="/icon-192x192.png"
+                    className="w-7 mr-2 aspect-square rounded-md"
+                />
+                <div>
+                    <p className="text-xs text-gray-400">Powered by</p>
+                    <p className="text-sm font-medium">LitterLotto</p>
+                </div>
+
+                <a
+                    href="https://play.google.com/store/apps/details?id=com.litterlotto.app"
+                    className="ml-auto px-4 py-2 flex flex-row items-center"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 50 50"
+                        className="fill-gray-400"
+                    >
+                        <path d="M 7.125 2 L 28.78125 23.5 L 34.71875 17.5625 L 8.46875 2.40625 C 8.03125 2.152344 7.5625 2.011719 7.125 2 Z M 5.3125 3 C 5.117188 3.347656 5 3.757813 5 4.21875 L 5 46 C 5 46.335938 5.070313 46.636719 5.1875 46.90625 L 27.34375 24.90625 Z M 36.53125 18.59375 L 30.1875 24.90625 L 36.53125 31.1875 L 44.28125 26.75 C 45.382813 26.113281 45.539063 25.304688 45.53125 24.875 C 45.519531 24.164063 45.070313 23.5 44.3125 23.09375 C 43.652344 22.738281 38.75 19.882813 36.53125 18.59375 Z M 28.78125 26.3125 L 6.9375 47.96875 C 7.300781 47.949219 7.695313 47.871094 8.0625 47.65625 C 8.917969 47.160156 26.21875 37.15625 26.21875 37.15625 L 34.75 32.25 Z" />
+                    </svg>
+                    <span className="text-xs text-gray-400 mx-1">Play Store</span>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        enableBackground="new 0 0 24 24"
+                        height="10"
+                        viewBox="0 0 24 24"
+                        width="10"
+                        className="fill-gray-400"
+                    >
+                        <g>
+                            <path d="M0,0h24v24H0V0z" fill="none" />
+                        </g>
+                        <g>
+                            <polygon points="6.23,20.23 8,22 18,12 8,2 6.23,3.77 14.46,12" />
+                        </g>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    );
+}
+
 function WelcomeScreen() {
     const binData = InstantState.binData.use();
     const logoURL = binData?.tagged_bin_group?.logoURL;
@@ -31,6 +124,7 @@ function WelcomeScreen() {
     const footer = binData?.tagged_bin_type.footer;
     const bannerImage = binData?.tagged_bin_type.banner_image;
     const warning = binData?.tagged_bin_type.warning;
+    const [AppClipCardVisible, setAppClipCardVisible] = useState(true);
 
     return (
         <div className="bg-gray-200 flex flex-col items-center px-4">
@@ -83,15 +177,22 @@ function WelcomeScreen() {
             </div>
             <button
                 type="button"
-                onClick={() => {
-                    InstantState.page.set('camera');
-                    document.documentElement?.requestFullscreen?.();
-                    window.screen.orientation?.lock('portrait');
-                }}
+                onClick={() => InstantState.page.set('camera')}
                 className="mt-6 mb-6"
             >
                 <img src="/play-button.png" alt="Play Button" width={65} height={65} />
             </button>
+            {AppClipCardVisible && (
+                <div
+                    className="absolute w-full h-full flex items-stretch"
+                    style={{
+                        background: 'rgba(0, 0,0, 0.8)',
+                        backdropFilter: 'blur(10px)',
+                    }}
+                >
+                    <AppClipCard onContinue={() => setAppClipCardVisible(false)} />
+                </div>
+            )}
         </div>
     );
 }
