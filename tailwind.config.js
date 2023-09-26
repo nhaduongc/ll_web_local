@@ -2,6 +2,7 @@
 const { lighten, darken } = require('polished');
 
 module.exports = {
+    mode: 'jit',
     content: ['./src/**/*.{js,ts,jsx,tsx}'],
     theme: {
         screens: {

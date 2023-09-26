@@ -19,13 +19,13 @@ const InstantState = observable<{
     page: 'welcome' | 'camera' | 'submit' | 'result';
     binData?: BinWithInfo;
     imageBase64?: string;
-    reward?: any;
+    reward?: object;
 }>({ page: 'welcome' });
 
 function AppClipCard({ onContinue }: { onContinue(): void }) {
     const [buttonClicked, setButtonClicked] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
-    const handleTransitionEnd = () => buttonClicked &&  onContinue();
+    const handleTransitionEnd = () => buttonClicked && onContinue();
     useEffect(() => {
         setIsMounted(true);
     }, []);
@@ -77,7 +77,7 @@ function AppClipCard({ onContinue }: { onContinue(): void }) {
                 />
                 <div>
                     <p className="text-xs text-gray-400">Powered by</p>
-                    <p className="text-sm font-medium">LitterLotto</p>
+                    <p className="text-[2vh] font-medium">LitterLotto</p>
                 </div>
 
                 <a
@@ -127,66 +127,70 @@ function WelcomeScreen() {
     const [AppClipCardVisible, setAppClipCardVisible] = useState(true);
 
     return (
-        <div className="bg-gray-200 flex flex-col items-center px-4">
-            <div className="bg-blue-500 w-full flex items-center">
-                <img
-                    src="/logo-white.svg"
-                    alt="LitterLotto Logo"
-                    className="my-4 w-full h-6 self-center"
-                />
-            </div>
+        <div className="bg-gray-200 flex flex-col px-4 h-full">
+            <img
+                src="/logo-white.svg"
+                alt="LitterLotto Logo"
+                className="my-[1.5vh] w-full h-[3vh] self-center"
+            />
             {logoURL && (
                 <img
                     src={logoURL}
                     alt="Logo"
-                    className="h-28 bg-white rounded-md mb-2 w-full aspect-auto object-scale-down"
+                    className="h-[15vh] bg-white rounded-md mb-[1.5vh] w-full aspect-auto object-scale-down"
                 />
             )}
-            <div className="bg-white w-full rounded-md flex flex-col items-center mb-2">
-                {bannerImage && (
-                    <img
-                        src={bannerImage}
-                        alt="Banner"
-                        width={1500}
-                        height={730}
-                        className="rounded-t-md"
-                    />
-                )}
-                <div className="w-full px-3 py-3">
-                    {title ? (
-                        <p className="font-bold text-xl text-center leading-7">{title}</p>
+            <div className="flex w-full h-[66vh] flex-col">
+                <div className="bg-white w-full rounded-md flex flex-col items-center mb-[1.5vh]">
+                    {bannerImage && (
+                        <img
+                            src={bannerImage}
+                            alt="Banner"
+                            width={1500}
+                            height={730}
+                            className="rounded-t-md aspect-[2]"
+                        />
+                    )}
+                    <div className="w-full p-[1vh]">
+                        {title ? <p className="font-bold text-[3vh] text-center">{title}</p> : null}
+                        {intro ? (
+                            <p className="font-medium text-[2vh] text-center">{intro}</p>
+                        ) : null}
+                    </div>
+                </div>
+                <div className="bg-white w-full rounded-md p-[2vh] mb-[1.5vh]">
+                    {footerTitle ? (
+                        <p className="font-bold text-[3vh] text-center">{footerTitle}</p>
                     ) : null}
-                    {intro ? (
-                        <p className="font-medium text-sm leading-6 text-center">{intro}</p>
-                    ) : null}
+                    {footer ? <p className="font-medium text-[2vh] text-center">{footer}</p> : null}
+                </div>
+                <div className="flex items-center bg-yellow-200 w-full rounded-md py-[2vh] border border-black">
+                    <img src="/warning.png" alt="Warning" width={30} height={30} className="mx-4" />
+                    <div className="flex-1 pr-2">
+                        {/* <svg viewBox="0 0 100 18">
+                            <text x="0" y="5" fontSize="2px">
+                                {warning}
+                            </text>
+                        </svg> */}
+                        {warning ? (
+                            <p className="font-bold text-[2vh] leading-6">{warning}</p>
+                        ) : null}
+                    </div>
                 </div>
             </div>
-            <div className="bg-white w-full rounded-md py-3 px-3 mb-2">
-                {footerTitle ? (
-                    <p className="font-bold text-xl text-center leading-7 mb-2">{footerTitle}</p>
-                ) : null}
-                {footer ? (
-                    <p className="font-medium text-sm leading-6 text-center">{footer}</p>
-                ) : null}
-            </div>
-            <div className="flex items-center bg-yellow-200 w-full rounded-md py-3 border border-black">
-                <img src="/warning.png" alt="Warning" width={30} height={30} className="mx-4" />
-                <div className="flex-1 pr-2">
-                    {warning ? <p className="font-bold text-sm leading-6">{warning}</p> : null}
-                </div>
-            </div>
+
             <button
                 type="button"
                 onClick={() => InstantState.page.set('camera')}
-                className="mt-6 mb-6"
+                className="self-center"
             >
-                <img src="/play-button.png" alt="Play Button" width={65} height={65} />
+                <img src="/play-button.png" alt="Play Button" className="w-[10vh] aspect-square" />
             </button>
             {AppClipCardVisible && (
                 <div
-                    className="absolute w-full h-full flex items-stretch"
+                    className="absolute left-0 right-0 h-full flex items-stretch"
                     style={{
-                        background: 'rgba(0, 0,0, 0.8)',
+                        background: 'rgba(0, 0,0, 0.6)',
                         backdropFilter: 'blur(10px)',
                     }}
                 >
