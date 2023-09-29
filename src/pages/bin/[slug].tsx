@@ -59,7 +59,12 @@ function AppClipCard({ onContinue }: { onContinue(): void }) {
                     type="button"
                     className="px-4 py-2 bg-green rounded-full"
                     onClick={() => {
-                        document.documentElement?.requestFullscreen?.();
+                        // document.addEventListener('fullscreenchange', (event) => {
+                        //     setTimeout(() => {
+                        //         setFullscreen(true);
+                        //     }, 1000);
+                        // });
+                        document.documentElement?.requestFullscreen?.({ navigationUI: 'hide' });
                         // @ts-ignore
                         window.screen.orientation?.lock('portrait');
                         setButtonClicked(true);
@@ -126,8 +131,15 @@ function WelcomeScreen() {
     const warning = binData?.tagged_bin_type.warning;
     const [AppClipCardVisible, setAppClipCardVisible] = useState(true);
 
+    useEffect(() => {
+        document.documentElement.style.setProperty('--screen-height', `${window.screen.height}px`);
+    }, []);
+
     return (
-        <div className="bg-gray-200 flex flex-col px-4 h-full">
+        <div
+            style={{ height: 'var(--screen-height)' }}
+            className="bg-gray-200 flex flex-col px-4 h-[100vh] justify-between py-[1.5vh]"
+        >
             <img
                 src="/logo-white.svg"
                 alt="LitterLotto Logo"
@@ -137,45 +149,34 @@ function WelcomeScreen() {
                 <img
                     src={logoURL}
                     alt="Logo"
-                    className="h-[15vh] bg-white rounded-md mb-[1.5vh] w-full aspect-auto object-scale-down"
+                    className="h-[15vh] bg-white rounded-md w-full aspect-auto object-scale-down"
                 />
             )}
-            <div className="flex w-full h-[66vh] flex-col">
-                <div className="bg-white w-full rounded-md flex flex-col items-center mb-[1.5vh]">
-                    {bannerImage && (
-                        <img
-                            src={bannerImage}
-                            alt="Banner"
-                            width={1500}
-                            height={730}
-                            className="rounded-t-md aspect-[2]"
-                        />
-                    )}
-                    <div className="w-full p-[1vh]">
-                        {title ? <p className="font-bold text-[3vh] text-center">{title}</p> : null}
-                        {intro ? (
-                            <p className="font-medium text-[2vh] text-center">{intro}</p>
-                        ) : null}
-                    </div>
+            <div className="bg-white w-full rounded-md flex flex-col items-center">
+                {bannerImage && (
+                    <img
+                        src={bannerImage}
+                        alt="Banner"
+                        width={1500}
+                        height={730}
+                        className="rounded-t-md aspect-[2]"
+                    />
+                )}
+                <div className="w-full p-[1vh]">
+                    {title ? <p className="font-bold text-[3vh] text-center">{title}</p> : null}
+                    {intro ? <p className="font-medium text-[2vh] text-center">{intro}</p> : null}
                 </div>
-                <div className="bg-white w-full rounded-md p-[2vh] mb-[1.5vh]">
-                    {footerTitle ? (
-                        <p className="font-bold text-[3vh] text-center">{footerTitle}</p>
-                    ) : null}
-                    {footer ? <p className="font-medium text-[2vh] text-center">{footer}</p> : null}
-                </div>
-                <div className="flex items-center bg-yellow-200 w-full rounded-md py-[2vh] border border-black">
-                    <img src="/warning.png" alt="Warning" width={30} height={30} className="mx-4" />
-                    <div className="flex-1 pr-2">
-                        {/* <svg viewBox="0 0 100 18">
-                            <text x="0" y="5" fontSize="2px">
-                                {warning}
-                            </text>
-                        </svg> */}
-                        {warning ? (
-                            <p className="font-bold text-[2vh] leading-6">{warning}</p>
-                        ) : null}
-                    </div>
+            </div>
+            <div className="bg-white w-full rounded-md p-[2vh]">
+                {footerTitle ? (
+                    <p className="font-bold text-[3vh] text-center">{footerTitle}</p>
+                ) : null}
+                {footer ? <p className="font-medium text-[2vh] text-center">{footer}</p> : null}
+            </div>
+            <div className="flex items-center bg-yellow-200 w-full rounded-md py-[2vh] border border-black">
+                <img src="/warning.png" alt="Warning" width={30} height={30} className="mx-4" />
+                <div className="flex-1 pr-2">
+                    {warning ? <p className="font-bold text-[2vh] leading-6">{warning}</p> : null}
                 </div>
             </div>
 
@@ -188,7 +189,7 @@ function WelcomeScreen() {
             </button>
             {AppClipCardVisible && (
                 <div
-                    className="absolute left-0 right-0 h-full flex items-stretch"
+                    className="absolute left-0 right-0 top-0 bottom-0 flex items-stretch"
                     style={{
                         background: 'rgba(0, 0,0, 0.6)',
                         backdropFilter: 'blur(10px)',
@@ -409,6 +410,10 @@ export default function Bin(props: BinProps) {
                 <link rel="manifest" href="/manifest.json" />
                 <meta name="theme-color" content="#A2D929" />
                 <meta name="mobile-web-app-capable" content="yes" />
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
+                />
             </Head>
             {page === 'welcome' && <WelcomeScreen />}
             {page === 'camera' && <CameraScreen />}
