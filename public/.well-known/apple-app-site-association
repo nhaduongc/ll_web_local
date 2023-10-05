@@ -15,12 +15,12 @@
             "comment": "Matches weetabix URL which has a query item with name 'binId' and a value of at least 1 characters"
           },
           {
-            "/": "*",
+            "/": "/",
             "?": { "binId": "?*" },
             "comment": "Matches any URL which has a query item with name 'binId' and a value of at least 1 characters"
           },
           {
-              "/": "*",
+              "/": "/",
               "?": { "articleId": "?*" },
               "comment": "Matches any URL which has a query item with name 'articleId' and a value of at least 1 characters"
           }
