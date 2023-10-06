@@ -20,6 +20,7 @@ const InstantState = observable<{
     binData?: BinWithInfo;
     imageBase64?: string;
     reward?: object;
+    email?: string;
 }>({ page: 'welcome' });
 
 function AppClipCard({ onContinue }: { onContinue(): void }) {
@@ -298,8 +299,11 @@ function EmailAndAgeCheckPanel({ onChange }: { onChange(validated: boolean): voi
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
     useEffect(() => {
-        onChange?.(!!tick && emailValid);
-    }, [tick, emailValid]);
+        const validated = !!tick && emailValid;
+        if (validated) InstantState.email.set(email);
+        else InstantState.email.set('');
+        onChange?.(validated);
+    }, [tick, email, emailValid]);
     return (
         <div className="p-4">
             <div className="relative">
@@ -366,6 +370,7 @@ function SubmitScreen() {
         const formData = new FormData();
         formData.append('file', image, `${Date.now()}.jpeg`);
         formData.append('binId', InstantState.binData.binId.get());
+        formData.append('email', InstantState.email.get());
 
         try {
             setLoading(true);
