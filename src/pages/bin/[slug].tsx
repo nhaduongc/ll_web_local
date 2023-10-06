@@ -20,6 +20,7 @@ const InstantState = observable<{
     binData?: BinWithInfo;
     imageBase64?: string;
     reward?: object;
+    email?: string;
 }>({ page: 'welcome' });
 
 function AppClipCard({ onContinue }: { onContinue(): void }) {
@@ -288,15 +289,88 @@ function SubmittingOverlay() {
     );
 }
 
+function EmailAndAgeCheckPanel({ onChange }: { onChange(validated: boolean): void }) {
+    const emailInput = useRef(null);
+    const [email, setEmail] = useState('');
+    const [tick, setTick] = useState(false);
+    const emailValid = !!String(email)
+        .toLowerCase()
+        .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+    useEffect(() => {
+        const validated = !!tick && emailValid;
+        if (validated) InstantState.email.set(email);
+        else InstantState.email.set('');
+        onChange?.(validated);
+    }, [tick, email, emailValid]);
+    return (
+        <div className="p-4">
+            <div className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                    <svg
+                        className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 16"
+                    >
+                        <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
+                        <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
+                    </svg>
+                </div>
+                <input
+                    ref={emailInput}
+                    placeholder="Your email here..."
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    type="text"
+                    id="input-group-1"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
+            </div>
+            <p
+                className={`mt-0.5 text-sm text-red dark:text-red ${
+                    !!email && !emailValid && document.activeElement !== emailInput.current
+                        ? 'opacity-100'
+                        : 'opacity-0'
+                }`}
+            >
+                Email is invalid. Please check again.
+            </p>
+
+            <div className="flex flex-row mt-4">
+                <input
+                    name="ageCheck"
+                    type="checkbox"
+                    id="ageCheck"
+                    className="self-start mt-1 w-6 aspect-square mr-2 shrink-0 rounded-sm border border-primary shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+                    checked={tick}
+                    onChange={() => setTick(!tick)}
+                />
+                <label className="text-white text-base font-medium" htmlFor="ageCheck">
+                    In order to continue you must be at least 13 years old.
+                </label>
+            </div>
+            <p id="ageCheck-description" className="mt-4 text-sm text-gray-300 text-center">
+                We need your email and age verification in order to award prizes
+            </p>
+        </div>
+    );
+}
+
 function SubmitScreen() {
+    const [validated, setValidated] = useState(false);
     const [loading, setLoading] = useState(false);
     const imgBase64 = InstantState.imageBase64.use();
     const submit = async () => {
+        if (!validated) return false;
         const image = DataURIToBlob(imgBase64);
 
         const formData = new FormData();
         formData.append('file', image, `${Date.now()}.jpeg`);
         formData.append('binId', InstantState.binData.binId.get());
+        formData.append('email', InstantState.email.get());
 
         try {
             setLoading(true);
@@ -315,7 +389,7 @@ function SubmitScreen() {
         }
     };
     return (
-        <section className="bg-green flex justify-center">
+        <section className="bg-black flex flex-col absolute w-full h-full items-center justify-end py-11">
             {!!imgBase64 && (
                 <img src={imgBase64} alt="submit" className="w-full h-full absolute object-cover" />
             )}
@@ -336,13 +410,18 @@ function SubmitScreen() {
                     d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"
                 />
             </svg>
-            <button
-                type="button"
-                onClick={submit}
-                className="absolute bottom-11 w-1/2 bg-green rounded-full items-center justify-center h-12"
-            >
-                <p className="text-white text-lg font-bold">Submit</p>
-            </button>
+            <div className="flex flex-col items-center">
+                <EmailAndAgeCheckPanel onChange={setValidated} />
+                <button
+                    type="button"
+                    onClick={submit}
+                    className={`bottom-11 w-1/2 bg-green rounded-full items-center justify-center h-12 ${
+                        validated ? 'opacity-100' : 'opacity-50'
+                    }`}
+                >
+                    <p className="text-white text-lg font-bold">Submit</p>
+                </button>
+            </div>
             {!!loading && <SubmittingOverlay />}
         </section>
     );
@@ -356,12 +435,12 @@ function ResultScreen() {
     const completionFooter = binData?.tagged_bin_group?.completion_footer;
     const imgBase64 = InstantState.imageBase64.use();
     return (
-        <section className="bg-black flex absolute w-full h-full">
+        <section className="bg-black flex flex-col absolute w-full h-full justify-between py-11">
             {!!imgBase64 && (
                 <img src={imgBase64} alt="submit" className="w-full h-full absolute object-cover" />
             )}
             <div className="absolute w-full h-full bg-black bg-opacity-80" />
-            <div className="w-full px-6 pt-10 z-10">
+            <div className="px-6 pt-10 z-10">
                 {completionTitle ? (
                     <p className="text-4xl text-center leading-7 font-bold text-white">
                         {completionTitle}
@@ -373,8 +452,7 @@ function ResultScreen() {
                     </p>
                 ) : null}
             </div>
-
-            <div className="mx-4 absolute z-10 bottom-11 px-6 py-3 rounded-xl bg-white items-center flex flex-col">
+            <div className="mx-4 z-10 px-6 py-3 rounded-xl bg-white items-center flex flex-col">
                 {completionFooterTitle ? (
                     <p className="font-bold text-2xl text-center leading-7">
                         {completionFooterTitle}
