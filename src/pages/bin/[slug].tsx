@@ -530,7 +530,7 @@ function SubmitScreen() {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
 
-            InstantState.submittedData.set(data);
+            InstantState.submittedData.set(data.reward);
             InstantState.page.set('result');
 
             return true;
