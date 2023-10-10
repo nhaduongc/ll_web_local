@@ -3,6 +3,7 @@ import { enableReactUse } from '@legendapp/state/config/enableReactUse';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { ActivityIndicator, Pressable, SafeAreaView, Text, TextInput, View } from 'react-native';
 import Webcam from 'react-webcam';
 
 import { getBinServerSideProps } from 'src/page-props/bin';
@@ -19,9 +20,9 @@ const InstantState = observable<{
     page: 'welcome' | 'camera' | 'submit' | 'result';
     binData?: BinWithInfo;
     imageBase64?: string;
-    reward?: object;
+    submittedData?: { entryId: string };
     email?: string;
-}>({ page: 'welcome' });
+}>({ page: 'result' });
 
 function AppClipCard({ onContinue }: { onContinue(): void }) {
     const [buttonClicked, setButtonClicked] = useState(false);
@@ -289,82 +290,233 @@ function SubmittingOverlay() {
     );
 }
 
-function EmailAndAgeCheckPanel({ onChange }: { onChange(validated: boolean): void }) {
-    const emailInput = useRef(null);
-    const [email, setEmail] = useState('');
-    const [tick, setTick] = useState(false);
-    const emailValid = !!String(email)
-        .toLowerCase()
-        .match(
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        );
-    useEffect(() => {
-        const validated = !!tick && emailValid;
-        if (validated) InstantState.email.set(email);
-        else InstantState.email.set('');
-        onChange?.(validated);
-    }, [tick, email, emailValid]);
-    return (
-        <div className="p-4">
-            <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                    <svg
-                        className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="currentColor"
-                        viewBox="0 0 20 16"
-                    >
-                        <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
-                        <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
-                    </svg>
-                </div>
-                <input
-                    ref={emailInput}
-                    placeholder="Your email here..."
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    type="text"
-                    id="input-group-1"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
-            </div>
-            <p
-                className={`mt-0.5 text-sm text-red dark:text-red ${
-                    !!email && !emailValid && document.activeElement !== emailInput.current
-                        ? 'opacity-100'
-                        : 'opacity-0'
-                }`}
-            >
-                Email is invalid. Please check again.
-            </p>
+const Loading = () => (
+    <View
+        style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.4)',
+            alignItems: 'center',
+            justifyContent: 'center',
+        }}
+    >
+        <View>
+            <ActivityIndicator size="large" color="#fff" />
+        </View>
+    </View>
+);
 
-            <div className="flex flex-row mt-4">
-                <input
-                    name="ageCheck"
-                    type="checkbox"
-                    id="ageCheck"
-                    className="self-start mt-1 w-6 aspect-square mr-2 shrink-0 rounded-sm border border-primary shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
-                    checked={tick}
-                    onChange={() => setTick(!tick)}
+function EmailAndAgeCheckPanel() {
+    const [email, setEmail] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [isThirteenOrOver, setThirteenOrOver] = useState(false);
+    const [show, setShow] = useState(true);
+
+    const save = async () => {
+        if (!isThirteenOrOver) {
+            alert('Please confirm your age');
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const submittedData = InstantState.submittedData.get();
+            const response = await appClipClient.post(
+                `appclip/submitUserInfo`,
+                { entryId: submittedData.entryId, email },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+            // const response = await submitUserInfo({ entryId, email });
+            // await Store.save('clip_email', email);
+            setLoading(false);
+
+            if (response.status === 200) {
+                alert('Saved successfully');
+            } else {
+                throw new Error('UnKnown');
+            }
+        } catch (error) {
+            setLoading(false);
+            alert(`Error: ${error}`);
+        }
+    };
+
+    const skip = () => {
+        setShow(false);
+    };
+
+    if (!show) return null;
+    return (
+        <SafeAreaView style={{ alignSelf: 'center', marginTop: 24 }}>
+            <View
+                style={{
+                    backgroundColor: '#fff',
+                    // width: WINDOW_WIDTH - 12,
+                    borderRadius: 15,
+                    paddingTop: 24,
+                    marginHorizontal: 16,
+                    paddingVertical: 16,
+                }}
+            >
+                <Text
+                    style={{
+                        // ...styles.textBold,
+                        color: '#000',
+                        fontSize: 18,
+                        textAlign: 'center',
+                        lineHeight: 24,
+                    }}
+                >
+                    We need your email and age verification in order to award prizes
+                </Text>
+                <TextInput
+                    value={email}
+                    onChangeText={setEmail}
+                    autoCapitalize="none"
+                    style={{
+                        // fontFamily: Typography.FONT_FAMILY_REGULAR,
+                        fontSize: 16,
+                        marginTop: 20,
+                        width: '90%',
+                        alignSelf: 'center',
+                        padding: 12,
+                        height: 44,
+                        backgroundColor: '#f1f2f3',
+                        borderRadius: 9,
+                    }}
+                    placeholder="Email"
+                    selectionColor="#63666A"
                 />
-                <label className="text-white text-base font-medium" htmlFor="ageCheck">
-                    In order to continue you must be at least 13 years old.
-                </label>
-            </div>
-            <p id="ageCheck-description" className="mt-4 text-sm text-gray-300 text-center">
-                We need your email and age verification in order to award prizes
-            </p>
-        </div>
+
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        marginTop: 20,
+                        width: '90%',
+                        height: 30,
+                        alignSelf: 'center',
+                        alignItems: 'flex-end',
+                    }}
+                >
+                    <Text
+                        style={{
+                            marginRight: 12,
+                            // fontFamily: Typography.FONT_FAMILY_REGULAR,
+                            color: '#000',
+                            fontSize: 16,
+                            textAlign: 'center',
+                            lineHeight: 24,
+                        }}
+                    >
+                        I&apos;m 13+
+                    </Text>
+                    <Pressable
+                        onPress={() => {
+                            setThirteenOrOver(!isThirteenOrOver);
+                        }}
+                        style={{
+                            overflow: 'hidden',
+                            backgroundColor: '#f1f2f3',
+                            height: 30,
+                            width: 30,
+                            borderRadius: 6,
+                        }}
+                    >
+                        {isThirteenOrOver && (
+                            <Pressable
+                                onPress={() => {
+                                    setThirteenOrOver(!isThirteenOrOver);
+                                }}
+                                style={{ height: 30, width: 30, borderRadius: 6 }}
+                            >
+                                <View
+                                    style={{
+                                        backgroundColor: '#a2d929',
+                                        height: 6,
+                                        width: 15,
+                                        borderRadius: 3,
+                                        position: 'absolute',
+                                        left: 2,
+                                        bottom: 10,
+                                        transform: [{ rotate: '45deg' }],
+                                    }}
+                                />
+                                <View
+                                    style={{
+                                        backgroundColor: '#a2d929',
+                                        height: 6,
+                                        width: 20,
+                                        borderRadius: 3,
+                                        position: 'absolute',
+                                        left: 8,
+                                        bottom: 12,
+                                        transform: [{ rotate: '135deg' }],
+                                    }}
+                                />
+                            </Pressable>
+                        )}
+                    </Pressable>
+                </View>
+                <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 20 }}>
+                    <Pressable
+                        disabled={!email}
+                        style={{
+                            alignItems: 'center',
+                            width: 80,
+                            marginRight: 30,
+                            backgroundColor: email ? '#000' : '#808593',
+                            paddingVertical: 12,
+                            borderRadius: 9,
+                        }}
+                        onPress={save}
+                    >
+                        <Text
+                            style={{
+                                color: '#fff',
+                                // fontFamily: Typography.FONT_FAMILY_MEDIUM,
+                                fontSize: 18,
+                            }}
+                        >
+                            Save
+                        </Text>
+                    </Pressable>
+                    <Pressable
+                        style={{
+                            alignItems: 'center',
+                            width: 80,
+                            backgroundColor: '#f1f2f3',
+                            paddingVertical: 12,
+                            borderRadius: 9,
+                        }}
+                        onPress={skip}
+                    >
+                        <Text
+                            style={{
+                                color: '#000',
+                                // fontFamily: Typography.FONT_FAMILY_MEDIUM,
+                                fontSize: 18,
+                            }}
+                        >
+                            Skip
+                        </Text>
+                    </Pressable>
+                </View>
+            </View>
+            {loading && <Loading />}
+        </SafeAreaView>
     );
 }
 
 function SubmitScreen() {
-    const [validated, setValidated] = useState(false);
     const [loading, setLoading] = useState(false);
     const imgBase64 = InstantState.imageBase64.use();
     const submit = async () => {
-        if (!validated) return false;
         const image = DataURIToBlob(imgBase64);
 
         const formData = new FormData();
@@ -378,7 +530,7 @@ function SubmitScreen() {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
 
-            InstantState.reward.set(data?.reward);
+            InstantState.submittedData.set(data);
             InstantState.page.set('result');
 
             return true;
@@ -411,13 +563,10 @@ function SubmitScreen() {
                 />
             </svg>
             <div className="flex flex-col items-center">
-                <EmailAndAgeCheckPanel onChange={setValidated} />
                 <button
                     type="button"
                     onClick={submit}
-                    className={`bottom-11 w-1/2 bg-green rounded-full items-center justify-center h-12 ${
-                        validated ? 'opacity-100' : 'opacity-50'
-                    }`}
+                    className="bottom-11 w-1/2 bg-green rounded-full items-center justify-center h-12"
                 >
                     <p className="text-white text-lg font-bold">Submit</p>
                 </button>
@@ -452,6 +601,7 @@ function ResultScreen() {
                     </p>
                 ) : null}
             </div>
+            <EmailAndAgeCheckPanel />
             <div className="mx-4 z-10 px-6 py-3 rounded-xl bg-white items-center flex flex-col">
                 {completionFooterTitle ? (
                     <p className="font-bold text-2xl text-center leading-7">
