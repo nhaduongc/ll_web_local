@@ -22,7 +22,7 @@ const InstantState = observable<{
     imageBase64?: string;
     submittedData?: { entryId: string };
     email?: string;
-}>({ page: 'result' });
+}>({ page: 'welcome' });
 
 function AppClipCard({ onContinue }: { onContinue(): void }) {
     const [buttonClicked, setButtonClicked] = useState(false);
