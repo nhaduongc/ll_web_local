@@ -2,8 +2,7 @@
   "applinks": {
     "details": [{
       "appIDs": ["6AU5AWL683.com.litterlotto.ios"],
-      "components": [
-        {
+      "components": [{
           "#": "no_universal_links",
           "exclude": true,
           "comment": "Matches any URL whose fragment equals no_universal_links and instructs the system not to open it as a universal link"
@@ -14,7 +13,14 @@
             "binId": "?*"
           },
           "comment": "Matches default URL which has a query item with name 'binId' and a value of at least 1 characters"
-        }        
+        },
+        {
+          "/": "/[a-zA-Z0-9]*",
+          "?": {
+            "binId": "?*"
+          },
+          "comment": "Matches default URL which has a query item with name 'binId' and a value of at least 1 characters"
+        }
       ]
     }]
   },
