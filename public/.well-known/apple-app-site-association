@@ -9,18 +9,11 @@
           "comment": "Matches any URL whose fragment equals no_universal_links and instructs the system not to open it as a universal link"
         },
         {
-          "/": "/play/*",
+          "/": "/play",
           "?": {
             "binId": "?*"
           },
           "comment": "Matches default URL which has a query item with name 'binId' and a value of at least 1 characters"
-        },
-        {
-          "/": "/?*/*",
-          "?": {
-            "binId": "?*"
-          },
-          "comment": "Matches brand subpath URLs which has a query item with name 'binId' and a value of at least 1 characters"
         }        
       ]
     }]
