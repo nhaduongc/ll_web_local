@@ -25,6 +25,8 @@ const InstantState = observable<{
 }>({ page: 'welcome' });
 
 function AppClipCard({ onContinue }: { onContinue(): void }) {
+    const binData = InstantState.binData.use();
+    const card = binData?.tagged_bin_group?.card;
     const [buttonClicked, setButtonClicked] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const handleTransitionEnd = () => buttonClicked && onContinue();
@@ -50,12 +52,17 @@ function AppClipCard({ onContinue }: { onContinue(): void }) {
             <img
                 alt="thumbnail"
                 className="flex-1 bg-gray-200 object-cover"
-                src="https://is2-ssl.mzstatic.com/image/thumb/Purple116/v4/0b/d6/85/0bd68545-ab3b-08e3-e307-035760ddf9ae/3200061a-c5df-4c00-b8c7-dc0d2bc8a101_WhatsApp_Image_2023-09-04_at_15.09.24.png/1800x1200bb.png"
+                src={
+                    card?.cardImage ||
+                    'https://is2-ssl.mzstatic.com/image/thumb/Purple116/v4/0b/d6/85/0bd68545-ab3b-08e3-e307-035760ddf9ae/3200061a-c5df-4c00-b8c7-dc0d2bc8a101_WhatsApp_Image_2023-09-04_at_15.09.24.png/1800x1200bb.png'
+                }
             />
             <div className="p-5 flex self-stretch flex-row items-center justify-between self-start">
                 <div>
-                    <p className="text-xl font-bold w-3/4">Win 1,000 in the prize draw</p>
-                    <p className="text-sm">Bin the right waste here</p>
+                    <p className="text-xl font-bold w-3/4">
+                        {card?.cardTitle || 'Win 1,000 in the prize draw'}
+                    </p>
+                    <p className="text-sm">{card?.cardSubTitle || 'Bin the right waste here'}</p>
                 </div>
                 <button
                     type="button"
@@ -72,7 +79,7 @@ function AppClipCard({ onContinue }: { onContinue(): void }) {
                         setButtonClicked(true);
                     }}
                 >
-                    <p className="text- text-white">Play</p>
+                    <p className="text- text-white">{card?.actionButton || 'Play'}</p>
                 </button>
             </div>
             <div className="mx-5 h-px bg-gray-500 bg-opacity-10" />
@@ -630,6 +637,8 @@ export default function Bin(props: BinProps) {
     useEffect(() => {
         InstantState.binData.set(binData);
     }, [binData]);
+
+    if (!binData) return null;
 
     return (
         <div id="instant-container" className="absolute w-full h-full">

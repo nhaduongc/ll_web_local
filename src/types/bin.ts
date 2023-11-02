@@ -23,6 +23,12 @@ export interface TaggedBinGroup {
     title: string;
     logoURL: string;
     id: string;
+    card: {
+        actionButton: string;
+        cardImage: string;
+        cardSubTitle: string;
+        cardTitle: string;
+    };
 }
 
 export interface TaggedBinType {
