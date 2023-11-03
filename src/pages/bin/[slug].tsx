@@ -653,7 +653,7 @@ export default function Bin(props: BinProps) {
                 />
                 <meta
                     name="apple-itunes-app"
-                    content="app-id=1550451187, app-clip-bundle-id=com.litterlotto.ios.Clip"
+                    content="app-id=1550451187, app-clip-bundle-id=com.litterlotto.ios.Clip, app-clip-display=card, app-clip-display=card"
                 />
             </Head>
             {page === 'welcome' && <WelcomeScreen />}

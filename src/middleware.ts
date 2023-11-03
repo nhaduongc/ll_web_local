@@ -12,7 +12,7 @@ export function middleware(request: NextRequest) {
                 ?.split('=')?.[1] || '123';
         if (isIOS) {
             return NextResponse.redirect(
-                `https://appclip.apple.com/id?p=com.litterlotto.ios.Clip?binId=${binId}`
+                `https://appclip.apple.com/id?p=com.litterlotto.ios.Clip&binId=${binId}`
             );
         }
         // https://appclip.apple.com/id?p=com.litterlotto.ios.Clip
