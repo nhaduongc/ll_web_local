@@ -28,6 +28,8 @@ export interface TaggedBinGroup {
         cardImage: string;
         cardSubTitle: string;
         cardTitle: string;
+        poweredBy: string;
+        brand: string;
     };
 }
 

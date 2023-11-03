@@ -90,8 +90,8 @@ function AppClipCard({ onContinue }: { onContinue(): void }) {
                     className="w-7 mr-2 aspect-square rounded-md"
                 />
                 <div>
-                    <p className="text-xs text-gray-400">Powered by</p>
-                    <p className="text-[2vh] font-medium">LitterLotto</p>
+                    <p className="text-xs text-gray-400">{card?.poweredBy || 'Powered by'}</p>
+                    <p className="text-[2vh] font-medium">{card?.brand || 'LitterLotto'}</p>
                 </div>
 
                 <a
