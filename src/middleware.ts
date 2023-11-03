@@ -20,3 +20,5 @@ export function middleware(request: NextRequest) {
     }
     return undefined;
 }
+
+// https://appclip.apple.com/id?=com.litterlotto.ios.Clip&binId=1

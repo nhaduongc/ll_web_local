@@ -30,6 +30,10 @@ const Document = () => (
                 href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@600&display=swap"
                 rel="stylesheet"
             />
+            <meta
+                    name="apple-itunes-app"
+                    content="app-id=1550451187, app-clip-bundle-id=com.litterlotto.ios.Clip"
+                />
             <FacebookPixel />
         </Head>
         <body>

@@ -651,6 +651,10 @@ export default function Bin(props: BinProps) {
                     name="viewport"
                     content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
                 />
+                <meta
+                    name="apple-itunes-app"
+                    content="app-id=1550451187, app-clip-bundle-id=com.litterlotto.ios.Clip"
+                />
             </Head>
             {page === 'welcome' && <WelcomeScreen />}
             {page === 'camera' && <CameraScreen />}
