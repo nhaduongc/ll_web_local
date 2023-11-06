@@ -8,7 +8,7 @@
           "comment": "Matches any URL whose fragment equals no_universal_links and instructs the system not to open it as a universal link"
         },       
         {
-          "/": "/play",
+          "/": "/clip",
           "?": {
             "binId": "?*"
           },
@@ -16,6 +16,20 @@
         },
         {
           "/": "/weetabix",
+          "?": {
+            "binId": "?*"
+          },
+          "comment": "Matches default URL which has a query item with name 'binId' and a value of at least 1 characters"
+        },
+        {
+          "/": "/DEM01",
+          "?": {
+            "binId": "?*"
+          },
+          "comment": "Matches default URL which has a query item with name 'binId' and a value of at least 1 characters"
+        },
+        {
+          "/": "/DEM02",
           "?": {
             "binId": "?*"
           },
