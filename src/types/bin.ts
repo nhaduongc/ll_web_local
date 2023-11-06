@@ -5,6 +5,16 @@ export interface BinWithInfo {
     location: Location;
     tagged_bin_type: TaggedBinType;
     binId: string;
+    card: ClipCard;
+}
+
+export interface ClipCard {
+    actionButton: string;
+    cardImage: string;
+    cardSubTitle: string;
+    cardTitle: string;
+    poweredBy: string;
+    brand: string;
 }
 
 export interface Location {
@@ -23,14 +33,7 @@ export interface TaggedBinGroup {
     title: string;
     logoURL: string;
     id: string;
-    card: {
-        actionButton: string;
-        cardImage: string;
-        cardSubTitle: string;
-        cardTitle: string;
-        poweredBy: string;
-        brand: string;
-    };
+    card: ClipCard;
 }
 
 export interface TaggedBinType {
