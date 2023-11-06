@@ -4,11 +4,11 @@ import { NextRequest, NextResponse } from 'next/server';
 export function middleware(request: NextRequest) {
     // const isAndroid = request.headers.get('user-agent')?.includes('Android');
     const isIOS = request.headers.get('user-agent')?.includes('iPhone');
-    if (request.nextUrl.search.includes('binId=')) {
+    if (request.nextUrl.search.includes('binId=') || request.nextUrl.search.includes('bin=')) {
         const binId =
             request.nextUrl.search
                 .split('&')
-                .find((item) => item.includes('binId'))
+                .find((item) => item.includes('binId') || item.includes('bin'))
                 ?.split('=')?.[1] || '123';
         if (isIOS) {
             return NextResponse.redirect(
