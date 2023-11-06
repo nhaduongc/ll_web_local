@@ -25,7 +25,7 @@ const InstantState = observable<{
 }>({ page: 'welcome' });
 
 
-function defaultsObj<T extends Record<string, string>>(obj: T, defs: T) {
+function defaultsObj<T extends Record<string, any>>(obj: T, defs: T) {
     if (!obj) return defs;
     Object.keys(defs).forEach(key => {
         if (!obj[key]) {
