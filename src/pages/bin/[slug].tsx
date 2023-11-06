@@ -58,8 +58,8 @@ function AppClipCard({ onContinue }: { onContinue(): void }) {
                 }
             />
             <div className="p-5 flex self-stretch flex-row items-center justify-between self-start">
-                <div>
-                    <p className="text-xl font-bold w-3/4">
+                <div className='flex-1 pr-2'>
+                    <p className="text-xl font-bold">
                         {card?.cardTitle || 'Win 1,000 in the prize draw'}
                     </p>
                     <p className="text-sm">{card?.cardSubTitle || 'Bin the right waste here'}</p>
@@ -75,7 +75,7 @@ function AppClipCard({ onContinue }: { onContinue(): void }) {
                         // });
                         document.documentElement?.requestFullscreen?.({ navigationUI: 'hide' });
                         // @ts-ignore
-                        window.screen.orientation?.lock('portrait');
+                        window.screen.orientation?.lock?.('portrait');
                         setButtonClicked(true);
                     }}
                 >
@@ -158,7 +158,7 @@ function WelcomeScreen() {
                 <img
                     src={logoURL}
                     alt="Logo"
-                    className="h-[15vh] bg-white rounded-md w-full aspect-auto object-scale-down"
+                    className="h-[15vh] bg-white rounded-md w-full aspect-auto object-cover"
                 />
             )}
             <div className="bg-white w-full rounded-md flex flex-col items-center">
