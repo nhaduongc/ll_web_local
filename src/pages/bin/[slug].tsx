@@ -24,9 +24,27 @@ const InstantState = observable<{
     email?: string;
 }>({ page: 'welcome' });
 
+
+function defaultsObj<T extends Record<string, string>>(obj: T, defs: T) {
+    if (!obj) return defs;
+    Object.keys(defs).forEach(key => {
+        if (!obj[key]) {
+            (obj as Record<string, string>)[key] = defs[key];
+        }
+    })
+    return obj;
+}
+
 function AppClipCard({ onContinue }: { onContinue(): void }) {
     const binData = InstantState.binData.use();
-    const card = binData?.tagged_bin_group?.card;
+    const card = defaultsObj<BinWithInfo['card']>(binData?.card || binData?.tagged_bin_group?.card, {
+        cardImage: 'https://is2-ssl.mzstatic.com/image/thumb/Purple116/v4/0b/d6/85/0bd68545-ab3b-08e3-e307-035760ddf9ae/3200061a-c5df-4c00-b8c7-dc0d2bc8a101_WhatsApp_Image_2023-09-04_at_15.09.24.png/1800x1200bb.png',
+        cardTitle: 'Win 1,000 in the prize draw',
+        cardSubTitle: 'Bin the right waste here',
+        actionButton: 'Play',
+        poweredBy: 'Powered by',
+        brand: 'LitterLotto',
+    });
     const [buttonClicked, setButtonClicked] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const handleTransitionEnd = () => buttonClicked && onContinue();
@@ -52,17 +70,14 @@ function AppClipCard({ onContinue }: { onContinue(): void }) {
             <img
                 alt="thumbnail"
                 className="flex-1 bg-gray-200 object-cover"
-                src={
-                    card?.cardImage ||
-                    'https://is2-ssl.mzstatic.com/image/thumb/Purple116/v4/0b/d6/85/0bd68545-ab3b-08e3-e307-035760ddf9ae/3200061a-c5df-4c00-b8c7-dc0d2bc8a101_WhatsApp_Image_2023-09-04_at_15.09.24.png/1800x1200bb.png'
-                }
+                src={card.cardImage}
             />
             <div className="p-5 flex self-stretch flex-row items-center justify-between self-start">
                 <div className='flex-1 pr-2'>
                     <p className="text-xl font-bold">
-                        {card?.cardTitle || 'Win 1,000 in the prize draw'}
+                        {card.cardTitle}
                     </p>
-                    <p className="text-sm">{card?.cardSubTitle || 'Bin the right waste here'}</p>
+                    <p className="text-sm">{card.cardSubTitle}</p>
                 </div>
                 <button
                     type="button"
@@ -79,7 +94,7 @@ function AppClipCard({ onContinue }: { onContinue(): void }) {
                         setButtonClicked(true);
                     }}
                 >
-                    <p className="text- text-white">{card?.actionButton || 'Play'}</p>
+                    <p className="text- text-white">{card.actionButton}</p>
                 </button>
             </div>
             <div className="mx-5 h-px bg-gray-500 bg-opacity-10" />
@@ -90,8 +105,8 @@ function AppClipCard({ onContinue }: { onContinue(): void }) {
                     className="w-7 mr-2 aspect-square rounded-md"
                 />
                 <div>
-                    <p className="text-xs text-gray-400">{card?.poweredBy || 'Powered by'}</p>
-                    <p className="text-[2vh] font-medium">{card?.brand || 'LitterLotto'}</p>
+                    <p className="text-xs text-gray-400">{card.poweredBy}</p>
+                    <p className="text-[2vh] font-medium">{card.brand}</p>
                 </div>
 
                 <a
