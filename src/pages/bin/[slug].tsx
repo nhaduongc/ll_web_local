@@ -541,6 +541,9 @@ function SubmitScreen() {
         const formData = new FormData();
         formData.append('file', image, `${Date.now()}.jpeg`);
         formData.append('binId', InstantState.binData.binId.get());
+         formData.append('tagged_bin_id', InstantState.binData.id.get());
+         formData.append('tagged_bin_type_id', InstantState.binData.tagged_bin_type.id.get());
+         formData.append('tagged_bin_group_id', InstantState.binData.tagged_bin_group.id.get());
         // formData.append('email', InstantState.email.get());
 
         try {
