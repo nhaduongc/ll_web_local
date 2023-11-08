@@ -24,27 +24,30 @@ const InstantState = observable<{
     email?: string;
 }>({ page: 'welcome' });
 
-
 function defaultsObj<T extends Record<string, any>>(obj: T, defs: T) {
     if (!obj) return defs;
-    Object.keys(defs).forEach(key => {
+    Object.keys(defs).forEach((key) => {
         if (!obj[key]) {
             (obj as Record<string, string>)[key] = defs[key];
         }
-    })
+    });
     return obj;
 }
 
 function AppClipCard({ onContinue }: { onContinue(): void }) {
     const binData = InstantState.binData.use();
-    const card = defaultsObj<BinWithInfo['card']>(binData?.card || binData?.tagged_bin_group?.card, {
-        cardImage: 'https://is2-ssl.mzstatic.com/image/thumb/Purple116/v4/0b/d6/85/0bd68545-ab3b-08e3-e307-035760ddf9ae/3200061a-c5df-4c00-b8c7-dc0d2bc8a101_WhatsApp_Image_2023-09-04_at_15.09.24.png/1800x1200bb.png',
-        cardTitle: 'Win 1,000 in the prize draw',
-        cardSubTitle: 'Bin the right waste here',
-        actionButton: 'Play',
-        poweredBy: 'Powered by',
-        brand: 'LitterLotto',
-    });
+    const card = defaultsObj<BinWithInfo['card']>(
+        binData?.card || binData?.tagged_bin_group?.card,
+        {
+            cardImage:
+                'https://is2-ssl.mzstatic.com/image/thumb/Purple116/v4/0b/d6/85/0bd68545-ab3b-08e3-e307-035760ddf9ae/3200061a-c5df-4c00-b8c7-dc0d2bc8a101_WhatsApp_Image_2023-09-04_at_15.09.24.png/1800x1200bb.png',
+            cardTitle: 'Win 1,000 in the prize draw',
+            cardSubTitle: 'Bin the right waste here',
+            actionButton: 'Play',
+            poweredBy: 'Powered by',
+            brand: 'LitterLotto',
+        }
+    );
     const [buttonClicked, setButtonClicked] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const handleTransitionEnd = () => buttonClicked && onContinue();
@@ -67,16 +70,10 @@ function AppClipCard({ onContinue }: { onContinue(): void }) {
             }}
             onTransitionEnd={handleTransitionEnd}
         >
-            <img
-                alt="thumbnail"
-                className="flex-1 bg-gray-200 object-cover"
-                src={card.cardImage}
-            />
+            <img alt="thumbnail" className="flex-1 bg-gray-200 object-cover" src={card.cardImage} />
             <div className="p-5 flex self-stretch flex-row items-center justify-between self-start">
-                <div className='flex-1 pr-2'>
-                    <p className="text-xl font-bold">
-                        {card.cardTitle}
-                    </p>
+                <div className="flex-1 pr-2">
+                    <p className="text-xl font-bold">{card.cardTitle}</p>
                     <p className="text-sm">{card.cardSubTitle}</p>
                 </div>
                 <button
@@ -544,7 +541,7 @@ function SubmitScreen() {
         const formData = new FormData();
         formData.append('file', image, `${Date.now()}.jpeg`);
         formData.append('binId', InstantState.binData.binId.get());
-        formData.append('email', InstantState.email.get());
+        // formData.append('email', InstantState.email.get());
 
         try {
             setLoading(true);
@@ -557,6 +554,7 @@ function SubmitScreen() {
 
             return true;
         } catch (error) {
+            alert('Something went wrong. Please try again');
             return false;
         } finally {
             setLoading(false);
@@ -584,7 +582,7 @@ function SubmitScreen() {
                     d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"
                 />
             </svg>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center z-10 w-full">
                 <button
                     type="button"
                     onClick={submit}
