@@ -54,7 +54,7 @@
           "?": {
             "binId": "?*"
           },
-          "comment": "Matches default URL which has a query item with name 'binId' and a value of at least 1 characters"
+          "comment": "Matches default URL which has a query item with name 'binId' and a value of at least 1 characters "
         }
       ]
     }]
